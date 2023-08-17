@@ -24,6 +24,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		m_textConnectLog = GameObject.Find("TextConnectLog").GetComponent<Text>();
 
 		m_textConnectLog.text = "접속로그\n";
+		
 	}
 
 	public override void OnConnectedToMaster()
