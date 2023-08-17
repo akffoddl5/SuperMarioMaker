@@ -4,12 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
+
 
 public class PhotonTest : MonoBehaviourPunCallbacks
 {
 	[SerializeField] InputField m_InputField;
 	[SerializeField] Text m_textConnectLog;
 	[SerializeField] Text m_textPlayerList;
+
+	
 
 	void Start()
 	{
@@ -59,6 +63,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 	public void Connect()
 	{
 		PhotonNetwork.ConnectUsingSettings();
+		
 	}
 
 	void updatePlayer()
@@ -68,6 +73,17 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		{
 			m_textPlayerList.text += "\n";
 			m_textPlayerList.text += PhotonNetwork.PlayerList[i].NickName;
+		}
+	}
+
+	public override void OnRoomListUpdate(List<RoomInfo> roomList)
+	{
+		base.OnRoomListUpdate(roomList);
+
+		var g = GetComponent<PhotonView>();
+		if (g.IsMine)
+		{
+
 		}
 	}
 }
