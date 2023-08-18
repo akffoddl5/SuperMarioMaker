@@ -29,12 +29,14 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 
 	public override void OnConnectedToMaster()
 	{
-		RoomOptions options = new RoomOptions();
-		options.MaxPlayers = 5;
+		//Debug.Log("onConnectToMaster");
+		//RoomOptions options = new RoomOptions();
+		//options.MaxPlayers = 5;
 
-		PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
-		PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
-		Debug.Log("冯积己");
+		//PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
+		//PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
+		//Debug.Log("冯积己");
+		PhotonNetwork.JoinLobby();
 
 	}
 	public override void OnJoinedRoom()
@@ -77,14 +79,20 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		}
 	}
 
-	public override void OnRoomListUpdate(List<RoomInfo> roomList)
+	//public override void OnRoomListUpdate(List<RoomInfo> roomList)
+	//{
+	//	base.OnRoomListUpdate(roomList);
+
+	//	var g = GetComponent<PhotonView>();
+	//	if (g.IsMine)
+	//	{
+
+	//	}
+	//}
+
+	public override void OnJoinedLobby()
 	{
-		base.OnRoomListUpdate(roomList);
-
-		var g = GetComponent<PhotonView>();
-		if (g.IsMine)
-		{
-
-		}
+		base.OnJoinedLobby();
+		Debug.Log("肺厚 涝厘");
 	}
 }

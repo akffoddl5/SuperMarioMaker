@@ -2678,7 +2678,7 @@ MonoBehaviour:
   obj_marioIdle: {fileID: 1474703037}
   obj_marioJump: {fileID: 912675441}
   obj_logInPanel: {fileID: 1742890073}
-  txt_pressToStart: {fileID: 765132444}
+  txt_pressToStart: {fileID: 765132446}
 --- !u!1 &2080910042
 GameObject:
   m_ObjectHideFlags: 0
