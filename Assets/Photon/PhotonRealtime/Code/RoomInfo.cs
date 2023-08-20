@@ -163,6 +163,10 @@ namespace Photon.Realtime
             this.name = roomName;
         }
 
+        public RoomInfo()
+        {
+        }
+
         /// <summary>
         /// Makes RoomInfo comparable (by name).
         /// </summary>

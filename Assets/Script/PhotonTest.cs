@@ -83,20 +83,15 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		//}
 	}
 
-	//public override void OnRoomListUpdate(List<RoomInfo> roomList)
-	//{
-	//	base.OnRoomListUpdate(roomList);
 
-	//	var g = GetComponent<PhotonView>();
-	//	if (g.IsMine)
-	//	{
-
-	//	}
-	//}
 
 	public override void OnJoinedLobby()
 	{
 		base.OnJoinedLobby();
+		//RoomOptions options = new RoomOptions();
+		//options.MaxPlayers = 20;
+
+		//PhotonNetwork.JoinOrCreateRoom("Lobby", options, null);
 		Debug.Log("로비 입장");
 	}
 }
