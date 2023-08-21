@@ -8,6 +8,7 @@ public class Mario_stateMachine
     public void InitState(Mario_state _startState)
     {
         currentState = _startState;
+        currentState.Enter();
     }
     public void ChangeState(Mario_state _changeState)
     {
