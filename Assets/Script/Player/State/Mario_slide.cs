@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Mario_slide : Mario_state
+{
+	float enterSpeed;
+	float slideSpeed = 0.99f;
+	public Mario_slide(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) : base(_mario, _stateMachine, _animBoolName)
+	{
+	}
+
+	public override void Enter()
+	{
+		base.Enter();
+		stateTimer = 1f;
+		enterSpeed = mario.rb.velocity.x;
+	}
+
+	public override void Exit()
+	{
+		base.Exit();
+	}
+
+	public override void Update()
+	{
+		base.Update();
+		mario.rb.velocity = new Vector2(enterSpeed * slideSpeed, mario.rb.velocity.y);
+		if (stateTimer < 0)
+		{
+			stateMachine.ChangeState(mario.idleState);
+
+		}
+	}
+}
