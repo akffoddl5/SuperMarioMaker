@@ -36,10 +36,10 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		//RoomOptions options = new RoomOptions();
 		//options.MaxPlayers = 5;
 
-		//PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
+		PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
 		//PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
 		//Debug.Log("룸생성");
-		PhotonNetwork.JoinLobby();
+		//PhotonNetwork.JoinLobby();
 
 	}
 	public override void OnJoinedRoom()
@@ -92,6 +92,6 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		//options.MaxPlayers = 20;
 
 		//PhotonNetwork.JoinOrCreateRoom("Lobby", options, null);
-		Debug.Log("로비 입장");
+		//Debug.Log("로비 입장");
 	}
 }
