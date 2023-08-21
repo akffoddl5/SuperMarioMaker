@@ -44,6 +44,12 @@ public class TestServer : MonoBehaviourPunCallbacks
         
     }
 
+    private void Awake()
+    {
+        Screen.SetResolution(960, 540, false);
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+    }
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();

@@ -28,6 +28,10 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+
 		PhotonNetwork.JoinLobby();
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
