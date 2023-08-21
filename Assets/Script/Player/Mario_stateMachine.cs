@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mario_stateMachine : MonoBehaviour
+public class Mario_stateMachine
 {
-    Mario_state currentState;
+    public Mario_state currentState;
     public void InitState(Mario_state _startState)
     {
         currentState = _startState;
