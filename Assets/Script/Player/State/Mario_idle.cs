@@ -11,7 +11,6 @@ public class Mario_idle : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
-		rb.velocity = Vector2.zero;
 	}
 
 	public override void Exit()
@@ -26,8 +25,13 @@ public class Mario_idle : Mario_state
 
 		if (xInput != 0)
 		{
-			stateMachine.ChangeState(mario.runState);
+			stateMachine.ChangeState(mario.walkState);
 		}
 
+		// มกวม
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			stateMachine.ChangeState(mario.jumpState);
+		}
 	}
 }
