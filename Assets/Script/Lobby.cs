@@ -156,12 +156,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["master_name"].ToString();
-			string s= myList[i].CustomProperties["master_name"].ToString();
             
-            Debug.Log(s);
-            
-            //myList[i].
-            //a.GetComponent<Lobby_Room_Btn>().
         }
     }
 
@@ -245,7 +240,7 @@ public class Lobby : MonoBehaviourPunCallbacks
                 break;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
                 
         }
 
@@ -261,9 +256,12 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
+
+        List<Object> li = new List<Object>();
         
         options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", PhotonNetwork.NickName } };
         options.CustomRoomPropertiesForLobby = new string[] { "master_name"};
+        
         
 
 
