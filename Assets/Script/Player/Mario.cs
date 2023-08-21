@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
+
+	
     [Header("Move Info")]
     public float moveSpeed = 5;
 	public float runSpeed = 6;
@@ -30,6 +33,7 @@ public class Mario : MonoBehaviour
 
 	private void Awake()
 	{
+		
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();

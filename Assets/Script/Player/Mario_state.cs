@@ -1,5 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //public enum DIRECTION { LEFT = 0, RIGHT}
@@ -35,6 +37,10 @@ public class Mario_state
 	}
 	public virtual void Update()
 	{
+		if (!mario.GetComponent<PhotonView>().IsMine)
+		{
+			return;
+		}
 		stateTimer -= Time.deltaTime;
 
 		// 입력 받는 곳

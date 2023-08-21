@@ -13,6 +13,7 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
     public int room_num { get; set; }
     public int master_client_id { get; set; }
     public string room_name;
+    public string room_master_name;
 
 
     [Header("INFO 패널들")]
@@ -30,15 +31,19 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
         room_number_text.text = room_num.ToString();                           //방번호  설정
         room_name_text.text = my_room_info.Name;                                                       //방 제목 설정
         room_player_num_text.text = my_room_info.PlayerCount + " / " + my_room_info.MaxPlayers;   // 방 인원 현황 설정
-        room_master_name_text.text = room_name;                                            //방장 이름 설정
+        room_master_name_text.text = room_master_name;                                            //방장 이름 설정
                                                                                                        //방장 국가 설정
         
-
-
     }
 
     void Update()
     {
         
+    }
+
+    public void OnClick()
+    {
+        PhotonNetwork.JoinRoom(room_name);
+        Debug.Log("Onclick" + room_name);
     }
 }

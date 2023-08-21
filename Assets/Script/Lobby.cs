@@ -48,16 +48,14 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        GameObject lobby = GameObject.Find("Lobby_Layer");
-        StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
-            lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
-
-        Room_Init();
+        
 	}
 
     public void Room_Init()
     {
-        
+		GameObject room_layer = GameObject.Find("Room_Layer");
+		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
+		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 0, 0), Quaternion.identity);
     }
 
 
@@ -70,8 +68,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
-        
+        //Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -160,7 +157,10 @@ public class Lobby : MonoBehaviourPunCallbacks
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
-            a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["master_name"].ToString();
+
+
+            a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
+            a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
             
         }
     }
@@ -264,8 +264,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         List<Object> li = new List<Object>();
         
-        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", PhotonNetwork.NickName } };
-        options.CustomRoomPropertiesForLobby = new string[] { "master_name"};
+        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title } };
+        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
+        options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name"};
         
         
 
@@ -288,4 +289,15 @@ public class Lobby : MonoBehaviourPunCallbacks
         base.OnFriendListUpdate(friendList);
         
     }
+
+	public override void OnJoinedRoom()
+	{
+		base.OnJoinedRoom();
+
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+
+		Room_Init();
+	}
 }
