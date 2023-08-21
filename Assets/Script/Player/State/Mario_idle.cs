@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mario_idle : MonoBehaviour
+public class Mario_idle : Mario_state
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public Mario_idle(Mario mario, Mario_stateMachine stateMachine, string animBool) : base(mario, stateMachine, animBool)
+	{
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public override void Enter()
+	{
+		base.Enter();
+		rb.velocity = Vector2.zero;
+	}
+
+	public override void Exit()
+	{
+		base.Exit();
+	}
+
+	public override void Update()
+	{
+		base.Update();
+		Debug.Log("idle");
+
+		if (xInput != 0)
+		{
+			stateMachine.ChangeState(mario.runState);
+		}
+
+	}
 }

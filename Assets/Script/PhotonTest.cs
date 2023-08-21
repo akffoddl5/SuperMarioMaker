@@ -50,7 +50,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		//m_textConnectLog.text += " 님이 방에 참가하였습니다.\n";
 	}
 
-	public override void OnPlayerEnteredRoom(Mario newPlayer)
+	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		updatePlayer();
 		Debug.Log("OnPlayerEnteredRoom");
@@ -58,7 +58,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		//m_textConnectLog.text += " 님이 입장하였습니다.\n";
 	}
 
-	public override void OnPlayerLeftRoom(Mario otherPlayer)
+	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
 		Debug.Log("OnPlayerLeftRoom");
 		updatePlayer();
