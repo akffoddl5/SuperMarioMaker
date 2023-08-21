@@ -48,11 +48,14 @@ public class Mario : MonoBehaviour
 	}
 	private void Start()
 	{
+		if(!GetComponent<PhotonView>().IsMine) return ;
         stateMachine.InitState(idleState);
 	}
 	// Update is called once per frame
 	void Update()
     {
+		if (!GetComponent<PhotonView>().IsMine) return;
+		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
 	}
 

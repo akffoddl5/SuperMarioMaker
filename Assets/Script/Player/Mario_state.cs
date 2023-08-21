@@ -28,11 +28,20 @@ public class Mario_state
 
 	public virtual void Enter()
 	{
+		Debug.Log(mario.GetComponent<PhotonView>().IsMine + " << ENter");
+		if (!mario.GetComponent<PhotonView>().IsMine)
+		{
+			return;
+		}
 		mario.anim.SetBool(animBoolName, true);
 	}
 
 	public virtual void Exit()
 	{
+		if (!mario.GetComponent<PhotonView>().IsMine)
+		{
+			return;
+		}
 		mario.anim.SetBool(animBoolName, false);
 	}
 	public virtual void Update()
