@@ -28,7 +28,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
+		PhotonNetwork.JoinLobby();
+		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
         Lobby_Player_Count();
 
@@ -47,9 +48,20 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        GameObject lobby = GameObject.Find("Lobby_Layer");
+        StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+            lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+
+        Room_Init();
+	}
+
+    public void Room_Init()
+    {
+        
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
+
+	public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
     }
@@ -58,6 +70,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
+        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
         
     }
 
@@ -79,12 +92,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     private void Update()
     {
         Lobby_Player_Count();
-
-    }
-
-    private void Get_Room_List()
-    {
-        
 
     }
 
@@ -113,6 +120,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        
         Debug.Log("OnRoomListUpdate 업데이트..");
         base.OnRoomListUpdate(roomList);
         int updated_count = roomList.Count;
@@ -152,10 +160,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
-            string s= myList[i].CustomProperties["master_name"].ToString();
-            Debug.Log(s);
-            //myList[i].
-            //a.GetComponent<Lobby_Room_Btn>().
+            a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["master_name"].ToString();
+            
         }
     }
 
@@ -188,7 +194,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         RT.localPosition = start_pos;
         while (Vector3.Distance(RT.localPosition, des_pos) > 50f) 
         {
-            Debug.Log(Vector3.Distance(RT.localPosition, des_pos));
+            //Debug.Log(Vector3.Distance(RT.localPosition, des_pos));
             RT.localPosition = Vector3.Lerp(RT.localPosition, des_pos, 0.3f);
             //yield return new WaitForSeconds(0.5f);
             yield return new WaitForSeconds(0.02f);
@@ -239,7 +245,7 @@ public class Lobby : MonoBehaviourPunCallbacks
                 break;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
                 
         }
 
@@ -256,8 +262,11 @@ public class Lobby : MonoBehaviourPunCallbacks
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
 
-        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", "abc" } };
-        options.CustomRoomPropertiesForLobby = new string[] { "master_name", PhotonNetwork.NickName };
+        List<Object> li = new List<Object>();
+        
+        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", PhotonNetwork.NickName } };
+        options.CustomRoomPropertiesForLobby = new string[] { "master_name"};
+        
         
 
 
