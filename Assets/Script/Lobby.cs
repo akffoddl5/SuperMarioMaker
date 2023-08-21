@@ -48,9 +48,20 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
+        GameObject lobby = GameObject.Find("Lobby_Layer");
+        StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+            lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+
+        Room_Init();
+	}
+
+    public void Room_Init()
+    {
+        
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
+
+	public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
     }
@@ -81,12 +92,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     private void Update()
     {
         Lobby_Player_Count();
-
-    }
-
-    private void Get_Room_List()
-    {
-        
 
     }
 
