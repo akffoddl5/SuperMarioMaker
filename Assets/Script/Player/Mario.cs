@@ -12,6 +12,7 @@ public class Mario : MonoBehaviour
     public float moveSpeed = 5;
 	public float runSpeed = 6;
 	public float jumpPower;
+	public float lastXSpeed;
 
 	[Header("Ground Check")]
 	public Transform obj_isGround;

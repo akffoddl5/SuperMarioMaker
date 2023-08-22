@@ -15,6 +15,8 @@ public class Mario_state
 	public string animBoolName;
 
 	public float stateTimer;
+	public float stateTimer2;
+
 	public float xInput;
 	public float yInput;
 	public bool isFlip;
@@ -54,6 +56,7 @@ public class Mario_state
 			return;
 		}
 		stateTimer -= Time.deltaTime;
+		stateTimer2 -= Time.deltaTime;
 
 		// 입력 받는 곳
 		xInput = Input.GetAxisRaw("Horizontal");

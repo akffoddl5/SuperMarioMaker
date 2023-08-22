@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mario_run : Mario_state
 {
-	float lastXSpeed;
+	
 	float run_rate;
 	float run_speed;
 	float run_max_speed;
@@ -16,7 +16,7 @@ public class Mario_run : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
-		run_max_speed = mario.runSpeed * 2f;
+		run_max_speed = mario.runSpeed * 2.5f;
 		run_speed = mario.runSpeed;
 		run_rate = 1;
 
@@ -31,7 +31,8 @@ public class Mario_run : Mario_state
 		run_speed *= 1.1f;
 		run_rate *= 1.1f;
 		mario.anim.speed = run_rate;
-		Debug.Log("run »¡¶óÁö´ÂÁß.." + run_speed + " " + run_rate);
+		mario.lastXSpeed = mario.rb.velocity.x;
+		//Debug.Log("run »¡¶óÁö´ÂÁß.." + run_speed + " " + run_rate);
 	}
 
 	public override void Exit()
@@ -47,27 +48,22 @@ public class Mario_run : Mario_state
 		if (stateTimer < 0)
 		{
 			Run_Speed_Increase();
-			stateTimer = 0.2f;
+			stateTimer = 0.1f;
 		}
 
 		mario.rb.velocity = new Vector2(xInput * run_speed, mario.rb.velocity.y);
 
 		if (xInput == 0)
 		{
-			stateMachine.ChangeState(mario.slideState);
+			if (run_rate > 1.4f)
+				stateMachine.ChangeState(mario.slideState);
+			else
+				stateMachine.ChangeState(mario.idleState);
+
+			
+			
 		}
 
-		lastXSpeed = mario.rb.velocity.x;
-
-		//// Slide
-		//if (mario.rb.velocity.x >= mario.runSpeed && xInput < 0)
-		//{
-		//	stateMachine.ChangeState(mario.slideState);
-		//}
-		//else if (mario.rb.velocity.x <= -mario.runSpeed && xInput > 0)
-		//{
-		//	stateMachine.ChangeState(mario.slideState);
-		//}
 
 		// Jump
 		if (Input.GetKeyDown(KeyCode.Space)) 

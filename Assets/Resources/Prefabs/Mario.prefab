@@ -180,6 +180,7 @@ MonoBehaviour:
   moveSpeed: 5
   runSpeed: 7
   jumpPower: 14
+  lastXSpeed: 0
   obj_isGround: {fileID: 1701766818798213741}
   groundCheckDist: 0.6
   whatIsGround:
