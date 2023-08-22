@@ -384,7 +384,7 @@ RectTransform:
   - {fileID: 7188384876809833775}
   - {fileID: 1754410574369634768}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -498,11 +498,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   room_name: 
+  room_master_name: 
   room_number_text: {fileID: 252063549611079942}
   room_master_flag: {fileID: 6083443527143440752}
   room_name_text: {fileID: 1859962079912236245}
   room_player_num_text: {fileID: 5608983336160948481}
   room_master_name_text: {fileID: 6867738845685516919}
+  korFlag: {fileID: 21300000, guid: 58c6581f3cc814341afba8bc26d8d4f9, type: 3}
+  engFlag: {fileID: 21300000, guid: 17d56778541ab034c9631a716448efe6, type: 3}
+  chFlag: {fileID: 21300000, guid: 2f4cb5afa5c69ee4e94110f74f399dac, type: 3}
+  jpFlag: {fileID: 21300000, guid: 104afaae335e1014aa0ef82f4b2bf4a9, type: 3}
 --- !u!1 &5567243516166690063
 GameObject:
   m_ObjectHideFlags: 0
