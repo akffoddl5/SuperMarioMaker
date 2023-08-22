@@ -28,13 +28,14 @@ public class Mario : MonoBehaviour
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
 
-	Mario_stateMachine stateMachine;
+	public Mario_stateMachine stateMachine;
  
     public Mario_idle idleState;
     public Mario_run runState;
 	public Mario_jump jumpState;
 	public Mario_slide slideState;
 	public Mario_walk walkState;
+	public Mario_kicked kickedState;
 
 
 	private void Awake()
@@ -50,6 +51,7 @@ public class Mario : MonoBehaviour
 		runState = new Mario_run(this, stateMachine, "Run");
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
+		kickedState = new Mario_kicked(this, stateMachine, "Idle");
 	}
 	[PunRPC]
 	public void Flip(bool a)
@@ -70,7 +72,7 @@ public class Mario : MonoBehaviour
 	}
 
 	public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
-	public bool IsPlayerDetected()
+	public GameObject IsPlayerDetected()
 	{
 		//for (int i = 0; i < obj_isPlayer.Length; i++)
 		//{
@@ -85,14 +87,14 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Player"))
 			{
-				Debug.Log(cols[i].gameObject.name);
-				
-				return true;
+				//Debug.Log(cols[i].gameObject.name);
+
+				return cols[i].gameObject;
 			}
 		}
 
 		//Debug.Log("player detected");
-		return false;
+		return null;
 		
 	}
 

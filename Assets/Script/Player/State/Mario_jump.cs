@@ -60,9 +60,11 @@ public class Mario_jump : Mario_state
 		if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
 		{
 			stateMachine.ChangeState(mario.idleState);
-		}else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected()) {
-			Debug.Log("jump 로 바꾸자");
+		}else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
+			Debug.Log("jump 로 바꾸자" + mario.IsPlayerDetected().name);
 			stateMachine.ChangeState(mario.jumpState);
+			mario.IsPlayerDetected().GetComponent<Mario>().stateMachine.InitState(mario.idleState);
+			mario.IsPlayerDetected().GetComponent<Mario>().stateMachine.ChangeState(mario.kickedState);
 		}
 	}
 }
