@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  runSpeed: 10
+  runSpeed: 7
   jumpPower: 14
   obj_isGround: {fileID: 1701766818798213741}
   groundCheckDist: 0.6

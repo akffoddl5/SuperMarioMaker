@@ -34,7 +34,6 @@ public class Mario : MonoBehaviour
 
 	private void Awake()
 	{
-		
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();

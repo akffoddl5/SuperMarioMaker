@@ -46,9 +46,9 @@ public class Mario_jump : Mario_state
 		//}
 
 		// 점프 중 이동 코드
-		if (jumpMoveSpeed > 0)
+		if (jumpMoveSpeed != 0)
 		{
-			mario.rb.velocity = new Vector2(xInput* jumpMoveSpeed, mario.rb.velocity.y);
+			mario.rb.velocity = new Vector2(xInput* Mathf.Abs(jumpMoveSpeed), mario.rb.velocity.y);
 		}
         else
         {
