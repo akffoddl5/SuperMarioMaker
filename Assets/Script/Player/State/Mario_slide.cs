@@ -14,7 +14,7 @@ public class Mario_slide : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
-		Debug.Log(mario.lastXSpeed + " <<");
+		//Debug.Log(mario.lastXSpeed + " <<");
 		stateTimer = 40f * Time.deltaTime;
 		stateTimer2 = 0.2f;
 		//enterSpeed = mario.rb.velocity.x;
@@ -23,7 +23,7 @@ public class Mario_slide : Mario_state
 	public override void Exit()
 	{
 		base.Exit();
-		Debug.Log("slide exit");
+		//Debug.Log("slide exit");
 	}
 
 	public override void Update()

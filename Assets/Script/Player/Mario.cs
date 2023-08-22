@@ -16,8 +16,12 @@ public class Mario : MonoBehaviour
 
 	[Header("Ground Check")]
 	public Transform obj_isGround;
+	public Transform obj_isPlayerA;
+	public Transform obj_isPlayerB;
 	public float groundCheckDist;
+	public float playerCheckDist;
 	public LayerMask whatIsGround;
+	public LayerMask whatIsPlayer;
 
 
 	[HideInInspector] public Rigidbody2D rb;
@@ -66,7 +70,33 @@ public class Mario : MonoBehaviour
 	}
 
 	public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
-	
+	public bool IsPlayerDetected()
+	{
+		//for (int i = 0; i < obj_isPlayer.Length; i++)
+		//{
+		//	if (Physics2D.Raycast(obj_isPlayer[i].position, Vector2.down, playerCheckDist, whatIsPlayer))
+		//	{
+		//		return true;
+		//	}
+		//}
+		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
+
+		for (int i = 0; i < cols.Length; i++)
+		{
+			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Player"))
+			{
+				Debug.Log(cols[i].gameObject.name);
+				
+				return true;
+			}
+		}
+
+		//Debug.Log("player detected");
+		return false;
+		
+	}
+
+
 	protected virtual void OnDrawGizmos()
 	{
 		Gizmos.DrawLine(obj_isGround.position,

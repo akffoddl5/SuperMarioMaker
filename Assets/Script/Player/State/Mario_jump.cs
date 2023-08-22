@@ -20,6 +20,7 @@ public class Mario_jump : Mario_state
 		stateTimer = 13 * Time.deltaTime;
 		//Debug.Log("나 점프했어");
 		jumpMoveSpeed = mario.rb.velocity.x;
+		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
 		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
 		//last_velocity_y = mario.rb.velocity.y;
 	}
@@ -55,10 +56,13 @@ public class Mario_jump : Mario_state
 			mario.rb.velocity = new Vector2(xInput* mario.moveSpeed, mario.rb.velocity.y);
         }
 
-        // if 그라운드 밟으면 상태 전환하기 idle
-        if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
+		// if 그라운드 밟으면 상태 전환하기 idle
+		if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
 		{
 			stateMachine.ChangeState(mario.idleState);
+		}else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected()) {
+			Debug.Log("jump 로 바꾸자");
+			stateMachine.ChangeState(mario.jumpState);
 		}
 	}
 }
