@@ -21,7 +21,6 @@ public class Mario_idle : Mario_state
 	public override void Update()
 	{
 		base.Update();
-		Debug.Log("idle");
 
 		if (xInput != 0)
 		{

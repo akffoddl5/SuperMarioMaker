@@ -384,7 +384,7 @@ RectTransform:
   - {fileID: 7188384876809833775}
   - {fileID: 1754410574369634768}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -472,7 +472,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2016495986184121791}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 988550329913927019}
+        m_TargetAssemblyTypeName: Lobby_Room_Btn, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &988550329913927019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc90062b7f0dedc4fbfed94c075d3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  room_name: 
   room_number_text: {fileID: 252063549611079942}
   room_master_flag: {fileID: 6083443527143440752}
   room_name_text: {fileID: 1859962079912236245}
