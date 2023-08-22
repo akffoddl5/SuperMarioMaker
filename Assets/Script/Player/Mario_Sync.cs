@@ -10,7 +10,17 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
     Quaternion _networkRotation;
     Rigidbody2D _rb;
     PhotonView PV;
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    SpriteRenderer SR;
+
+	private void Awake()
+	{
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
+
+        SR = gameObject.GetComponent<SpriteRenderer>();
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
 
         if (stream.IsWriting)
@@ -43,6 +53,8 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
 
 
     }
+
+    
 
     void Start()
     {
