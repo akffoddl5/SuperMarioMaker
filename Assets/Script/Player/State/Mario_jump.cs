@@ -13,6 +13,7 @@ public class Mario_jump : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
+		//Debug.Log("나 점프했어");
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
 	}
@@ -25,6 +26,7 @@ public class Mario_jump : Mario_state
 	public override void Update()
 	{
 		base.Update();
+		Debug.Log(mario.IsGroundDetected());
 		// 점프 중 이동 코드
 		if (jumpMoveSpeed > 0)
 		{
@@ -36,7 +38,7 @@ public class Mario_jump : Mario_state
         }
 
         // if 그라운드 밟으면 상태 전환하기 idle
-        if (mario.rb.velocity.y < 0 && mario.IsGroundDetected())
+        if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
 		{
 			stateMachine.ChangeState(mario.idleState);
 		}
