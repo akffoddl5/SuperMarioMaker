@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Photon.Pun.Demo.Cockpit;
 
 public class Lobby : MonoBehaviourPunCallbacks
@@ -26,7 +27,11 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public Text log_text;
 
-    private void Awake()
+    // Room에 있는 함수를 실행하기 위한 이벤트 함수
+    //public UnityEvent RoomUISync;
+    public PhotonView PV;
+
+	private void Awake()
     {
         
         PhotonNetwork.SendRate = 60;
@@ -296,6 +301,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		Room_Init();
 
+		// 고쳐야 할 부분
+		PV.RPC("RoomUISync", RpcTarget.All);
+		//RoomUISync.Invoke();
 	}
 
 }
