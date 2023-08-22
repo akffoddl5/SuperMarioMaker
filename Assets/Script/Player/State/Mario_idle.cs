@@ -11,6 +11,7 @@ public class Mario_idle : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
+		mario.rb.velocity = Vector2.zero;
 	}
 
 	public override void Exit()

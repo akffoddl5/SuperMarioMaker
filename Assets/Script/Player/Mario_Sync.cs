@@ -10,7 +10,17 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
     Quaternion _networkRotation;
     Rigidbody2D _rb;
     PhotonView PV;
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    SpriteRenderer SR;
+
+	private void Awake()
+	{
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 60;
+
+        SR = gameObject.GetComponent<SpriteRenderer>();
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
 
         if (stream.IsWriting)
@@ -44,6 +54,8 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
 
     }
 
+    
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -54,7 +66,7 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
     {
         if (!PV.IsMine)
         {
-            Debug.Log(_rb.position + " 에서 " + _networkPosition + " 로 가는중..");
+            //Debug.Log(_rb.position + " 에서 " + _networkPosition + " 로 가는중..");
             _rb.position = Vector3.MoveTowards(_rb.position, _networkPosition, Time.fixedDeltaTime);
             //_rb.rotation = Quaternion.RotateTowards(_rb.rotation, _networkRotation, Time.fixedDeltaTime * 100.0f);
         }

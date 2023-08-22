@@ -12,6 +12,7 @@ public class Mario : MonoBehaviour
     public float moveSpeed = 5;
 	public float runSpeed = 6;
 	public float jumpPower;
+	public float lastXSpeed;
 
 	[Header("Ground Check")]
 	public Transform obj_isGround;
@@ -31,9 +32,9 @@ public class Mario : MonoBehaviour
 	public Mario_slide slideState;
 	public Mario_walk walkState;
 
+
 	private void Awake()
 	{
-		
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -45,6 +46,11 @@ public class Mario : MonoBehaviour
 		runState = new Mario_run(this, stateMachine, "Run");
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
+	}
+	[PunRPC]
+	public void Flip(bool a)
+	{
+		spriteRenderer.flipX = a;
 	}
 	private void Start()
 	{
