@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -425,6 +425,48 @@ TextureImporter:
       bones: []
       spriteID: ece8eed3e89094546ab89882928f8075
       internalID: 1810400015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_14
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 861
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f83ddc7c2bc8f14dae3921a618b9b5c
+      internalID: 660241026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_15
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 861
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fefc4dd992b3c8e469ead3a6587ecf66
+      internalID: 1103155767
       vertices: []
       indices: 
       edges: []

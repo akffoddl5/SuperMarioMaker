@@ -41,6 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - FlipCheck
   - Flip
+  - RoomUISync
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
