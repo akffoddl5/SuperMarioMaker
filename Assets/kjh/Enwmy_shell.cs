@@ -39,17 +39,18 @@ public class Enwmy_shell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (!fly)
-        // {
+        
+
+    }
+    private void FixedUpdate()
+    {
 
 
-
-        Debug.Log(moveflip);
 
 
 
         playerRL();
-        if (fsecMove ==true)
+        if (fsecMove == true)
         {
 
             secMove();
@@ -70,17 +71,13 @@ public class Enwmy_shell : MonoBehaviour
 
 
 
-
-
         if (!IsGroundDetected())
         {
             Invoke("Fly", 0.1f);
         }
         Enemy.spdX = rb.position.x;
         Enemy.spdY = rb.position.y;
-    }
-    private void FixedUpdate()
-    {
+
 
         if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
         {
@@ -89,6 +86,15 @@ public class Enwmy_shell : MonoBehaviour
             StartCoroutine("Rekoopa");
 
 
+        }
+
+        if (fly == true)
+        {
+            rb.gravityScale = 100;
+        }
+        else if (fly == false)
+        {
+            rb.gravityScale = 1;
         }
     }
     private void secMove()
@@ -112,6 +118,8 @@ public class Enwmy_shell : MonoBehaviour
 
             }
         }
+
+
     }
 
     private void playerRL()
@@ -161,7 +169,8 @@ public class Enwmy_shell : MonoBehaviour
     }
 
 
-    void Flip2()//스프라이트 회전
+
+     void Flip2()//스프라이트 회전
     {
 
         transform.Rotate(0, 180, 0);

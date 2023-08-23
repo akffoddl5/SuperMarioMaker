@@ -1568,9 +1568,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2216203626498042937, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.16
+      objectReference: {fileID: 0}
     - target: {fileID: 4781645093070952391, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
       propertyPath: m_Name
       value: Enemy_Koopa
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730005684381583430, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
+      propertyPath: m_Size.x
+      value: 0.82437485
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730005684381583430, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0471275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730005684381583430, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.05324605
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730005684381583430, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.023563743
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
