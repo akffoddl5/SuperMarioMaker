@@ -11,6 +11,7 @@ public class Mario_idle : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
+		mario.rb.velocity = Vector2.zero;
 	}
 
 	public override void Exit()
@@ -21,7 +22,6 @@ public class Mario_idle : Mario_state
 	public override void Update()
 	{
 		base.Update();
-		Debug.Log("idle");
 
 		if (xInput != 0)
 		{
@@ -30,6 +30,11 @@ public class Mario_idle : Mario_state
 
 		// มกวม
 		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			stateMachine.ChangeState(mario.jumpState);
+		}
+
+		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
 			stateMachine.ChangeState(mario.jumpState);
 		}

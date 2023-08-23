@@ -472,7 +472,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2016495986184121791}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 988550329913927019}
+        m_TargetAssemblyTypeName: Lobby_Room_Btn, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &988550329913927019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,11 +497,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc90062b7f0dedc4fbfed94c075d3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  room_name: 
+  room_master_name: 
   room_number_text: {fileID: 252063549611079942}
   room_master_flag: {fileID: 6083443527143440752}
   room_name_text: {fileID: 1859962079912236245}
   room_player_num_text: {fileID: 5608983336160948481}
   room_master_name_text: {fileID: 6867738845685516919}
+  korFlag: {fileID: 21300000, guid: 58c6581f3cc814341afba8bc26d8d4f9, type: 3}
+  engFlag: {fileID: 21300000, guid: 17d56778541ab034c9631a716448efe6, type: 3}
+  chFlag: {fileID: 21300000, guid: 2f4cb5afa5c69ee4e94110f74f399dac, type: 3}
+  jpFlag: {fileID: 21300000, guid: 104afaae335e1014aa0ef82f4b2bf4a9, type: 3}
 --- !u!1 &5567243516166690063
 GameObject:
   m_ObjectHideFlags: 0
