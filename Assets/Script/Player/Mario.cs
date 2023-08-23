@@ -51,7 +51,7 @@ public class Mario : MonoBehaviour
 		runState = new Mario_run(this, stateMachine, "Run");
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
-		kickedState = new Mario_kicked(this, stateMachine, "Idle");
+		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
 	}
 	[PunRPC]
 	public void Flip(bool a)
@@ -60,13 +60,13 @@ public class Mario : MonoBehaviour
 	}
 	private void Start()
 	{
-		if(!GetComponent<PhotonView>().IsMine) return ;
+		//if(!GetComponent<PhotonView>().IsMine) return ;
         stateMachine.InitState(idleState);
 	}
 	// Update is called once per frame
 	void Update()
     {
-		if (!GetComponent<PhotonView>().IsMine) return;
+		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
 	}

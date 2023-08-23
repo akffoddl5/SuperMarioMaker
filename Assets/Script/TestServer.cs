@@ -27,7 +27,7 @@ public class TestServer : MonoBehaviourPunCallbacks
 
 
 
-		PhotonNetwork.JoinOrCreateRoom("TESTSERVER", options, null);
+		PhotonNetwork.JoinOrCreateRoom("TESTSERVER1", options, null);
         //Debug.Log("·ë»ý¼º");
         //PhotonNetwork.JoinLobby();
 

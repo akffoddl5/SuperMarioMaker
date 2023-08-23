@@ -33,7 +33,7 @@ public class Mario_state
 
 	public virtual void Enter()
 	{
-		Debug.Log(mario.GetComponent<PhotonView>().IsMine + " << ENter");
+		//Debug.Log(mario.GetComponent<PhotonView>().IsMine + " << ENter");
 		if (!mario.GetComponent<PhotonView>().IsMine)
 		{
 			return;
@@ -58,8 +58,9 @@ public class Mario_state
 		stateTimer -= Time.deltaTime;
 		stateTimer2 -= Time.deltaTime;
 
-		// 입력 받는 곳
-		xInput = Input.GetAxisRaw("Horizontal");
+        
+        // 입력 받는 곳
+        xInput = Input.GetAxisRaw("Horizontal");
 		yInput = Input.GetAxisRaw("Vertical");
 		//if (xInput < 0) isFlip = DIRECTION.LEFT;
 

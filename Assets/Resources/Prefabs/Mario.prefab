@@ -73,7 +73,7 @@ Transform:
   - {fileID: 1451779805687121588}
   - {fileID: 2709324723404141274}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -306,6 +306,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Run
+  - Type: 4
+    SynchronizeType: 0
+    Name: Kicked
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
