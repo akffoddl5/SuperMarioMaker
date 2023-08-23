@@ -23,16 +23,18 @@ public class Enemy_Koopa : Enemy
     {
         base.Update();
         Move(true);
-       
+
+        if (IsSkyDetected())
+        {
+            Destroy(gameObject,0.01f);
+            Instantiate(shell, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        }
+
 
     }
     private void FixedUpdate()
     {
-        if (IsSkyDetected())
-        {
-            Destroy(gameObject);
-            Instantiate(shell, new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
-        }
+        
 
 
     }

@@ -74,28 +74,29 @@ public class Mario : MonoBehaviour
 	public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
 	public GameObject IsPlayerDetected()
 	{
-		//for (int i = 0; i < obj_isPlayer.Length; i++)
-		//{
-		//	if (Physics2D.Raycast(obj_isPlayer[i].position, Vector2.down, playerCheckDist, whatIsPlayer))
-		//	{
-		//		return true;
-		//	}
-		//}
 		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
 
 		for (int i = 0; i < cols.Length; i++)
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Player"))
 			{
-				//Debug.Log(cols[i].gameObject.name);
-
 				return cols[i].gameObject;
 			}
 		}
-
-		//Debug.Log("player detected");
 		return null;
-		
+	}
+
+	public GameObject IsEnemyDetected()
+	{
+		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
+		for (int i = 0; i < cols.Length; i++)
+		{
+			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
+			{
+				return cols[i].gameObject;
+			}
+		}
+		return null;
 	}
 
 

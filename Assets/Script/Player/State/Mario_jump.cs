@@ -60,14 +60,18 @@ public class Mario_jump : Mario_state
 		if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
 		{
 			stateMachine.ChangeState(mario.idleState);
-		}else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
-			Debug.Log("jump 로 바꾸자" + mario.IsPlayerDetected().name);
+		} else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
+			//Debug.Log("jump 로 바꾸자" + mario.IsPlayerDetected().name);
 			stateMachine.ChangeState(mario.jumpState);
 			var kickedMario = mario.IsPlayerDetected();
-            kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
+			kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
 			//Debug.Log(kickedMario.gameObject.name + " 얘가 킥드야" + kickedMario.GetComponent<Mario>().gameObject.name);
 			//Debug.Log(kickedMario.GetComponent<Mario>().stateMachine.currentState.animBoolName);
-            kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
+			kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
+		} else if (mario.rb.velocity.y <= 0 && mario.IsEnemyDetected() != null)
+		{
+			Debug.Log("적을 밟아서 점프");
+			stateMachine.ChangeState(mario.jumpState);
 		}
 	}
 }
