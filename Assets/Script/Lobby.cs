@@ -6,6 +6,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using Photon.Pun.Demo.Cockpit;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -33,11 +34,15 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	private void Awake()
     {
-        
-        PhotonNetwork.SendRate = 60;
+		PhotonNetwork.JoinLobby();
+        Debug.Log(PhotonNetwork.CountOfPlayers);
+        Debug.Log(PhotonNetwork.CountOfPlayersInRooms);
+		
+
+
+		PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
-		PhotonNetwork.JoinLobby();
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
         Lobby_Player_Count();
@@ -226,7 +231,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
 
-        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
+        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
+        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
         options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name"};
@@ -240,7 +246,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("방 생성 실패");
-
+            // 방 생성 실패 UI 띄우기
         }
 
     }
@@ -301,9 +307,15 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		Room_Init();
 
-		// 고쳐야 할 부분
-		PV.RPC("RoomUISync", RpcTarget.All);
+		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 		//RoomUISync.Invoke();
 	}
 
+	public override void OnLeftRoom()
+	{
+		base.OnLeftRoom();
+		// 방을 나갔을 때도 
+        PV.RPC("RoomUISync", RpcTarget.All);
+
+	}
 }

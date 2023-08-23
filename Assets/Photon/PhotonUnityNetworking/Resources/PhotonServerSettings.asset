@@ -42,6 +42,11 @@ MonoBehaviour:
   - FlipCheck
   - Flip
   - RoomUISync
+  - OnClick_Ready
+  - ReadyCheck
+  - LoadGameScene
+  - SetReadyPlayer
+  - SyncReadyStatus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
