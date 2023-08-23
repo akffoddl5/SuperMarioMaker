@@ -6,13 +6,20 @@ using UnityEngine;
 public class Goomba : Enemy
 {
     // Start is called before the first frame update
-   protected override void Start()
+    protected override void Start()
     {
         base.Start();
+
+        
+            move = true;
+
+
+
+
     }
 
     // Update is called once per frame
-   protected override void  Update()
+    protected override void Update()
     {
         base.Update();
         TouchDown();
@@ -22,14 +29,11 @@ public class Goomba : Enemy
     private void TouchDown()
     {
 
-       
-        if (!IsSkyDetected())
+       if (IsSkyDetected())
         {
-            Move(true);
-        }
-        else
-        {
-            Move(false);
+            
+            move = false;
+
             Destroy(gameObject, 1);
         }
     }

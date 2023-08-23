@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -21,24 +22,25 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer;
 
 
- 
+
     public Rigidbody2D rb;
-   protected Animator anim;
-    float moveflip = 1;
-    float moveChedkTimer;
-    float moveChedkTimerDuration=0.1f;
+    protected Animator anim;
+    protected float moveflip = 1;
+
     protected float overShellSpeed = 1;//1기본 10탈락 ->2이상이면 탈락처리
     protected bool overShell = false;//껍질 죽음
-   protected static float posX;
-   protected static float posY;
-   
-     bool move = false;
+    //protected static float posX;
+    //protected static float posY;
+    public static float spdX;
+    public static float spdY;
 
-   
-    
+   protected bool move = false;
+
+
+
     protected virtual void Start()
     {
-        
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
     }
@@ -46,71 +48,68 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-       //............................................................여기부터 초시계고치기
-        moveChedkTimer -= Time.deltaTime;
-      
-        if (!IsGroundDetected())
-        {
-            moveChedkTimer = moveChedkTimerDuration;
-            
-            return;
 
-        }
+
+
         Move(move);
         Flat();
 
 
-        
 
-        posX = this.transform.position.x;
-        posY = this.transform.position.y;
+
+      // posX = this.transform.position.x;
+      // posY = this.transform.position.y;
+       
     }
 
 
-  
+
     protected void Flat()
     {
-        
+
 
         if (IsSkyDetected())
         {
             anim.SetBool("Flat", true);
-            
-           
-        }
+
+       }
     }
 
-    
+
 
     protected void Move(bool move)
     {
-       
+
         if (move)
         {
-
-
-            rb.velocity = new Vector2(-1 * overShellSpeed * moveflip, 0);
-           
           
+            spdX = -1 *moveflip;
+            spdY = rb.velocity.y;
+            rb.velocity = new Vector2(spdX, spdY);
+
+            spdX = rb.position.x;
+            spdY = rb.position.y;
+
             Flip();
         }
+        
 
     }
 
     private void Flip()
     {
-      
-        if (IsGroundDetected()!=true)
+
+        if (IsGroundDetected() != true)
         {
 
             transform.Rotate(0, 180, 0);
 
 
             moveflip = moveflip * -1;
-            
+
         }
 
-        if (IswallDetected() ==true)
+        if (IswallDetected() == true)
         {
 
             transform.Rotate(0, 180, 0);
@@ -120,12 +119,15 @@ public class Enemy : MonoBehaviour
 
         }
     }
-
+    //그라운드 체크
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public bool IswallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
+
+   
 
 
-    public bool IswallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.left*moveflip, wallCheckDistance, whatIsGround);
-   //플레이어 위감지
+
+    //플레이어 위감지
     public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
     //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
@@ -133,16 +135,17 @@ public class Enemy : MonoBehaviour
 
 
 
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x,
             groundCheck.position.y - groundCheckDistance));
-        
+
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x - wallCheckDistance * moveflip,
-            wallCheck.position.y ));
+            wallCheck.position.y));
         //플레이어 위 감지
         Gizmos.DrawLine(skyCheck.position, new Vector3(skyCheck.position.x,
-            skyCheck.position.y +skyCheckDistance));
+            skyCheck.position.y + skyCheckDistance));
 
         //플레이어 좌우 감지
 
