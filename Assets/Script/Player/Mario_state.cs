@@ -33,7 +33,7 @@ public class Mario_state
 
 	public virtual void Enter()
 	{
-		//Debug.Log(mario.GetComponent<PhotonView>().IsMine + " << ENter");
+		Debug.Log(mario.GetComponent<PhotonView>().IsMine + " << ENter");
 		if (!mario.GetComponent<PhotonView>().IsMine)
 		{
 			return;

@@ -23,17 +23,17 @@ public class Mario_Sync : MonoBehaviourPun, IPunObservable
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else if (stream.IsReading)
-        {
-            _networkPosition = (Vector3)stream.ReceiveNext();
-            _networkRotation = (Quaternion)stream.ReceiveNext();
+        //if (stream.IsWriting)
+        //{
+        //    stream.SendNext(transform.position);
+        //    stream.SendNext(transform.rotation);
+        //}
+        //else if (stream.IsReading)
+        //{
+        //    _networkPosition = (Vector3)stream.ReceiveNext();
+        //    _networkRotation = (Quaternion)stream.ReceiveNext();
 
-        }
+        //}
 
         //if (stream.IsWriting)
         //{
