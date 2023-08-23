@@ -63,8 +63,11 @@ public class Mario_jump : Mario_state
 		}else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
 			Debug.Log("jump ·Î ¹Ù²ÙÀÚ" + mario.IsPlayerDetected().name);
 			stateMachine.ChangeState(mario.jumpState);
-			mario.IsPlayerDetected().GetComponent<Mario>().stateMachine.InitState(mario.idleState);
-			mario.IsPlayerDetected().GetComponent<Mario>().stateMachine.ChangeState(mario.kickedState);
+			var kickedMario = mario.IsPlayerDetected();
+            kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
+			Debug.Log(kickedMario.gameObject.name + " ¾ê°¡ Å±µå¾ß" + kickedMario.GetComponent<Mario>().gameObject.name);
+			Debug.Log(kickedMario.GetComponent<Mario>().stateMachine.currentState.animBoolName);
+            kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
 		}
 	}
 }
