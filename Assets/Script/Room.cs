@@ -112,10 +112,11 @@ public class Room : MonoBehaviourPunCallbacks
 	}
 
 	[PunRPC]
-	void SyncReadyStatus(bool readyStatus)
+	void SyncReadyStatus(object[] obj)
 	{
-		isReady = readyStatus;
-		img_ready[localPlayerIdx].gameObject.SetActive(isReady);
+		Debug.Log((bool)obj[0] + " " + (int)obj[1] + " RPC´ï!!!");
+		isReady = (bool)obj[0];
+		img_ready[(int)obj[1]].gameObject.SetActive(isReady);
 	}
 
 	[PunRPC]
@@ -148,9 +149,9 @@ public class Room : MonoBehaviourPunCallbacks
 	{
 		var ready = !isReady;
 		isReady = ready;
-		Object[] obj = new Object[2];
+		object[] obj = new object[2] {(object)isReady, (object)localPlayerIdx };
 
-		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, isReady);
+		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
 
 		Debug.Log("OnClick_Ready ÇÔ¼ö µé¾î¿È!!!!!!!!!!!!!!!!!!!!" + isReady);
 		

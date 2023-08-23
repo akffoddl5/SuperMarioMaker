@@ -5134,7 +5134,7 @@ MonoBehaviour:
       - m_Target: {fileID: 679208841}
         m_TargetAssemblyTypeName: Room, Assembly-CSharp
         m_MethodName: OnClick_Ready
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
