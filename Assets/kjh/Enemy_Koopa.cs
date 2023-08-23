@@ -1,48 +1,45 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Goomba : Enemy
+public class Enemy_Koopa : Enemy
 {
-    public GameObject stop;
+   public  GameObject shell;
+   public  GameObject stop;
     
-    // Start is called before the first frame update
+    public Enemy_Koopa()
+    {
+    }
+
     protected override void Start()
     {
         base.Start();
-
-
         move = true;
-
+        
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        TouchDown();
-
-
+        Move(true);
+       
 
     }
-
-    private void TouchDown()
+    private void FixedUpdate()
     {
-
         if (IsSkyDetected())
         {
-
-            move = false;
-
-            Destroy(gameObject, 1);
+            Destroy(gameObject);
+            Instantiate(shell, new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
         }
-    }
 
+
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+      //  Debug.Log(Enemy_shell.fsecMove);
 
         if (collision.collider.gameObject.CompareTag("Enemy"))
         {
@@ -55,9 +52,8 @@ public class Goomba : Enemy
 
 
         }
-        else if (collision.collider.gameObject.CompareTag("Enemy_Shell") && false == Enemy_shell.fsecMove)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
+        else if (collision.collider.gameObject.CompareTag("Enemy_Shell")&& false== Enemy_shell.fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
-            Debug.Log(collision.collider.GetComponent<Rigidbody2D>().velocity);
             transform.Rotate(0, 180, 0);
 
 
@@ -65,6 +61,7 @@ public class Goomba : Enemy
         }
         else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
         {
+
             Destroy(gameObject);
 
             var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
@@ -72,13 +69,7 @@ public class Goomba : Enemy
 
             a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
 
-
-
-
-
-
         }
-
-
+        
     }
 }
