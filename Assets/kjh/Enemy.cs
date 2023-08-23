@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
 
     public Rigidbody2D rb;
     protected Animator anim;
+    GameObject enemy;
+    protected bool anim2=false;
     protected float moveflip = 1;
 
     protected float overShellSpeed = 1;//1기본 10탈락 ->2이상이면 탈락처리
@@ -43,23 +45,23 @@ public class Enemy : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+       
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-
-
-
         Move(move);
-        Flat();
+            Flat();
 
+      
 
-
-
-      // posX = this.transform.position.x;
-      // posY = this.transform.position.y;
        
+
+
+        // posX = this.transform.position.x;
+        // posY = this.transform.position.y;
+
     }
 
 

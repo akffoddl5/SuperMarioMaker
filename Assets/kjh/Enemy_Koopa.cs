@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Koopa : Enemy
 {
    public  GameObject shell;
+   public  GameObject stop;
+    
     public Enemy_Koopa()
     {
     }
@@ -13,6 +16,7 @@ public class Enemy_Koopa : Enemy
     {
         base.Start();
         move = true;
+        
     }
 
     protected override void Update()
@@ -35,29 +39,37 @@ public class Enemy_Koopa : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+      //  Debug.Log(Enemy_shell.fsecMove);
 
-
-       if (collision.collider.gameObject.CompareTag("Enemy"))
-        {
-            
-
-                transform.Rotate(0, 180, 0);
-
-
-                moveflip = moveflip * -1;
-
-
-        }else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+        if (collision.collider.gameObject.CompareTag("Enemy"))
         {
 
-            this.GetComponent<CapsuleCollider2D>().isTrigger = true;
-            this.rb.position = new Vector2(spdX, spdY + 1);
 
-            anim.SetBool("Stop", true);
+            transform.Rotate(0, 180, 0);
 
+
+            moveflip = moveflip * -1;
 
 
         }
+        else if (collision.collider.gameObject.CompareTag("Enemy_Shell")&& false== Enemy_shell.fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
+        {
+            transform.Rotate(0, 180, 0);
 
+
+            moveflip = moveflip * -1;
+        }
+        else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+        {
+
+            Destroy(gameObject);
+
+            var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+
+
+            a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
+
+        }
+        
     }
 }
