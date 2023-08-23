@@ -24,6 +24,8 @@ public class Goomba : Enemy
         base.Update();
         TouchDown();
 
+
+
     }
 
     private void TouchDown()
@@ -35,6 +37,36 @@ public class Goomba : Enemy
             move = false;
 
             Destroy(gameObject, 1);
+        }
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+
+        if (collision.collider.gameObject.CompareTag("Enemy"))
+        {
+
+
+            transform.Rotate(0, 180, 0);
+
+
+            moveflip = moveflip * -1;
+
+
+        }
+        else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+        {
+
+            this.GetComponent<CapsuleCollider2D>().isTrigger = true;
+            this.rb.position = new Vector2(spdX, spdY + 1);
+            anim.SetBool("Stop", true);
+
+
+
+
+
         }
     }
 }

@@ -31,8 +31,8 @@ public class Enemy : MonoBehaviour
     protected bool overShell = false;//껍질 죽음
     //protected static float posX;
     //protected static float posY;
-    public static float spdX;
-    public static float spdY;
+    public  float spdX;
+    public  float spdY;
 
    protected bool move = false;
 
@@ -92,11 +92,14 @@ public class Enemy : MonoBehaviour
 
             Flip();
         }
-        
+        else if (!move)
+        {
+            return;
+        }
 
     }
 
-    private void Flip()
+    protected void Flip()
     {
 
         if (IsGroundDetected() != true)
@@ -129,6 +132,8 @@ public class Enemy : MonoBehaviour
 
     //플레이어 위감지
     public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
+
+
     //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class Enwmy_shell : MonoBehaviour
+public class Enemy_shell : MonoBehaviour
 {
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
@@ -18,7 +18,8 @@ public class Enwmy_shell : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
 
-
+    public float spdX;
+    public float spdY;
 
     static float moveflip = 1;
     // float flyTimer = 0;
@@ -65,8 +66,7 @@ public class Enwmy_shell : MonoBehaviour
 
         }
 
-
-
+       
 
 
 
@@ -75,28 +75,32 @@ public class Enwmy_shell : MonoBehaviour
         {
             Invoke("Fly", 0.1f);
         }
-        Enemy.spdX = rb.position.x;
-        Enemy.spdY = rb.position.y;
+       spdX = rb.position.x;
+       spdY = rb.position.y;
 
 
-        if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
-        {
+        //if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
+        //{
 
 
-            StartCoroutine("Rekoopa");
+        //    StartCoroutine("Rekoopa");
 
 
-        }
+        //}
+        //Debug.Log(fly);
+        //if (fly == true)// 수직낙하 거북스
+        //{
+        //   /rb.velocity = new Vector2(0, rb.velocity.y);
 
-        if (fly == true)
-        {
-            rb.gravityScale = 100;
-        }
-        else if (fly == false)
-        {
-            rb.gravityScale = 1;
-        }
+
+        //}
+        //else if (fly == false)
+        //{
+        //    rb.gravityScale = 1;
+        //}
     }
+
+
     private void secMove()
     {
         if (IsGroundDetected())
@@ -189,10 +193,10 @@ public class Enwmy_shell : MonoBehaviour
 
 
 
-            Enemy.spdX = -8 * moveflip;
-            Enemy.spdY = rb.velocity.y;
+           spdX = -8 * moveflip;
+           spdY = rb.velocity.y;
 
-            rb.velocity = new Vector2(Enemy.spdX, Enemy.spdY);
+            rb.velocity = new Vector2(spdX, spdY);
 
 
         }
@@ -215,7 +219,7 @@ public class Enwmy_shell : MonoBehaviour
 
 
         Destroy(gameObject);
-        Instantiate(koopa, new Vector2(Enemy.spdX, Enemy.spdY), Quaternion.identity);
+        Instantiate(koopa, new  Vector2(transform.position.x, transform.position.y), Quaternion.identity);
     }
 
 
@@ -234,13 +238,57 @@ public class Enwmy_shell : MonoBehaviour
 
 
     //플레이어 위감지
-    public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
+   
+
+    public GameObject IsSkyDetected()
+    {
+        Collider2D[] cols= Physics2D.OverlapAreaAll(new Vector2(skyCheck.position.x - skyCheckDistance, skyCheck.position.y), new Vector2(skyCheck.position.x + skyCheckDistance, skyCheck.position.y));
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Player"))
+            {
+                
+                return cols[i].gameObject;
+            }
+        }
+
+        //Debug.Log("player detected");
+        return null;
+
+    }
+
+
     //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);
 
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
 
+
+        if (collision.collider.gameObject.CompareTag("Enemy"))
+        {
+
+
+
+
+        }
+        if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+        {
+
+
+            transform.Rotate(0, 180, 0);
+
+
+            moveflip = moveflip * -1;
+
+
+
+        }
+
+    }
 
     private void OnDrawGizmos()
     {
@@ -251,9 +299,7 @@ public class Enwmy_shell : MonoBehaviour
             wallLCheck.position.y));
         Gizmos.DrawLine(wallLCheck.position, new Vector3(wallRCheck.position.x + wallCheckDistance,
             wallRCheck.position.y));
-        //플레이어 위 감지
-        Gizmos.DrawLine(skyCheck.position, new Vector3(skyCheck.position.x,
-            skyCheck.position.y + skyCheckDistance));
+       
 
         //플레이어 좌우 감지
 
