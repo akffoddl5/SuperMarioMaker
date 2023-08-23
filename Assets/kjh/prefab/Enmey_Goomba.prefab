@@ -162,7 +162,7 @@ Transform:
   - {fileID: 7153051883449092744}
   - {fileID: 3391174346911941598}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &7867928766047055579
 CapsuleCollider2D:
@@ -254,6 +254,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   rb: {fileID: 202243397175346487}
+  spdX: 0
+  spdY: 0
+  stop: {fileID: 2685897697848062640, guid: 1512947ed9aa0cd45a55e3cac8b851c3, type: 3}
 --- !u!1 &8732409889683986522
 GameObject:
   m_ObjectHideFlags: 0

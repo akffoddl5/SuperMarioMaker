@@ -27,7 +27,7 @@ public class Enemy_shell : MonoBehaviour
     bool fly = false;
     public Rigidbody2D rb;
     public GameObject koopa;
-    bool fsecMove = false;
+   public static  bool fsecMove = false;
 
 
 
@@ -40,7 +40,8 @@ public class Enemy_shell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+
 
     }
     private void FixedUpdate()
@@ -267,14 +268,7 @@ public class Enemy_shell : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-
-        if (collision.collider.gameObject.CompareTag("Enemy"))
-        {
-
-
-
-
-        }
+        
         if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
         {
 

@@ -5,16 +5,15 @@ using UnityEngine;
 
 public class Goomba : Enemy
 {
+    public GameObject stop;
+    
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
 
-        
-            move = true;
 
-
-
+        move = true;
 
     }
 
@@ -31,9 +30,9 @@ public class Goomba : Enemy
     private void TouchDown()
     {
 
-       if (IsSkyDetected())
+        if (IsSkyDetected())
         {
-            
+
             move = false;
 
             Destroy(gameObject, 1);
@@ -56,17 +55,30 @@ public class Goomba : Enemy
 
 
         }
+        else if (collision.collider.gameObject.CompareTag("Enemy_Shell") && false == Enemy_shell.fsecMove)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
+        {
+            Debug.Log(collision.collider.GetComponent<Rigidbody2D>().velocity);
+            transform.Rotate(0, 180, 0);
+
+
+            moveflip = moveflip * -1;
+        }
         else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
         {
+            Destroy(gameObject);
 
-            this.GetComponent<CapsuleCollider2D>().isTrigger = true;
-            this.rb.position = new Vector2(spdX, spdY + 1);
-            anim.SetBool("Stop", true);
+            var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+
+
+            a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
+
 
 
 
 
 
         }
+
+
     }
 }

@@ -131,7 +131,7 @@ Transform:
   - {fileID: 4403675388542186183}
   - {fileID: 3654768247675044440}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8063605072424078953
 Rigidbody2D:
@@ -226,6 +226,7 @@ MonoBehaviour:
   spdX: 0
   spdY: 0
   shell: {fileID: 2473640243481446712, guid: 30d065b7b4d0b524f887906ee265c43b, type: 3}
+  stop: {fileID: 4390307435438607076, guid: 60e33a95d822b074f919699d21affff1, type: 3}
 --- !u!1 &5029674920883817953
 GameObject:
   m_ObjectHideFlags: 0
