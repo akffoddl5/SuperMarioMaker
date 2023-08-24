@@ -18,7 +18,7 @@ public class Room : MonoBehaviourPunCallbacks
 	[Header("CharacterBox Info")]
 	public Image[] img_star; // Crown in CharacterBox
 	public Image[] img_playerImg; // player_img in CharacterBox
-	public Sprite[] sprite_mario; // img_player[i] = sprite_mario[i]
+	public Sprite[] sprite_mario;  // img_player[i] = sprite_mario[i]
 	public Text[] txt_NickName; // NickName in CharacterBox
 	public Image[] img_ready; // img_Ready in CharacterBox
 
@@ -38,8 +38,6 @@ public class Room : MonoBehaviourPunCallbacks
 
 	private void Update()
 	{
-		// if Room에 들어왔으면
-		isPossibleToStart = PossibleToStart();
 
 	}
 
@@ -79,19 +77,11 @@ public class Room : MonoBehaviourPunCallbacks
 				img_star[i].gameObject.SetActive(true);
 				img_ready[i].gameObject.SetActive(true);
 
-				/*
-				// 이것도 방장 거만 바뀌어야 하는데 방장일 때 readyBtn의 
-					// 만준: 이거 이렇게 하지말고 int readyPersonNum 이런 거 선언해서
-					// readyBtn을 누를 때마다 readyPersonNum++
-					// if(readyPersonNum == PhotonNetwork.CurrentRoom.PlayerCount)
-					// 이러면 버튼의 글씨가 Start로 바뀌도록
-				// 흠 근데 이러면 아무나 다 Start 시킬 수 있는 거 아닌가 어차피 방장의 readyBtn을 구분해줘야 하는데 
-				 */
 				// player가 방장이면 방장의 버튼만 Start로 변경해주도록
 				if (PhotonNetwork.IsMasterClient)
 				{
 					readyBtn.GetComponentInChildren<Text>().text = "Start";
-					//readyBtn.GetComponent<Button>().interactable = false;
+					readyBtn.GetComponent<Button>().interactable = false;
 					isReady = true;
 				}
 			}
@@ -114,26 +104,37 @@ public class Room : MonoBehaviourPunCallbacks
 	[PunRPC]
 	void SyncReadyStatus(object[] obj)
 	{
-		Debug.Log((bool)obj[0] + " " + (int)obj[1] + " RPC댐!!!");
+		//Debug.Log((bool)obj[0] + " " + (int)obj[1] + " RPC댐!!!");
 		isReady = (bool)obj[0];
 		img_ready[(int)obj[1]].gameObject.SetActive(isReady);
-	}
 
-	[PunRPC]
-	void LoadGameScene()
-	{
-		SceneManager.LoadScene(gameScene);
+		// isReady 정보를 받아서 켜주는 애가 만약에 마스터 클라이언트라면
+		if (PhotonNetwork.IsMasterClient)
+		{
+			readyPersonNum = 0;
+			// 모든 애들의 Ready 상태를 받아와야 한다. => UI 켜짐으로 확인하면 됨
+			// isReady로 보는 게 깔끔하긴 한데 거의 일치할 것 같으니까 일단 이렇게 함
+			for (int i=0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+			{
+				if (img_ready[i].gameObject.activeSelf == true)
+				{
+					readyPersonNum++;
+				}
+			}
+			// 모든 사람이 레디 했는지 체크
+			isPossibleToStart = PossibleToStart();
+		}
 	}
 
 	// Ready Btn OnClick Function
-	// IsMasterClient && AllPlayerIsReady
+	// IsMasterClient && AllPlayerIsReady        
 	public bool PossibleToStart()
 	{
 		// 모든 플레이어가 준비 완료상태면서 && 방장이 Ready(=방장한테는 Start니까)라면
 		if (PhotonNetwork.IsMasterClient)
 		{
 			if (readyPersonNum == PhotonNetwork.CurrentRoom.PlayerCount)
-			{
+			{ 
 				readyBtn.GetComponent<Button>().interactable = true;
 				return true;
 			}
@@ -145,43 +146,23 @@ public class Room : MonoBehaviourPunCallbacks
 		}
 		return false;
 	}
+
 	public void OnClick_Ready()
 	{
+		// 모든 플레이어가 준비 완료상태면서 && 방장이 Ready(=방장한테는 Start니까) 누르면
+		// 방장이 버튼을 눌렀다는 사실을 다른 플레이어가 알아야 함 RPC
+		if (PhotonNetwork.IsMasterClient && isPossibleToStart)
+		{
+			// 방장만 첫 번째 화면으로 넘어감
+			// 당연하지 여기 들어오는 건 방장만 들어오니까
+			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
+			PhotonNetwork.LoadLevel(0);
+		}
+
 		var ready = !isReady;
 		isReady = ready;
 		object[] obj = new object[2] {(object)isReady, (object)localPlayerIdx };
 
 		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
-
-		Debug.Log("OnClick_Ready 함수 들어옴!!!!!!!!!!!!!!!!!!!!" + isReady);
-		
-		//int count = 0;
-		//for (int i = 0; i < PhotonNetwork.CurrentRoom.Players.Count; i++)
-		//{
-		//	if (img_ready[i].gameObject.activeSelf == true)
-		//		count++;
-		//}
-
-		//readyPersonNum = count;
-
-		//// 모든 플레이어가 준비 완료상태면서 && 방장이 Ready(=방장한테는 Start니까) 누르면
-		//if (PhotonNetwork.IsMasterClient && isPossibleToStart)
-		//{
-		//	LoadGameScene();
-		//}
-
-		//// 버튼을 클릭하면 자신의 CharacterBox 아래에 있는 Img_Ready를 SetActive(true);
-		//if (!isReady)
-		//{
-		//	//isReady = true;
-		//	readyPersonNum++;
-		//}
-		//else
-		//{
-		//	//isReady = false;
-		//	readyPersonNum--;
-		//}
-		//// RPC로 동기화
-		
 	}
 }
