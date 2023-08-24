@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
+    [SerializeField] private Transform skyCheckA;
+    [SerializeField] private Transform skyCheckB;
 
 
 
@@ -128,12 +131,21 @@ public class Enemy : MonoBehaviour
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IswallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
 
-   
-
-
 
     //플레이어 위감지
-    public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
+    //public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
+    public bool IsSkyDetected()
+    {
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(skyCheckA.position, skyCheckB.position);
+        for (int i = 0; i < colliders.Length; i++){
+            if (colliders[i] != this.gameObject && colliders[i].CompareTag("Player"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
     //플레이어 좌우 감지

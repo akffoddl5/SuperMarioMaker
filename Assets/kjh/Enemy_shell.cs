@@ -20,32 +20,34 @@ public class Enemy_shell : MonoBehaviour
     public float spdX;
     public float spdY;
 
-    static float moveflip = 1;
+    public float moveflip = 1;
     // float flyTimer = 0;
 
     bool fly = false;
     public Rigidbody2D rb;
     public GameObject koopa;
-   public static  bool fsecMove = false;
+   public  bool fsecMove = false;
 
+    float timer;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        timer = 60 * Time.deltaTime;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        timer -= Time.deltaTime;
 
 
     }
     private void FixedUpdate()
     {
-
+        if (timer > 0) return;
 
 
 

@@ -21,7 +21,8 @@ public class Mario_jump : Mario_state
 		//Debug.Log("나 점프했어");
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
-		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
+        mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
+        mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
 		//last_velocity_y = mario.rb.velocity.y;
 	}
 

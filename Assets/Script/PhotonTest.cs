@@ -11,6 +11,7 @@ using TMPro;
 public class PhotonTest : MonoBehaviourPunCallbacks
 {
 	[SerializeField] Text m_InputField;
+	InputField m_inputField;
 	//[SerializeField] TMP_Text m_textConnectLog;
 	//[SerializeField] TMP_Text m_textPlayerList;
 
@@ -22,14 +23,14 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 		title = GameObject.Find("Canvas").GetComponent<Title>();
 
 		Screen.SetResolution(960, 600, false);
+        
+            //m_InputField = GameObject.Find("InputField").GetComponent<TMP_InputField>();
+            //m_textPlayerList = GameObject.Find("TextPlayerList").GetComponent<TMP_Text>();
+            //m_textConnectLog = GameObject.Find("TextConnectLog").GetComponent<TMP_Text>();
 
-			//m_InputField = GameObject.Find("InputField").GetComponent<TMP_InputField>();
-			//m_textPlayerList = GameObject.Find("TextPlayerList").GetComponent<TMP_Text>();
-			//m_textConnectLog = GameObject.Find("TextConnectLog").GetComponent<TMP_Text>();
+        //m_textConnectLog.text = "立加肺弊\n";
 
-			//m_textConnectLog.text = "立加肺弊\n";
-		
-	}
+    }
 
 	public override void OnConnectedToMaster()
 	{

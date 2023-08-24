@@ -3264,7 +3264,7 @@ GameObject:
   - component: {fileID: 824120154}
   - component: {fileID: 824120153}
   m_Layer: 5
-  m_Name: Room_List_Content
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7958,7 +7958,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.00094816706}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0.000024318024}
   m_SizeDelta: {x: 0, y: 45.5271}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1737269546
@@ -9414,6 +9414,7 @@ MonoBehaviour:
   lobby_player_count: -1
   lobby_player_count_tmp: 0
   room_btn: {fileID: 4494359991809635826, guid: 802d0bb02d782e04081df81b23bb1ea1, type: 3}
+  Room_List_Content: {fileID: 824120152}
   current_max_player: 0
   log_text: {fileID: 149547930}
   PV: {fileID: 679208842}

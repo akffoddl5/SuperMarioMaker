@@ -18,6 +18,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     [Header("방 목록 관련 변수")]
     public GameObject room_btn;
     private List<RoomInfo> myList = new List<RoomInfo>();
+    public RectTransform Room_List_Content;
 
 
     [Header("방 만들기 관련 변수")]
@@ -156,8 +157,18 @@ public class Lobby : MonoBehaviourPunCallbacks
     
     private void Room_List_Init()
     {
-        Debug.Log(myList.Count + " << 방의 갯수");
-        Transform Room_List_Content = GameObject.Find("Room_List_Content").transform;
+
+        RectTransform[] tmp = Room_List_Content.GetComponentsInChildren<RectTransform>();
+        
+        if (tmp != null)
+        {
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                if (tmp[i].gameObject != Room_List_Content.gameObject)
+                    tmp[i].gameObject.SetActive(false);
+            }
+        }
+
         for (int i = 0; i < myList.Count; i++)
         {
             var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
