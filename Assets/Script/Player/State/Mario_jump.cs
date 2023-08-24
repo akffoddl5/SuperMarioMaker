@@ -15,9 +15,13 @@ public class Mario_jump : Mario_state
 
 	public override void Enter()
 	{
+		if (!PV.IsMine)
+		{
+			return;
+		}
 		base.Enter();
 		last_velocity_y = 0;
-		stateTimer = 13 * Time.deltaTime;
+		stateTimer = 103 * Time.deltaTime;
 		//Debug.Log("나 점프했어");
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
@@ -34,7 +38,7 @@ public class Mario_jump : Mario_state
 	{
 		base.Update();
 		//Debug.Log(mario.IsGroundDetected());
-		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0 )
+		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
 		{
 			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
 			stateTimer = -1;

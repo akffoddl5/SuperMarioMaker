@@ -51,8 +51,6 @@ public class Enemy_shell : MonoBehaviour
 
 
 
-
-        playerRL();
         if (fsecMove == true)
         {
 
@@ -268,8 +266,9 @@ public class Enemy_shell : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        playerRL();
 
-        
+
         if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
         {
 
