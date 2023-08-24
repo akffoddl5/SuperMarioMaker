@@ -47,6 +47,7 @@ MonoBehaviour:
   - LoadGameScene
   - SetReadyPlayer
   - SyncReadyStatus
+  - ReadyPersonCnt
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
