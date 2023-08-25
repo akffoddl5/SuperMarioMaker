@@ -311,11 +311,16 @@ public class Lobby : MonoBehaviourPunCallbacks
 		//RoomUISync.Invoke();
 	}
 
+
 	public override void OnLeftRoom()
 	{
 		base.OnLeftRoom();
-		// 방을 나갔을 때도 
-        PV.RPC("RoomUISync", RpcTarget.All);
 
+	}
+
+	public override void OnPlayerLeftRoom(Player otherPlayer)
+	{
+		base.OnPlayerLeftRoom(otherPlayer);
+		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 	}
 }

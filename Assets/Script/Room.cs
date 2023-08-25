@@ -69,6 +69,8 @@ public class Room : MonoBehaviourPunCallbacks
 			img_playerImg[i].GetComponent<Image>().sprite = sprite_mario[i];
 			txt_NickName[i].gameObject.SetActive(true);
 			txt_NickName[i].text = player.NickName;
+			// 레디 상태로 동기화
+			img_ready[i].gameObject.SetActive(isReady);
 
 			// 그냥 if (PhotonNetwork.IsMasterClient)라고 바꾸면
 			// 방장한테는 모든 플레이어가 다 방장표시+img_ready 켜진 상태가 됨
@@ -156,7 +158,9 @@ public class Room : MonoBehaviourPunCallbacks
 			// 방장만 첫 번째 화면으로 넘어감
 			// 당연하지 여기 들어오는 건 방장만 들어오니까
 			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
-			PhotonNetwork.LoadLevel(0);
+			//PhotonNetwork.LoadLevel(0);
+			GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered);
+			
 		}
 
 		var ready = !isReady;
@@ -164,5 +168,11 @@ public class Room : MonoBehaviourPunCallbacks
 		object[] obj = new object[2] {(object)isReady, (object)localPlayerIdx };
 
 		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
+	}
+
+	[PunRPC]
+	private void LoadScene()
+	{
+		PhotonNetwork.LoadLevel(gameScene);
 	}
 }
