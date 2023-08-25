@@ -70,7 +70,8 @@ public class Room : MonoBehaviourPunCallbacks
 			txt_NickName[i].gameObject.SetActive(true);
 			txt_NickName[i].text = player.NickName;
 			// 레디 상태로 동기화
-			img_ready[i].gameObject.SetActive(isReady);
+
+			Debug.Log(i + "의 레디는 " + isReady);
 
 			// 그냥 if (PhotonNetwork.IsMasterClient)라고 바꾸면
 			// 방장한테는 모든 플레이어가 다 방장표시+img_ready 켜진 상태가 됨
@@ -82,13 +83,20 @@ public class Room : MonoBehaviourPunCallbacks
 				// player가 방장이면 방장의 버튼만 Start로 변경해주도록
 				if (PhotonNetwork.IsMasterClient)
 				{
+					isReady = true;
 					readyBtn.GetComponentInChildren<Text>().text = "Start";
 					readyBtn.GetComponent<Button>().interactable = false;
-					isReady = true;
 				}
 			}
-
+			img_ready[i].gameObject.SetActive(isReady);
 		}
+	}
+
+	// 이거 완성하면 위에 거 지우고 이걸로 바꿀 거
+	[PunRPC]
+	public void SyncRoomUI()
+	{
+
 	}
 
 	// 전체 CharacterBox속 img, text 전부 SetActive(false)해주기
@@ -160,6 +168,7 @@ public class Room : MonoBehaviourPunCallbacks
 			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
 			//PhotonNetwork.LoadLevel(0);
 			GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered);
+			return;
 			
 		}
 
