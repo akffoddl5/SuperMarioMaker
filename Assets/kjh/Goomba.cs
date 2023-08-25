@@ -44,26 +44,16 @@ public class Goomba : Enemy
     {
 
 
-        if (collision.collider.gameObject.CompareTag("Enemy"))
+        
+        if (collision.gameObject.GetComponent<Enemy_shell>() != null && false ==  collision.gameObject.GetComponent<Enemy_shell>().fsecMove)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
-
 
             transform.Rotate(0, 180, 0);
 
 
             moveflip = moveflip * -1;
-
-
         }
-        else if (collision.collider.gameObject.CompareTag("Enemy_Shell") && false == Enemy_shell.fsecMove)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
-        {
-            Debug.Log(collision.collider.GetComponent<Rigidbody2D>().velocity);
-            transform.Rotate(0, 180, 0);
-
-
-            moveflip = moveflip * -1;
-        }
-        else if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+        else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
         {
             Destroy(gameObject);
 
@@ -72,9 +62,14 @@ public class Goomba : Enemy
 
             a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
 
+        }else if (collision.collider.gameObject.CompareTag("Enemy"))
+        {
 
 
+            transform.Rotate(0, 180, 0);
 
+
+            moveflip = moveflip * -1;
 
 
         }

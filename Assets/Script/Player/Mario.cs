@@ -104,5 +104,7 @@ public class Mario : MonoBehaviour
 	{
 		Gizmos.DrawLine(obj_isGround.position,
 			new Vector3(obj_isGround.position.x, obj_isGround.position.y - groundCheckDist));
+
+		
 	}
 }
