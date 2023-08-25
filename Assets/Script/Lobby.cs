@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using Photon.Pun.Demo.Cockpit;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -76,6 +77,11 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 			//Debug.Log(PhotonNetwork.CurrentRoom.)
 		}
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            SceneManager.LoadScene(0);
+        }
 	}
 
 	public override void OnConnectedToMaster()

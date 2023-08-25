@@ -72,9 +72,26 @@ public class Mario : MonoBehaviour
 	}
 
 	public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
-	public GameObject IsPlayerDetected()
+	//public bool IsGroundDetected()
+	//{
+ //       Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position,LayerMask.GetMask("Ground"));
+	//	Debug.Log("그라운드 트루" );
+		
+	//	if (cols != null) return true;
+	//	//for (int i = 0; i < cols.Length; i++)
+	//	//{
+	//	//	if ( cols[i].gameObject.CompareTag("Ground"))
+	//	//	{
+	//	//		return true;
+	//	//	}
+	//	//}
+
+
+	//	return false;
+	//}
+    public GameObject IsPlayerDetected()
 	{
-		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
+        Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position, LayerMask.GetMask("Player"));
 
 		for (int i = 0; i < cols.Length; i++)
 		{
