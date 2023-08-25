@@ -71,25 +71,27 @@ public class Mario : MonoBehaviour
 		stateMachine.currentState.Update();
 	}
 
-	public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
-	//public bool IsGroundDetected()
-	//{
- //       Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position,LayerMask.GetMask("Ground"));
-	//	Debug.Log("그라운드 트루" );
-		
-	//	if (cols != null) return true;
-	//	//for (int i = 0; i < cols.Length; i++)
-	//	//{
-	//	//	if ( cols[i].gameObject.CompareTag("Ground"))
-	//	//	{
-	//	//		return true;
-	//	//	}
-	//	//}
+	//public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
+	public bool IsGroundDetected()
+	{
+		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position, LayerMask.GetMask("Ground"));
+		//Debug.Log("그라운드 트루");
 
+		if (cols != null && cols.Length > 0) return true;
+		//for (int i = 0; i < cols.Length; i++)
+		//{
+		//	if (cols[i].gameObject.CompareTag("Ground"))
+		//	{
+		//		Debug.Log("그라운드 true");
+		//		return true;
+		//	}
+		//}
 
-	//	return false;
-	//}
-    public GameObject IsPlayerDetected()
+				Debug.Log("그라운드 false");
+
+		return false;
+	}
+	public GameObject IsPlayerDetected()
 	{
         Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position, LayerMask.GetMask("Player"));
 
