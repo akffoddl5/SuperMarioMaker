@@ -162,8 +162,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     
     private void Room_List_Init()
     {
-
-        RectTransform[] tmp = Room_List_Content.GetComponentsInChildren<RectTransform>();
+		RectTransform[] tmp = Room_List_Content.GetComponentsInChildren<RectTransform>();
         
         if (tmp != null)
         {
@@ -179,10 +178,18 @@ public class Lobby : MonoBehaviourPunCallbacks
             var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
             a.transform.parent = Room_List_Content;
             a.transform.localScale = new Vector3(1, 1, 1);
+            
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
 
+			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
+			// +interactive(roomState)
+			// Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon
+			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
+            a.GetComponent<Button>().interactable = (bool)myList[i].CustomProperties["room_state"];
+			// Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon
+            
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
             
@@ -242,16 +249,17 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         string _title = make_room_title.text;
         int _max_player = current_max_player;
+        bool _isRoomStart = false;
         Debug.Log(_title + " " + _max_player);
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
-        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
+        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}, { "room_state", _isRoomStart } };
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name"};
+        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name", "room_state"};
         
 
         bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
@@ -331,6 +339,18 @@ public class Lobby : MonoBehaviourPunCallbacks
 	public override void OnLeftRoom()
 	{
 		base.OnLeftRoom();
+        // 룸 오른쪽으로 보내
+		GameObject room = GameObject.Find("Room_Layer");
+		StartCoroutine(CorLerp(room, room.GetComponent<RectTransform>().localPosition,
+			room.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
+
+		// 로비도 데려와야 해
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition, Vector3.zero));
+
+		// 룸을 나가면 마스터로 가니까 로비로 다시 들어오게 해야 함
+		PhotonNetwork.JoinLobby();
 
 	}
 
@@ -341,6 +361,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 	}
 
+    // 로비 새로고침 1초마다 코루틴
     public IEnumerator ILobby_Refresh()
     {
         while (true)
@@ -352,18 +373,20 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
     }
 
+    // 로비 나가기
     public void Lobby_Refresh()
     {
         //PhotonNetwork.JoinLobby();
 
-        RoomOptions RO = new RoomOptions();
-        RO.IsVisible = false;
-        RO.MaxPlayers = 30;
+        //RoomOptions RO = new RoomOptions();
+        //RO.IsVisible = false;
+        //RO.MaxPlayers = 30;
         PhotonNetwork.LeaveLobby();
         
 
     }
 
+    // 로비 나갔을 때 바로 다시 들어오게 만들기
     public override void OnLeftLobby()
     {
         base.OnLeftLobby();

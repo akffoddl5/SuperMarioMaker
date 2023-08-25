@@ -58,18 +58,10 @@ public class Enemy_shell : MonoBehaviour
         }
         if (IswallRDetected() || IswallLDetected())
         {
-
-
-
             Flip2();
             Move(true);
 
         }
-
-       
-
-
-
 
         if (!IsGroundDetected())
         {
@@ -105,21 +97,11 @@ public class Enemy_shell : MonoBehaviour
     {
         if (IsGroundDetected())
         {
-
-
             Move(true);
-
-
-
-
 
             if (!fly && !IsSkyDetected())// 돌아가기
             {
-
-
                 StartCoroutine("Rekoopa");
-
-
             }
         }
 
@@ -155,14 +137,9 @@ public class Enemy_shell : MonoBehaviour
     private void Fly()//0.1초 동안 하늘일떄
     {
 
-
         if (!IsGroundDetected())
         {
-
-
             fly = true;
-
-
         }
         else if (IsGroundDetected())
         {
@@ -190,15 +167,10 @@ public class Enemy_shell : MonoBehaviour
 
         if (move)
         {
-
-
-
            spdX = -8 * moveflip;
            spdY = rb.velocity.y;
 
             rb.velocity = new Vector2(spdX, spdY);
-
-
         }
         else
         {
@@ -207,11 +179,6 @@ public class Enemy_shell : MonoBehaviour
 
 
     }
-
-
-
-
-
 
     IEnumerator Rekoopa()
     {
@@ -223,18 +190,10 @@ public class Enemy_shell : MonoBehaviour
     }
 
 
-
-
-
-
-
     //그라운드 체크
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IswallLDetected() => Physics2D.Raycast(wallLCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
     public bool IswallRDetected() => Physics2D.Raycast(wallRCheck.position, Vector2.right * moveflip, wallCheckDistance, whatIsGround);
-
-
-
 
 
     //플레이어 위감지
@@ -271,15 +230,9 @@ public class Enemy_shell : MonoBehaviour
 
         if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
         {
-
-
             transform.Rotate(0, 180, 0);
 
-
             moveflip = moveflip * -1;
-
-
-
         }
 
     }

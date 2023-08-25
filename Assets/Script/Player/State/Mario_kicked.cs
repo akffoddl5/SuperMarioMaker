@@ -31,7 +31,7 @@ public class Mario_kicked : Mario_state
     {
         //base.Update();
         if(stateTimer > 0)
-        //Debug.Log(stateTimer);
+        Debug.Log(stateTimer);
         stateTimer -= Time.deltaTime;
 
         //if (stateTimer2 < 0)

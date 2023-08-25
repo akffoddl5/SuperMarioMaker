@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting.FullSerializer;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Room : MonoBehaviourPunCallbacks
 {
@@ -170,6 +171,7 @@ public class Room : MonoBehaviourPunCallbacks
 
 			// RPC 하는 방법
 			//GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.All);
+			PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "room_state", true } });
 			PhotonNetwork.LoadLevel(gameScene);
 			return;
 			
@@ -192,9 +194,6 @@ public class Room : MonoBehaviourPunCallbacks
 
 		// 룸 패널 다시 오른쪽으로 슉 넘겨야 함
 		// Lobby 스크립트의 public override void OnLeftRoom()에서 하기
-		GameObject lobby = GameObject.Find("Lobby_Layer");
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
-			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
 
 		// 방 나가게 처리 하고
 		PhotonNetwork.LeaveRoom();
@@ -202,19 +201,5 @@ public class Room : MonoBehaviourPunCallbacks
 	}
 	#endregion
 
-	IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
-	{
-		gameObject.SetActive(true);
-		RectTransform RT = gameObject.GetComponent<RectTransform>();
-		RT.localPosition = start_pos;
-		while (Vector3.Distance(RT.localPosition, des_pos) > 50f)
-		{
-			//Debug.Log(Vector3.Distance(RT.localPosition, des_pos));
-			RT.localPosition = Vector3.Lerp(RT.localPosition, des_pos, 0.3f);
-			//yield return new WaitForSeconds(0.5f);
-			yield return new WaitForSeconds(0.02f);
-		}
-		yield break;
-	}
 
 }

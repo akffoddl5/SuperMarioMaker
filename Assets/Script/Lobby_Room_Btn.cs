@@ -23,7 +23,8 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
     public Text room_name_text;                                       // 방 제목
     [SerializeField] TMP_Text room_player_num_text;      //  방 인원수 현황 텍스트
     public Text room_master_name_text;                            //  방장 이름 텍스트
-    
+    public Text room_start_state; // Playing Text
+
     public Sprite korFlag;
     public Sprite engFlag;
     public Sprite chFlag;
@@ -76,8 +77,8 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
                 || (0x20000 <= _firstNickName && _firstNickName <= 0x2A6DF) // 한중일 통합한자 확장
                 || (0x2F800 <= _firstNickName && _firstNickName <= 0x2FA1F)) // 한중일 호환 한자 보충
             return chFlag;
-
-        return null;
+        else
+            return korFlag;
 	}
     
     // Btn 로비에 생성된 방을 클릭했을 때 실행되는 함수
