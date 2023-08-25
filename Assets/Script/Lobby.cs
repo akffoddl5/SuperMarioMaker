@@ -46,6 +46,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         current_max_player = 1;
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
+
+        StartCoroutine(ILobby_Refresh());
     }
 	private void Update()
 	{
@@ -80,7 +82,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 	public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        //Debug.Log("onConnectToMaster");
+        Debug.Log("onConnectToMaster");
+        PhotonNetwork.JoinLobby();
         
     }
 
@@ -89,6 +92,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         base.OnCreatedRoom();
         
 	}
+
+    
 
     public void Room_Init()
     {
@@ -109,7 +114,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        //Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
+        
+        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -334,4 +340,41 @@ public class Lobby : MonoBehaviourPunCallbacks
         // 누군가 나가면 UI 동기화
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 	}
+
+    public IEnumerator ILobby_Refresh()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
+            Lobby_Refresh();
+
+        }
+    }
+
+    public void Lobby_Refresh()
+    {
+        //PhotonNetwork.JoinLobby();
+
+        RoomOptions RO = new RoomOptions();
+        RO.IsVisible = false;
+        RO.MaxPlayers = 30;
+        PhotonNetwork.LeaveLobby();
+        
+
+    }
+
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        Debug.Log("lobby left");
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        Debug.Log(cause + " " + cause.ToString());
+        PhotonNetwork.ConnectUsingSettings();
+    }
 }
