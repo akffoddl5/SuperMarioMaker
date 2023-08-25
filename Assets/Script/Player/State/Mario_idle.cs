@@ -36,6 +36,7 @@ public class Mario_idle : Mario_state
 
 		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
+			Debug.Log("D");
 			stateMachine.ChangeState(mario.jumpState);
 		}
 	}

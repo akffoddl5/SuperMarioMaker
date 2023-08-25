@@ -41,10 +41,9 @@ public class Enemy_Koopa : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-      //  Debug.Log(Enemy_shell.fsecMove);
+        //  Debug.Log(Enemy_shell.fsecMove);
 
-        
-        if (collision.gameObject.GetComponent<Enemy_shell>() != null && collision.gameObject.GetComponent<Enemy_shell>().fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
+        if (collision.gameObject.GetComponent<Enemy_shell>() != null && !collision.gameObject.GetComponent<Enemy_shell>().fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
             transform.Rotate(0, 180, 0);
 
