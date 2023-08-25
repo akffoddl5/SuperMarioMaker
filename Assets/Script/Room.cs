@@ -45,9 +45,8 @@ public class Room : MonoBehaviourPunCallbacks
 	[PunRPC]
 	public void RoomUISync()
 	{
-		// 방 이름 변경
+		// 방 이름
 		roomName.text = PhotonNetwork.CurrentRoom.Name;
-
 		ActiveFalse_allCharacterBox();
 		
 		// 현재 방에 있는 플레이어들의 정보를 배열에 저장함
@@ -155,6 +154,9 @@ public class Room : MonoBehaviourPunCallbacks
 		return false;
 	}
 
+	#region Btn
+
+	// Btn Ready
 	public void OnClick_Ready()
 	{
 		// 모든 플레이어가 준비 완료상태면서 && 방장이 Ready(=방장한테는 Start니까) 누르면
@@ -165,7 +167,10 @@ public class Room : MonoBehaviourPunCallbacks
 			// 당연하지 여기 들어오는 건 방장만 들어오니까
 			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
 			//PhotonNetwork.LoadLevel(0);
-			GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.All);
+
+			// RPC 하는 방법
+			//GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.All);
+			PhotonNetwork.LoadLevel(gameScene);
 			return;
 			
 		}
@@ -177,9 +182,39 @@ public class Room : MonoBehaviourPunCallbacks
 		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
 	}
 
-	[PunRPC]
-	private void LoadScene()
+	// Btn Back
+	public void onClick_Back()
 	{
-		PhotonNetwork.LoadLevel(gameScene);
+		// 방 나갈 거니까 ready false로 만들어주고 레디 상태 알리기
+		isReady = false;
+		object[] obj = new object[2] { (object)isReady, (object)localPlayerIdx };
+		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
+
+		// 룸 패널 다시 오른쪽으로 슉 넘겨야 함
+		// Lobby 스크립트의 public override void OnLeftRoom()에서 하기
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+
+		// 방 나가게 처리 하고
+		PhotonNetwork.LeaveRoom();
+
 	}
+	#endregion
+
+	IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
+	{
+		gameObject.SetActive(true);
+		RectTransform RT = gameObject.GetComponent<RectTransform>();
+		RT.localPosition = start_pos;
+		while (Vector3.Distance(RT.localPosition, des_pos) > 50f)
+		{
+			//Debug.Log(Vector3.Distance(RT.localPosition, des_pos));
+			RT.localPosition = Vector3.Lerp(RT.localPosition, des_pos, 0.3f);
+			//yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.02f);
+		}
+		yield break;
+	}
+
 }

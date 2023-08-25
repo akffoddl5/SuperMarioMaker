@@ -37,13 +37,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 	private void Awake()
     {
 		PhotonNetwork.JoinLobby();
-        Debug.Log(PhotonNetwork.CountOfPlayers);
-        Debug.Log(PhotonNetwork.CountOfPlayersInRooms);
-		
-
-
-		PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
 
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
@@ -103,7 +96,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         // 옆으로 슉 넘어가는 거
 		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
         // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
-		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 0, 0), Quaternion.identity);
+		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 10, 0), Quaternion.identity);
     }
 
 
@@ -338,6 +331,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 	public override void OnPlayerLeftRoom(Player otherPlayer)
 	{
 		base.OnPlayerLeftRoom(otherPlayer);
+        // 누군가 나가면 UI 동기화
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 	}
 }
