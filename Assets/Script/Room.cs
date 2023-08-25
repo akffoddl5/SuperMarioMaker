@@ -41,7 +41,7 @@ public class Room : MonoBehaviourPunCallbacks
 
 	}
 
-	// 플레이어가 방에 들어왔을 때(=Lobby의 스크립트 OnJoinedRoom()이 실행되었을 때) 이 함수가 실행되어야 함
+	// 플레이어가 방에 들어왔을 때(=Lobby의 스크립트 OnJoinedRoom()이 실행되었을 때 이 함수가 실행되어야 함
 	[PunRPC]
 	public void RoomUISync()
 	{
@@ -69,9 +69,6 @@ public class Room : MonoBehaviourPunCallbacks
 			img_playerImg[i].GetComponent<Image>().sprite = sprite_mario[i];
 			txt_NickName[i].gameObject.SetActive(true);
 			txt_NickName[i].text = player.NickName;
-			// 레디 상태로 동기화
-
-			Debug.Log(i + "의 레디는 " + isReady);
 
 			// 그냥 if (PhotonNetwork.IsMasterClient)라고 바꾸면
 			// 방장한테는 모든 플레이어가 다 방장표시+img_ready 켜진 상태가 됨
@@ -88,11 +85,12 @@ public class Room : MonoBehaviourPunCallbacks
 					readyBtn.GetComponent<Button>().interactable = false;
 				}
 			}
-			img_ready[i].gameObject.SetActive(isReady);
+			// img_ready[i].gameObject.SetActive(isReady);
+			// 이걸 넣어서 문제가 생긴 거 
 		}
 	}
 
-	// 이거 완성하면 위에 거 지우고 이걸로 바꿀 거
+	// 이거 완성하면 RoomUISync() 지우고 이걸로 바꿀 거
 	[PunRPC]
 	public void SyncRoomUI()
 	{
@@ -167,7 +165,7 @@ public class Room : MonoBehaviourPunCallbacks
 			// 당연하지 여기 들어오는 건 방장만 들어오니까
 			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
 			//PhotonNetwork.LoadLevel(0);
-			GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered);
+			GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.All);
 			return;
 			
 		}

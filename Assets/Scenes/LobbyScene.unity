@@ -2922,7 +2922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: {fileID: 892840474}
   readyBtn: {fileID: 1131587672}
-  gameScene: 
+  gameScene: InGame
   img_star:
   - {fileID: 1747471024}
   - {fileID: 853669547}
