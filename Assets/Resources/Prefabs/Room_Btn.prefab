@@ -585,6 +585,7 @@ MonoBehaviour:
   room_name_text: {fileID: 1859962079912236245}
   room_player_num_text: {fileID: 5608983336160948481}
   room_master_name_text: {fileID: 6867738845685516919}
+  room_start_state: {fileID: 4130538953417764083}
   korFlag: {fileID: 21300000, guid: 58c6581f3cc814341afba8bc26d8d4f9, type: 3}
   engFlag: {fileID: 21300000, guid: 17d56778541ab034c9631a716448efe6, type: 3}
   chFlag: {fileID: 21300000, guid: 2f4cb5afa5c69ee4e94110f74f399dac, type: 3}

@@ -185,10 +185,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
 			// +interactive(roomState)
-			// Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon
 			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
             a.GetComponent<Button>().interactable = (bool)myList[i].CustomProperties["room_state"];
-			// Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon Jiwon
             
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
@@ -204,8 +202,13 @@ public class Lobby : MonoBehaviourPunCallbacks
         //StartCoroutine(CorLerp(a, a.transform.position, new Vector3(-2000, a.transform.position.y, a.transform.position.z)));
 
         var a = GameObject.Find("Room_Make_Layer");
-        //a.transform.localPosition = new Vector3(0, 1000, 0);
-        StartCoroutine(CorLerp(a,new Vector3(0,1000,0), new Vector3(0,-100,0)));
+
+        // If you leave the room and click Create, the title of the room you created before is written
+        // So we need to initialize the room title inputfield
+        a.GetComponentInChildren<InputField>().text = "";
+
+		//a.transform.localPosition = new Vector3(0, 1000, 0);
+		StartCoroutine(CorLerp(a,new Vector3(0,1000,0), new Vector3(0,-100,0)));
         Debug.Log("room plus click");
     }
 
@@ -328,6 +331,10 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+
+		var a = GameObject.Find("Room_Make_Layer");
+        Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
+		StartCoroutine(CorLerp(a, localPositionA, new Vector3(localPositionA.x, 1000, 0)));
 
 		Room_Init();
 
