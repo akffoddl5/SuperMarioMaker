@@ -76,5 +76,13 @@ public class Mario_run : Mario_state
 		{
 			stateMachine.ChangeState(mario.walkState);
 		}
+
+		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
+		{
+			Debug.Log("jump 로 바꾸자");
+			stateMachine.ChangeState(mario.jumpState);
+		}
+
+
 	}
 }

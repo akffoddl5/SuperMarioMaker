@@ -4,7 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-
+using UnityEngine.Events;
+using Photon.Pun.Demo.Cockpit;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -16,6 +19,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     [Header("방 목록 관련 변수")]
     public GameObject room_btn;
     private List<RoomInfo> myList = new List<RoomInfo>();
+    public RectTransform Room_List_Content;
 
 
     [Header("방 만들기 관련 변수")]
@@ -26,13 +30,14 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public Text log_text;
 
-    private void Awake()
-    {
-        
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+    // Room에 있는 함수를 실행하기 위한 이벤트 함수
+    //public UnityEvent RoomUISync;
+    public PhotonView PV;
 
+	private void Awake()
+    {
 		PhotonNetwork.JoinLobby();
+
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
         Lobby_Player_Count();
@@ -41,11 +46,44 @@ public class Lobby : MonoBehaviourPunCallbacks
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         current_max_player = 1;
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
+
+        StartCoroutine(ILobby_Refresh());
     }
-    public override void OnConnectedToMaster()
+	private void Update()
+	{
+		Lobby_Player_Count();
+	}
+
+	private void Lobby_Player_Count()
+	{
+		lobby_player_count_tmp = PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms;
+		//lobby_player_count_tmp = PhotonNetwork.CurrentRoom.PlayerCount;
+
+		//Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+
+		if (lobby_player_count_tmp != lobby_player_count)
+		{
+			//Debug.Log(PhotonNetwork.CurrentRoom.Name);
+			lobby_player_count = lobby_player_count_tmp;
+			lobby_info.text = "로비 대기자 :  " + lobby_player_count + "명 ";
+
+			//log_text.text += "\n 룸의 마스터클라이언트 id : " + PhotonNetwork.CurrentRoom.MasterClientId;
+			//log_text.text += "\n 나 자신은 마스텀 클라이언트 ?  : " + PhotonNetwork.IsMasterClient;
+
+			//Debug.Log(PhotonNetwork.CurrentRoom.)
+		}
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            SceneManager.LoadScene(0);
+        }
+	}
+
+	public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        //Debug.Log("onConnectToMaster");
+        Debug.Log("onConnectToMaster");
+        PhotonNetwork.JoinLobby();
         
     }
 
@@ -55,11 +93,15 @@ public class Lobby : MonoBehaviourPunCallbacks
         
 	}
 
+    
+
     public void Room_Init()
     {
 		GameObject room_layer = GameObject.Find("Room_Layer");
+        // 옆으로 슉 넘어가는 거
 		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
-		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 0, 0), Quaternion.identity);
+        // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
+		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 10, 0), Quaternion.identity);
     }
 
 
@@ -72,7 +114,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        //Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
+        
+        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -87,38 +130,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
 
     
-
-
-
-    private void Update()
-    {
-        Lobby_Player_Count();
-
-    }
-
-    private void Lobby_Player_Count()
-    {
-        lobby_player_count_tmp = PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms;
-        //lobby_player_count_tmp = PhotonNetwork.CurrentRoom.PlayerCount;
-
-        //Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
-        
-
-        if (lobby_player_count_tmp != lobby_player_count)
-        {
-            //Debug.Log(PhotonNetwork.CurrentRoom.Name);
-            lobby_player_count = lobby_player_count_tmp;
-            lobby_info.text = "로비 대기자 :  " + lobby_player_count + "명 ";
-
-            //log_text.text += "\n 룸의 마스터클라이언트 id : " + PhotonNetwork.CurrentRoom.MasterClientId;
-            //log_text.text += "\n 나 자신은 마스텀 클라이언트 ?  : " + PhotonNetwork.IsMasterClient;
-            
-            
-            
-            //Debug.Log(PhotonNetwork.CurrentRoom.)
-        }
-    }
-
+    // 로비에 있는 사람만 받을 수 있음
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         
@@ -144,54 +156,130 @@ public class Lobby : MonoBehaviourPunCallbacks
                 }
             }
         }
-
-        Room_List_Init();
         
+        Room_List_Init();
     }
-
+    
     private void Room_List_Init()
     {
-        Debug.Log(myList.Count + " << 방의 갯수");
-        Transform Room_List_Content = GameObject.Find("Room_List_Content").transform;
+		RectTransform[] tmp = Room_List_Content.GetComponentsInChildren<RectTransform>();
+        
+        if (tmp != null)
+        {
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                if (tmp[i].gameObject != Room_List_Content.gameObject)
+                    tmp[i].gameObject.SetActive(false);
+            }
+        }
+
         for (int i = 0; i < myList.Count; i++)
         {
             var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
             a.transform.parent = Room_List_Content;
             a.transform.localScale = new Vector3(1, 1, 1);
+            
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
 
-
+			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
+			// +interactive(roomState)
+			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
+            a.GetComponent<Button>().interactable = (bool)myList[i].CustomProperties["room_state"];
+            
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
             
         }
     }
 
-    //방 만들기 클릭
-    public void Room_Plus_Click()
+	// Btn방 만들기 클릭
+	public void Room_Plus_Click()
     {
         //var a = GameObject.Find("Lobby_Layer");
         //a.transform.Translate(new Vector3(-100, 0, 0));
         //StartCoroutine(CorLerp(a, a.transform.position, new Vector3(-2000, a.transform.position.y, a.transform.position.z)));
 
         var a = GameObject.Find("Room_Make_Layer");
-        //a.transform.localPosition = new Vector3(0, 1000, 0);
-        StartCoroutine(CorLerp(a,new Vector3(0,1000,0), new Vector3(0,-100,0)));
+
+        // If you leave the room and click Create, the title of the room you created before is written
+        // So we need to initialize the room title inputfield
+        a.GetComponentInChildren<InputField>().text = "";
+
+		//a.transform.localPosition = new Vector3(0, 1000, 0);
+		StartCoroutine(CorLerp(a,new Vector3(0,1000,0), new Vector3(0,-100,0)));
         Debug.Log("room plus click");
     }
 
-    //방 만들기 레이어 클로즈 버튼 클릭
-    public void Room_Close_Click()
+	// Btn 방 만들기 레이어 왼쪽 위 창닫기 버튼(x)
+	public void Room_Close_Click()
     {
         var a = GameObject.Find("Room_Make_Layer");
         StartCoroutine(CorLerp(a, a.GetComponent<RectTransform>().localPosition, new Vector3(0, 1300, 0)));
 
     }
 
-    //UI러프로 움직이기
-    IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
+	// Btn 최대 플레이어 늘리기
+	public void Room_Maker_Player_Select_Plus()
+	{
+
+		if (current_max_player + 1 <= max_Player)
+		{
+			if (set_max_player != null)
+				StopCoroutine(set_max_player);
+			current_max_player++;
+			set_max_player = StartCoroutine(Cor_Room_Maker_Player_Scroll());
+		}
+	}
+
+	// Btn 최대 플레이어 줄이기
+	public void Room_Maker_Player_Select_Minus()
+	{
+
+		if (current_max_player - 1 <= max_Player && current_max_player - 1 > 0)
+		{
+			if (set_max_player != null)
+				StopCoroutine(set_max_player);
+			current_max_player--;
+			set_max_player = StartCoroutine(Cor_Room_Maker_Player_Scroll());
+
+		}
+	}
+    
+    // Btn 방 생성 클릭
+    public void Try_Room_Make()
+    {
+        string _title = make_room_title.text;
+        int _max_player = current_max_player;
+        bool _isRoomStart = false;
+        Debug.Log(_title + " " + _max_player);
+
+        RoomOptions options = new RoomOptions();
+        options.MaxPlayers = _max_player;
+
+        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
+        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}, { "room_state", _isRoomStart } };
+
+        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
+        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name", "room_state"};
+        
+
+        bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
+        if (make_success)
+        {
+            Debug.Log("방 생성 성공");
+        }
+        else
+        {
+            Debug.Log("방 생성 실패");
+            // 방 생성 실패 UI 띄우기
+        }
+
+    }
+
+	// UI러프로 움직이기
+	IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
     {
         gameObject.SetActive(true);
         RectTransform RT = gameObject.GetComponent<RectTransform>();
@@ -206,34 +294,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         yield break;
     }
 
-    //최대 플레이어 늘리기
-    public void Room_Maker_Player_Select_Plus()
-    {
-        
-        if (current_max_player + 1 <= max_Player)
-        {
-            if (set_max_player != null)
-                StopCoroutine(set_max_player);
-            current_max_player++;
-            set_max_player = StartCoroutine(Cor_Room_Maker_Player_Scroll());
-        }
-    }
-
-    //최대 플레이어 줄이기
-    public void Room_Maker_Player_Select_Minus()
-    {
-        
-        if (current_max_player - 1 <= max_Player && current_max_player-1 >0)
-        {
-            if (set_max_player != null)
-                StopCoroutine(set_max_player);
-            current_max_player--;
-            set_max_player = StartCoroutine(Cor_Room_Maker_Player_Scroll());
-
-        }
-    }
-
-    //최대 플레이어 설정 코루틴
+    // 최대 플레이어 설정할 때 중앙의 숫자가 옆으로 슉 넘어가게 하는 거
     IEnumerator Cor_Room_Maker_Player_Scroll()
     {
         var a = GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>();
@@ -256,42 +317,10 @@ public class Lobby : MonoBehaviourPunCallbacks
         yield break;;
     }
 
-    //방 생성 클릭
-    public void Try_Room_Make()
-    {
-        string _title = make_room_title.text;
-        int _max_player = current_max_player;
-        Debug.Log(_title + " " + _max_player);
-
-        RoomOptions options = new RoomOptions();
-        options.MaxPlayers = _max_player;
-
-        List<Object> li = new List<Object>();
-        
-        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title } };
-        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-        options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name"};
-        
-        
-
-
-        bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
-        if (make_success)
-        {
-            Debug.Log("방 생성 성공");
-        }
-        else
-        {
-            Debug.Log("방 생성 실패");
-
-        }
-
-    }
 
     public override void OnFriendListUpdate(List<FriendInfo> friendList)
     {
         base.OnFriendListUpdate(friendList);
-        
     }
 
 	public override void OnJoinedRoom()
@@ -299,9 +328,83 @@ public class Lobby : MonoBehaviourPunCallbacks
 		base.OnJoinedRoom();
 
 		GameObject lobby = GameObject.Find("Lobby_Layer");
+
 		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
 
+		var a = GameObject.Find("Room_Make_Layer");
+        Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
+		StartCoroutine(CorLerp(a, localPositionA, new Vector3(localPositionA.x, 1000, 0)));
+
 		Room_Init();
+
+		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
+		//RoomUISync.Invoke();
 	}
+
+
+	public override void OnLeftRoom()
+	{
+		base.OnLeftRoom();
+        // 룸 오른쪽으로 보내
+		GameObject room = GameObject.Find("Room_Layer");
+		StartCoroutine(CorLerp(room, room.GetComponent<RectTransform>().localPosition,
+			room.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
+
+		// 로비도 데려와야 해
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition, Vector3.zero));
+
+		// 룸을 나가면 마스터로 가니까 로비로 다시 들어오게 해야 함
+		PhotonNetwork.JoinLobby();
+
+	}
+
+	public override void OnPlayerLeftRoom(Player otherPlayer)
+	{
+		base.OnPlayerLeftRoom(otherPlayer);
+        // 누군가 나가면 UI 동기화
+		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
+	}
+
+    // 로비 새로고침 1초마다 코루틴
+    public IEnumerator ILobby_Refresh()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
+            Lobby_Refresh();
+
+        }
+    }
+
+    // 로비 나가기
+    public void Lobby_Refresh()
+    {
+        //PhotonNetwork.JoinLobby();
+
+        //RoomOptions RO = new RoomOptions();
+        //RO.IsVisible = false;
+        //RO.MaxPlayers = 30;
+        PhotonNetwork.LeaveLobby();
+        
+
+    }
+
+    // 로비 나갔을 때 바로 다시 들어오게 만들기
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        Debug.Log("lobby left");
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        Debug.Log(cause + " " + cause.ToString());
+        PhotonNetwork.ConnectUsingSettings();
+    }
 }

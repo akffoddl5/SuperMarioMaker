@@ -27,7 +27,7 @@ public class TestServer : MonoBehaviourPunCallbacks
 
 
 
-		PhotonNetwork.JoinOrCreateRoom("TESTSERVER", options, null);
+		PhotonNetwork.JoinOrCreateRoom("TESTSERVER1", options, null);
         //Debug.Log("·ë»ý¼º");
         //PhotonNetwork.JoinLobby();
 
@@ -55,8 +55,8 @@ public class TestServer : MonoBehaviourPunCallbacks
     private void Awake()
     {
         Screen.SetResolution(960, 540, false);
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        //PhotonNetwork.SendRate = 60;
+        //PhotonNetwork.SerializationRate = 30;
     }
     void Start()
     {

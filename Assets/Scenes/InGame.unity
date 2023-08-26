@@ -437,6 +437,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4187828607848442128, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1032628601791052151, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
       propertyPath: m_Name
       value: Mario

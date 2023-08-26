@@ -41,6 +41,15 @@ MonoBehaviour:
   - RespawnSpaceship
   - FlipCheck
   - Flip
+  - RoomUISync
+  - OnClick_Ready
+  - ReadyCheck
+  - LoadGameScene
+  - SetReadyPlayer
+  - SyncReadyStatus
+  - ReadyPersonCnt
+  - LoadScene
+  - SyncRoomUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

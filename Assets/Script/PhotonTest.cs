@@ -10,7 +10,8 @@ using TMPro;
 
 public class PhotonTest : MonoBehaviourPunCallbacks
 {
-	[SerializeField] TMP_InputField m_InputField;
+	[SerializeField] Text m_InputField;
+	InputField m_inputField;
 	//[SerializeField] TMP_Text m_textConnectLog;
 	//[SerializeField] TMP_Text m_textPlayerList;
 
@@ -18,38 +19,43 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 
 	void Start()
 	{
+		// StartScene의 Canvas에 붙어있는 Title 스크립트
 		title = GameObject.Find("Canvas").GetComponent<Title>();
 
 		Screen.SetResolution(960, 600, false);
+        
+            //m_InputField = GameObject.Find("InputField").GetComponent<TMP_InputField>();
+            //m_textPlayerList = GameObject.Find("TextPlayerList").GetComponent<TMP_Text>();
+            //m_textConnectLog = GameObject.Find("TextConnectLog").GetComponent<TMP_Text>();
 
-		//m_InputField = GameObject.Find("InputField").GetComponent<TMP_InputField>();
-		//m_textPlayerList = GameObject.Find("TextPlayerList").GetComponent<TMP_Text>();
-		//m_textConnectLog = GameObject.Find("TextConnectLog").GetComponent<TMP_Text>();
+        //m_textConnectLog.text = "접속로그\n";
 
-		//m_textConnectLog.text = "접속로그\n";
-		
-	}
+    }
 
 	public override void OnConnectedToMaster()
 	{
-		//Debug.Log("onConnectToMaster");
-		//RoomOptions options = new RoomOptions();
-		//options.MaxPlayers = 5;
+			//Debug.Log("onConnectToMaster");
+			//RoomOptions options = new RoomOptions();
+			//options.MaxPlayers = 5;
 
+		// inputField에 입력한 플레이어의 닉네임을 저장
 		PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
-		//PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
-		//Debug.Log("룸생성");
-		//PhotonNetwork.JoinLobby();
+
+			//PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
+			//Debug.Log("룸생성");
+			//PhotonNetwork.JoinLobby();
 
 	}
+	// 자신이 들어왔을 때 콜백
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("joined");
 		updatePlayer();
-		//m_textConnectLog.text += m_InputField.text;
-		//m_textConnectLog.text += " 님이 방에 참가하였습니다.\n";
+			//m_textConnectLog.text += m_InputField.text;
+			//m_textConnectLog.text += " 님이 방에 참가하였습니다.\n";
 	}
 
+	// 누군가 들어왔을 때 콜백
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		updatePlayer();
@@ -69,6 +75,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 	public void Connect()
 	{
 		title.LogIn();
+		// 해당 게임버전으로 photon 클라우드로 연결
 		PhotonNetwork.ConnectUsingSettings();
 		
 	}
