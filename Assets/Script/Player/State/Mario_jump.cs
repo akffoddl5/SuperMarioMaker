@@ -22,7 +22,6 @@ public class Mario_jump : Mario_state
 		base.Enter();
 		last_velocity_y = 0;
 		stateTimer = 103 * Time.deltaTime;
-		//Debug.Log("나 점프했어");
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
         mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
@@ -37,7 +36,6 @@ public class Mario_jump : Mario_state
 	public override void Update()
 	{
 		base.Update();
-		//Debug.Log(mario.IsGroundDetected());
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
 		{
 			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
@@ -68,17 +66,13 @@ public class Mario_jump : Mario_state
 			stateMachine.ChangeState(mario.idleState);
 		} else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
 			Debug.Log("B");
-			//Debug.Log("jump 로 바꾸자" + mario.IsPlayerDetected().name);
 			stateMachine.ChangeState(mario.jumpState);
 			var kickedMario = mario.IsPlayerDetected();
 			kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
-			//Debug.Log(kickedMario.gameObject.name + " 얘가 킥드야" + kickedMario.GetComponent<Mario>().gameObject.name);
 			//Debug.Log(kickedMario.GetComponent<Mario>().stateMachine.currentState.animBoolName);
 			kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
 		} else if (mario.rb.velocity.y <= 0 && mario.IsEnemyDetected() != null)
 		{
-			Debug.Log("C");
-			Debug.Log("적을 밟아서 점프");
 			stateMachine.ChangeState(mario.jumpState);
 		}
 	}

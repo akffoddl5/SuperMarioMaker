@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Enemy : MonoBehaviour
 {
@@ -41,13 +43,17 @@ public class Enemy : MonoBehaviour
 
    protected bool move = false;
 
+    public PhotonView PV;
+    
+
 
 
     protected virtual void Start()
     {
 
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
+        PV = GetComponent<PhotonView>();
        
     }
 
@@ -55,30 +61,23 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         Move(move);
-            Flat();
+            
 
-      
-
-       
-
-
-        // posX = this.transform.position.x;
-        // posY = this.transform.position.y;
 
     }
 
 
 
-    protected void Flat()
-    {
+    //protected void Flat()
+    //{
 
 
-        if (IsSkyDetected())
-        {
-            anim.SetBool("Flat", true);
+    //    if (IsSkyDetected())
+    //    {
+    //        anim.SetBool("Flat", true);
 
-       }
-    }
+    //   }
+    //}
 
 
 
@@ -106,11 +105,16 @@ public class Enemy : MonoBehaviour
 
     protected void Flip()
     {
+        if (moveflip > 0)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+
 
         if (IsGroundDetected() != true)
         {
-
-            transform.Rotate(0, 180, 0);
+            
+            //transform.Rotate(0, 180, 0);
 
 
             moveflip = moveflip * -1;
@@ -119,9 +123,6 @@ public class Enemy : MonoBehaviour
 
         if (IswallDetected() == true)
         {
-
-            transform.Rotate(0, 180, 0);
-
 
             moveflip = moveflip * -1;
 
@@ -144,6 +145,8 @@ public class Enemy : MonoBehaviour
             }
         }
 
+
+
         return false;
     }
 
@@ -153,7 +156,11 @@ public class Enemy : MonoBehaviour
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);
 
 
+    public virtual void Die()
+    {
 
+        
+    }
 
     private void OnDrawGizmos()
     {
