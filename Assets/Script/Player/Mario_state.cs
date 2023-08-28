@@ -23,7 +23,11 @@ public class Mario_state
 
 	public PhotonView PV;
 
-	public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
+    
+
+
+
+    public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
 	{
 		mario = _mario;
 		stateMachine = _stateMachine;
@@ -58,9 +62,20 @@ public class Mario_state
 		stateTimer -= Time.deltaTime;
 		stateTimer2 -= Time.deltaTime;
 
-        
-        // 입력 받는 곳
-        xInput = Input.GetAxisRaw("Horizontal");
+		if (mario.IsWallDetected())
+		{
+			mario.PM.friction = 0;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+		else
+		{
+			mario.PM.friction = 0.4f;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+
+
+		// 입력 받는 곳
+		xInput = Input.GetAxisRaw("Horizontal");
 		yInput = Input.GetAxisRaw("Vertical");
 		//if (xInput < 0) isFlip = DIRECTION.LEFT;
 
@@ -69,6 +84,7 @@ public class Mario_state
 			//PV.RPC("Flip", RpcTarget.All, FlipCheck() == 1);
 
 	}
+
 
 
 	private void FlipCheck()

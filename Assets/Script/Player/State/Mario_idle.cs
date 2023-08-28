@@ -33,11 +33,15 @@ public class Mario_idle : Mario_state
 		{
 			stateMachine.ChangeState(mario.jumpState);
 		}
+		// ¾É±â
+		if (Input.GetKey(KeyCode.DownArrow) && mario.marioMode > 0)
+		{
+			stateMachine.ChangeState(mario.sitDown);
+		}
 
 		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
-			Debug.Log("D");
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 		}
 	}
 }

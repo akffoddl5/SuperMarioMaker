@@ -20,9 +20,9 @@ public class TestServer : MonoBehaviourPunCallbacks
 
 
 
-		options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", "test" }, { "room_name", "test" } };
+		options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", "test" }, { "room_name", "test" }, { "room_state", "test" } };
 		//options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-		options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name" };
+		options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state" };
 
 
 

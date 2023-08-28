@@ -57,6 +57,21 @@ public class UI_Editor : MonoBehaviour
 
     }
 
+    public bool IsSetTile()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        if ((mousePos.x >= upPanel.position.x && mousePos.x <= upPanel.position.x + upPanel.rect.width &&
+            mousePos.y >= upPanel.position.y && mousePos.y <= upPanel.position.y + upPanel.rect.height) ||
+            (mousePos.x >= leftPanel.position.x && mousePos.x <= leftPanel.position.x + leftPanel.rect.width &&
+            mousePos.y >= leftPanel.position.y && mousePos.y <= leftPanel.position.y + leftPanel.rect.height) ||
+            (mousePos.x >= rightPanel.position.x && mousePos.x <= rightPanel.position.x + rightPanel.rect.width &&
+            mousePos.y >= rightPanel.position.y && mousePos.y <= rightPanel.position.y + rightPanel.rect.height) ||
+            buildSystem.currentTileName == null || currentOpenButtonPanelNumber != -1)
+            return false;
+
+        return true;
+    }
+
 
     #region Button
 
@@ -116,11 +131,15 @@ public class UI_Editor : MonoBehaviour
         buttonEdge[_buttonNum].SetActive(false);
     }
 
-    
+
     //타일 선택
     public void TileButtonClick(string _tileName)
     {
         buildSystem.SetCurrentTile(_tileName);
+
+        //타일 선택 이미지 변경
+        tileSetButtonImage[currentOpenButtonPanelNumber].sprite =
+            buildSystem.currentTile[buildSystem.currentTile.Length - 1].sprite;
 
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
     }

@@ -53,6 +53,7 @@ MonoBehaviour:
   - RPC_Flip
   - RPC_Die
   - RPC_Move
+  - Flip2
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -21,6 +21,8 @@ public class Mario_walk : Mario_state
 	public override void Update()
 	{
 		base.Update();
+
+
 		mario.rb.velocity = new Vector2(xInput * mario.moveSpeed, mario.rb.velocity.y);
 
 		//Idle
@@ -43,7 +45,7 @@ public class Mario_walk : Mario_state
 
 		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 		}
 
 	}

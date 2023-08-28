@@ -60,10 +60,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         Move(move);
-            
-
-
     }
 
 
@@ -83,7 +81,7 @@ public class Enemy : MonoBehaviour
 
     protected void Move(bool move)
     {
-
+        
         if (move)
         {
           
@@ -106,9 +104,13 @@ public class Enemy : MonoBehaviour
     protected void Flip()
     {
         if (moveflip > 0)
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        else
+        {
             transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
 
 
         if (IsGroundDetected() != true)

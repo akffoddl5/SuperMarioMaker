@@ -25,13 +25,24 @@ public class Enemy_Koopa : Enemy
     protected override void Update()
     {
         base.Update();
-        Move(true);
+        //Move(true);
 
     }
 
 
+
+
     private void FixedUpdate()
     {
+        Debug.Log(rb.velocity.x);
+        if (rb.velocity.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if(rb.velocity.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     

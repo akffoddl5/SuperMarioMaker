@@ -22,8 +22,14 @@ public class Title : MonoBehaviour
     Coroutine blinkTxt;
     Coroutine marioJump;
 
+    public AudioSource main_audioSource;
+    public AudioSource jump_audioSource;
+    public AudioSource select_audioSource;
+    
+
 	void Start()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.LOGIN_BGM,true, 0);
         blinkTxt = StartCoroutine(blinkStart());
         ShowBeforeLogin();
 	}
@@ -34,7 +40,7 @@ public class Title : MonoBehaviour
         // 좌클릭이 되면 로그인 화면 띄우기
         if (Input.GetMouseButtonDown(0) && !isLogin)
         {
-			obj_logInPanel.SetActive(true);
+            obj_logInPanel.SetActive(true);
 		}
         
     }
@@ -110,7 +116,9 @@ public class Title : MonoBehaviour
 	// 마리오 점프
 	IEnumerator JumpMario()
     {
-		yield return new WaitForSeconds(0.28f);
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP,false,0);
+        
+        yield return new WaitForSeconds(0.28f);
 		Vector3 a = new Vector3(obj_marioJump.transform.localPosition.x , obj_marioJump.transform.localPosition.y , obj_marioJump.transform.localPosition.z);
 		Vector3 b = new Vector3(obj_marioJump.transform.localPosition.x, obj_marioJump.transform.localPosition.y +140f, obj_marioJump.transform.localPosition.z);
         // -160 -> 14까지 증가
