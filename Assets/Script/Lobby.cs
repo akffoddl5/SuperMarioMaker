@@ -29,8 +29,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-    [Header("AudioSource")]
-    public AudioSource select_audioSource;
     
     
 
@@ -62,7 +60,12 @@ public class Lobby : MonoBehaviourPunCallbacks
 		Lobby_Player_Count();
 	}
 
-	private void Lobby_Player_Count()
+    private void Start()
+    {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.LOBBY_BGM, true, 0);
+    }
+
+    private void Lobby_Player_Count()
 	{
 		lobby_player_count_tmp = PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms;
 		//lobby_player_count_tmp = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -212,7 +215,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Btn방 만들기 클릭
 	public void Room_Plus_Click()
     {
-        select_audioSource.Play();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
         //var a = GameObject.Find("Lobby_Layer");
         //a.transform.Translate(new Vector3(-100, 0, 0));
         //StartCoroutine(CorLerp(a, a.transform.position, new Vector3(-2000, a.transform.position.y, a.transform.position.z)));
@@ -231,7 +234,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Btn 방 만들기 레이어 왼쪽 위 창닫기 버튼(x)
 	public void Room_Close_Click()
     {
-        select_audioSource.Play();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
         var a = GameObject.Find("Room_Make_Layer");
         StartCoroutine(CorLerp(a, a.GetComponent<RectTransform>().localPosition, new Vector3(0, 1300, 0)));
 

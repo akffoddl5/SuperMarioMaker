@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &147917460869276248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7838783628332860886}
+  m_Layer: 7
+  m_Name: isWallA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7838783628332860886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147917460869276248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.41, y: 0.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7930311769667582423}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768071804531425281
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,8 +103,10 @@ Transform:
   - {fileID: 1701766818798213741}
   - {fileID: 1451779805687121588}
   - {fileID: 2709324723404141274}
+  - {fileID: 7838783628332860886}
+  - {fileID: 8676133179858168007}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -163,7 +196,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1032628601791052151}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a124c422b836467479093cc3e636e76a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -230,6 +263,8 @@ MonoBehaviour:
   obj_isGround: {fileID: 1701766818798213741}
   obj_isPlayerA: {fileID: 1451779805687121588}
   obj_isPlayerB: {fileID: 2709324723404141274}
+  obj_isWallA: {fileID: 7838783628332860886}
+  obj_isWallB: {fileID: 8676133179858168007}
   groundCheckDist: 0.1
   playerCheckDist: 0
   whatIsGround:
@@ -238,7 +273,11 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  jump_audioSource: {fileID: 0}
+  clips: []
   rb: {fileID: 0}
+  collider: {fileID: 0}
+  PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
 --- !u!114 &8116241220452144449
@@ -315,6 +354,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Die
+  - Type: 4
+    SynchronizeType: 0
+    Name: Sit
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -423,6 +465,37 @@ Transform:
   m_GameObject: {fileID: 2808092960596543514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.436, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7930311769667582423}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5413089138723598077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8676133179858168007}
+  m_Layer: 7
+  m_Name: isWallB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8676133179858168007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413089138723598077}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

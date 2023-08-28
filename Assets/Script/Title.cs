@@ -29,6 +29,7 @@ public class Title : MonoBehaviour
 
 	void Start()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.LOGIN_BGM,true, 0);
         blinkTxt = StartCoroutine(blinkStart());
         ShowBeforeLogin();
 	}
@@ -46,7 +47,6 @@ public class Title : MonoBehaviour
 
     public void LogIn()
     {
-        select_audioSource.Play();
         // 파이어베이스에서 사용자인증해서 성공하면
         // 로그인 성공
         isLogin = true;
@@ -116,8 +116,7 @@ public class Title : MonoBehaviour
 	// 마리오 점프
 	IEnumerator JumpMario()
     {
-        main_audioSource.Pause();
-        jump_audioSource.Play();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP,false,0);
         
         yield return new WaitForSeconds(0.28f);
 		Vector3 a = new Vector3(obj_marioJump.transform.localPosition.x , obj_marioJump.transform.localPosition.y , obj_marioJump.transform.localPosition.z);

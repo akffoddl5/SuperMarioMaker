@@ -58,7 +58,7 @@ public class Enemy_shell : MonoBehaviour
         }
         if (IswallRDetected() || IswallLDetected())
         {
-            //Flip2();
+            Flip2();
             Move(true);
         }
 
@@ -109,7 +109,7 @@ public class Enemy_shell : MonoBehaviour
     {
         if (IsPlayerLDetected())//왼플체크
         {
-            //Flip2();
+            Flip2();
             Move(true);
             fsecMove = true;
         }
@@ -133,11 +133,11 @@ public class Enemy_shell : MonoBehaviour
         }
     }
 
-    //void Flip2()//스프라이트 회전
-    //{
-    //    transform.Rotate(0, 180, 0);
-    //    moveflip = -moveflip;
-    //}
+    void Flip2()//스프라이트 회전
+    {
+        transform.Rotate(0, 180, 0);
+        moveflip = -moveflip;
+    }
 
     void Move(bool move)//움직임
     {

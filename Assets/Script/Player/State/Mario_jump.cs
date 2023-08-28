@@ -11,7 +11,7 @@ public class Mario_jump : Mario_state
 	{
 	}
 
-	
+
 
 	public override void Enter()
 	{
@@ -24,17 +24,32 @@ public class Mario_jump : Mario_state
 		stateTimer = 103 * Time.deltaTime;
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
-        mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
-        mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
+		mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
+		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
 		//last_velocity_y = mario.rb.velocity.y;
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+		mario.PM.friction = 0.4f;
+		mario.collider.sharedMaterial = mario.PM;
 	}
 	public override void Update()
 	{
+
+		if (mario.IsWallDetected())
+		{
+			mario.PM.friction = 0;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+		else
+		{
+			mario.PM.friction = 0.4f;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+
+		//Debug.Log("jump.." + mario.rb.velocity.y);
 		base.Update();
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
 		{

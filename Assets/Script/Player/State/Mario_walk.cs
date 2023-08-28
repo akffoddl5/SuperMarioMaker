@@ -21,6 +21,8 @@ public class Mario_walk : Mario_state
 	public override void Update()
 	{
 		base.Update();
+
+
 		mario.rb.velocity = new Vector2(xInput * mario.moveSpeed, mario.rb.velocity.y);
 
 		//Idle
