@@ -61,9 +61,6 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         Move(move);
-            
-
-
     }
 
 

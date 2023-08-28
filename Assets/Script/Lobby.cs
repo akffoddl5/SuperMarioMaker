@@ -30,9 +30,11 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public Text log_text;
 
-    // Room에 있는 함수를 실행하기 위한 이벤트 함수
-    //public UnityEvent RoomUISync;
-    public PhotonView PV;
+    float instMarioX = 0;
+
+	// Room에 있는 함수를 실행하기 위한 이벤트 함수
+	//public UnityEvent RoomUISync;
+	public PhotonView PV;
 
 	private void Awake()
     {
@@ -101,7 +103,11 @@ public class Lobby : MonoBehaviourPunCallbacks
         // 옆으로 슉 넘어가는 거
 		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
         // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
-		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(0, 10, 0), Quaternion.identity);
+		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(instMarioX++, 2, 0), Quaternion.identity);
+
+        Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
+        // 마리오는 0, 1, 2, 3 x 값에서 생성됨
+        if (instMarioX > 4) instMarioX = 0;
     }
 
 
@@ -115,7 +121,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
         
-        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안대있읅야");
+        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안 돼있을 거야");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

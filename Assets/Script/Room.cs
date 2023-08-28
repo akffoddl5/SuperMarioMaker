@@ -90,13 +90,6 @@ public class Room : MonoBehaviourPunCallbacks
 		}
 	}
 
-	// 이거 완성하면 RoomUISync() 지우고 이걸로 바꿀 거
-	[PunRPC]
-	public void SyncRoomUI()
-	{
-
-	}
-
 	// 전체 CharacterBox속 img, text 전부 SetActive(false)해주기
 	public void ActiveFalse_allCharacterBox()
 	{
