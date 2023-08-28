@@ -112,6 +112,8 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
 			{
+				if(cols[i].gameObject.GetComponent<Enemy>() != null)
+					cols[i].gameObject.GetComponent<Enemy>().Die();
 				return cols[i].gameObject;
 			}
 		}

@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Enemy_Koopa : Enemy
 {
-   public  GameObject shell;
-   public  GameObject stop;
+    public  GameObject shell;
+    public  GameObject stop;
+ 
     
     public Enemy_Koopa()
     {
@@ -24,20 +27,41 @@ public class Enemy_Koopa : Enemy
         base.Update();
         Move(true);
 
-        if (IsSkyDetected())
-        {
-            Instantiate(shell, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
-            Destroy(gameObject);
-        }
-
-
     }
+
+
     private void FixedUpdate()
     {
+    }
+
+    
+
+    public override void Die()
+    {
+        Debug.Log("Die");
+
+        //PV.RPC("RPC_Die", RpcTarget.AllBuffered);
+       
+         PhotonNetwork.Instantiate("Prefabs/Koopa_Shell", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         
 
+        PV.RPC("RPC_Die", RpcTarget.AllBuffered);
+        //Instantiate(shell, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        
+        //Destroy(gameObject);
 
     }
+
+    [PunRPC]
+    public void RPC_Die()
+    {
+        
+        //PhotonNetwork.Instantiate("Prefabs/Koopa_Shell", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        //Instantiate(shell, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        
+        Destroy(gameObject);
+    }
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -53,12 +77,14 @@ public class Enemy_Koopa : Enemy
         else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
         {
 
-            Destroy(gameObject);
-
-            var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+           if (!PhotonNetwork.IsMasterClient) return;
+            var a= PhotonNetwork.Instantiate("Prefabs/Koopa_Stop", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            //var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
 
 
             a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
+            PV.RPC("RPC_Die", RpcTarget.AllBuffered);
+            //Destroy(gameObject);
 
         }
         else if (collision.collider.gameObject.CompareTag("Enemy"))
@@ -72,5 +98,7 @@ public class Enemy_Koopa : Enemy
 
 
         }
+
+        
     }
 }

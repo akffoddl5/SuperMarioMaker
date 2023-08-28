@@ -27,6 +27,10 @@ public class Goomba : Enemy
 
     }
 
+
+
+
+
     private void TouchDown()
     {
 
@@ -34,7 +38,7 @@ public class Goomba : Enemy
         {
 
             move = false;
-
+            anim.SetBool("Flat", true);
             Destroy(gameObject, 1);
         }
     }

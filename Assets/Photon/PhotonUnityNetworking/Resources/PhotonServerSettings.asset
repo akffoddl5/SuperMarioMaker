@@ -50,6 +50,9 @@ MonoBehaviour:
   - ReadyPersonCnt
   - LoadScene
   - SyncRoomUI
+  - RPC_Flip
+  - RPC_Die
+  - RPC_Move
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
