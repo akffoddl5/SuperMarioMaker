@@ -227,7 +227,8 @@ public class BuildSystem : MonoBehaviour
         //타일 배치
         if (Input.GetMouseButton(0) && isSetTile)
         {
-            if (SetTilemap.GetTile(tilemapMousePosition) == null)
+
+            if (PossibleSetTile(tilemapMousePosition))
             {
                 //타일맵에 타일 생성
                 //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
@@ -254,22 +255,27 @@ public class BuildSystem : MonoBehaviour
 
 
         }
+        //타일 삭제
         else if (Input.GetMouseButton(1) && isSetTile)
         {
             //SetTilemap.SetTile(tilemapMousePosition, null);
             //tilemap.DeleteCells(gridPosition, tilemapPosition);
 
+            //빈 타일인지 확인
             if (SetTilemap.GetTile(tilemapMousePosition) != null)
             {
+                //리스트에서 삭제해야할 오브젝트 검색
                 for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
                 {
                     Vector3Int startSearchPoint = ((Vector3Int)objectList[listIndex][2]);
                     Vector3Int endSearchPoint = ((Vector3Int)objectList[listIndex][3]);
+                    //마우스 위치에 해당하는 오브젝트 검색
                     if (tilemapMousePosition.x >= startSearchPoint.x &&
                         tilemapMousePosition.x <= endSearchPoint.x &&
                         tilemapMousePosition.y <= startSearchPoint.y &&
                         tilemapMousePosition.y >= endSearchPoint.y)
                     {
+                        //배치된 타일 삭제
                         for (int i = 0; i <= endSearchPoint.x - startSearchPoint.x; i++)
                         {
                             for (int j = 0; j <= -(endSearchPoint.y - startSearchPoint.y); j++)
@@ -278,7 +284,10 @@ public class BuildSystem : MonoBehaviour
                             }
                         }
                         //((GameObject)objectList[listIndex][4]).SetActive(false);
+
+                        //생성된 오브젝트 삭제
                         Destroy((GameObject)objectList[listIndex][4]);
+                        //리스트 요소에서 제거
                         objectList.RemoveAt(listIndex);
                     }
                 }
@@ -287,8 +296,10 @@ public class BuildSystem : MonoBehaviour
         }
     }
 
+    //현재 타일 설정
     public void SetCurrentTile(string _tileName)
     {
+        //타일 변경 시 임시 타일맵에 그려진 이전 위치 타일 지워줌
         for (int i = 0; i < tileX; i++)
         {
             for (int j = 0; j < tileY; j++)
@@ -297,9 +308,24 @@ public class BuildSystem : MonoBehaviour
             }
         }
 
+        //현재 타일 설정
         currentTile = tiles[tilesDictionary[_tileName]].tile;
         currentTileName = _tileName;
         currentTileObjectPrefab = tiles[tilesDictionary[_tileName]].objectPrefab;
+    }
+
+    bool PossibleSetTile(Vector3Int _tilemapMousePosition)
+    {
+        for (int i = 0; i < tileX; i++)
+        {
+            for (int j = 0; j < tileY; j++)
+            {
+                if (SetTilemap.GetTile(_tilemapMousePosition + new Vector3Int(i, -j)) != null)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     public void UndoListInput()
