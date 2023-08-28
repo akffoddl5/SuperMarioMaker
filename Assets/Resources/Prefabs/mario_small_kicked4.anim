@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mario_small_kicked2
+  m_Name: mario_small_kicked4
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -73,7 +73,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -1080246122, guid: 7549269af0d3ec64c89cf43ca7ec3378, type: 3}
+      value: {fileID: 1829471747, guid: b0018830ba9a6cc438553602c1c93404, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -105,7 +105,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -1080246122, guid: 7549269af0d3ec64c89cf43ca7ec3378, type: 3}
+    - {fileID: 1829471747, guid: b0018830ba9a6cc438553602c1c93404, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
