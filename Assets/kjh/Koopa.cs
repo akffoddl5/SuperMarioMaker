@@ -13,9 +13,6 @@ public class Koopa : Enemy
     protected override void Start()
     {
         base.Start();
-
-
-
     }
 
 
@@ -89,10 +86,6 @@ public class Koopa : Enemy
 
         }
 
-
-
-
-
         if (overShellSpeed == 0 && IsPlayerRDetected())
         {
             moveflip = -1;
@@ -110,19 +103,10 @@ public class Koopa : Enemy
 
         }
 
-
-
-
-
-
     }
    
     private IEnumerator Rekoopa()//플레이어가 밟고 시간이 지남
     {
-
-
-
-
         yield return new WaitForSeconds(5f);
         if (overShellSpeed == 10)//거북이 걷고있음
         {
@@ -136,7 +120,6 @@ public class Koopa : Enemy
         overShellSpeed = 1;
         anim.SetBool("Flat", false);
         overShell = false;
-
 
     }
 }

@@ -57,11 +57,6 @@ public class Enemy : MonoBehaviour
         Move(move);
             Flat();
 
-      
-
-       
-
-
         // posX = this.transform.position.x;
         // posY = this.transform.position.y;
 
@@ -71,8 +66,6 @@ public class Enemy : MonoBehaviour
 
     protected void Flat()
     {
-
-
         if (IsSkyDetected())
         {
             anim.SetBool("Flat", true);
