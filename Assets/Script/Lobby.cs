@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using Photon.Pun.Demo.Cockpit;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -28,6 +29,11 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
+    [Header("AudioSource")]
+    public AudioSource select_audioSource;
+    
+    
+
     public Text log_text;
 
     float instMarioX = 0;
@@ -38,7 +44,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	private void Awake()
     {
-		PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby();
 
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         log_text = GameObject.Find("Log").GetComponent<Text>();
@@ -120,9 +126,10 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        
-        Debug.Log(myList.Count + " <<< 현재방 갯수가 이거임. 근데 리스팅 안 돼있을 거야");
+
     }
+
+
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -140,7 +147,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         
-        Debug.Log("OnRoomListUpdate 업데이트..");
+        //Debug.Log("OnRoomListUpdate 업데이트..");
         base.OnRoomListUpdate(roomList);
         int updated_count = roomList.Count;
         for(int i = 0; i < updated_count; i++)
@@ -205,6 +212,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Btn방 만들기 클릭
 	public void Room_Plus_Click()
     {
+        select_audioSource.Play();
         //var a = GameObject.Find("Lobby_Layer");
         //a.transform.Translate(new Vector3(-100, 0, 0));
         //StartCoroutine(CorLerp(a, a.transform.position, new Vector3(-2000, a.transform.position.y, a.transform.position.z)));
@@ -223,6 +231,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Btn 방 만들기 레이어 왼쪽 위 창닫기 버튼(x)
 	public void Room_Close_Click()
     {
+        select_audioSource.Play();
         var a = GameObject.Find("Room_Make_Layer");
         StartCoroutine(CorLerp(a, a.GetComponent<RectTransform>().localPosition, new Vector3(0, 1300, 0)));
 
@@ -382,7 +391,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
+            //Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
             Lobby_Refresh();
 
         }
@@ -405,7 +414,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnLeftLobby()
     {
         base.OnLeftLobby();
-        Debug.Log("lobby left");
+        //Debug.Log("lobby left");
         PhotonNetwork.JoinLobby();
     }
 

@@ -25,8 +25,16 @@ public class Mario : MonoBehaviour
 	public LayerMask whatIsGround;
 	public LayerMask whatIsPlayer;
 
+    [Header("Audio source")]
+    public AudioSource jump_audioSource;
+	public AudioClip[] clips;
 
-	[HideInInspector] public Rigidbody2D rb;
+	
+	
+
+
+
+    [HideInInspector] public Rigidbody2D rb;
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -38,12 +46,17 @@ public class Mario : MonoBehaviour
 	public Mario_slide slideState;
 	public Mario_walk walkState;
 	public Mario_kicked kickedState;
+
 	public Mario_sitDown sitDown;
 	public Mario_die dieState;
+
+	public Mario_stamp stampState;
 
 
 	private void Awake()
 	{
+		
+
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -56,8 +69,12 @@ public class Mario : MonoBehaviour
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
 		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
+
 		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
 		dieState = new Mario_die(this, stateMachine, "Die");
+
+        stampState = new Mario_stamp(this, stateMachine, "Jump");
+		
 	}
 	[PunRPC]
 	public void Flip(bool a)
@@ -125,7 +142,7 @@ public class Mario : MonoBehaviour
 		//	}
 		//}
 
-				Debug.Log("그라운드 false");
+				//Debug.Log("그라운드 false");
 
 		return false;
 	}

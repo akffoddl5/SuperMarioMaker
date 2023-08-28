@@ -43,7 +43,7 @@ public class Mario_walk : Mario_state
 
 		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 		}
 
 	}

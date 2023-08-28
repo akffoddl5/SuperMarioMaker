@@ -76,6 +76,7 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 	{
 		title.LogIn();
 		// 해당 게임버전으로 photon 클라우드로 연결
+		
 		PhotonNetwork.ConnectUsingSettings();
 		
 	}
