@@ -7,6 +7,8 @@ using UnityEngine;
 public class Mario : MonoBehaviour
 {
 
+	// marioMode_0: smallMario, marioMode_1: bigMario, marioMode_2: fireMario
+	public int marioMode = 0;
 	
     [Header("Move Info")]
     public float moveSpeed = 5;
@@ -36,6 +38,8 @@ public class Mario : MonoBehaviour
 	public Mario_slide slideState;
 	public Mario_walk walkState;
 	public Mario_kicked kickedState;
+	public Mario_sitDown sitDown;
+	public Mario_die dieState;
 
 
 	private void Awake()
@@ -52,6 +56,8 @@ public class Mario : MonoBehaviour
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
 		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
+		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
+		dieState = new Mario_die(this, stateMachine, "Die");
 	}
 	[PunRPC]
 	public void Flip(bool a)
@@ -69,6 +75,38 @@ public class Mario : MonoBehaviour
 		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
+	}
+
+	// 부활 만들기
+	void Respawn()
+	{
+		// 체크 포인트에 Respawn 되도록 코드짜기
+
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		// 밑에 적이 있음 == 죽으면 안 됨
+		if (IsEnemyDetected() != null)
+		{
+			return;
+		}
+		else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+  		{
+			Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
+			// 멈춰있는 거북이 등딱지에 맞으면 삶
+			if (Mathf.Abs(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x) == 0) return;
+			// 움직이는 거북이 등딱지에 맞으면 죽음
+			else stateMachine.ChangeState(dieState);
+
+			
+		}
+
+		if (collision.gameObject.tag=="Enemy" && IsEnemyDetected() == null)
+		{
+			stateMachine.ChangeState(dieState);
+		}
+
 	}
 
 	//public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
