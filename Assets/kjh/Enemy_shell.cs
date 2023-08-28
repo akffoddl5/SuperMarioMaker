@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Enemy_shell : MonoBehaviour
 {
@@ -30,12 +32,14 @@ public class Enemy_shell : MonoBehaviour
 
     float timer;
 
+    public PhotonView PV;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(0, rb.velocity.y);
         timer = 60 * Time.deltaTime;
-
+        PV = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
@@ -164,11 +168,12 @@ public class Enemy_shell : MonoBehaviour
 
     void Move(bool move)//¿òÁ÷ÀÓ
     {
-
+        object[] tmp = new object[] { moveflip, move, rb.velocity.y };
+        //PV.RPC("RPC_Move", RpcTarget.AllBuffered, tmp);
         if (move)
         {
-           spdX = -8 * moveflip;
-           spdY = rb.velocity.y;
+            spdX = -8 * moveflip;
+            spdY = rb.velocity.y;
 
             rb.velocity = new Vector2(spdX, spdY);
         }
@@ -176,8 +181,25 @@ public class Enemy_shell : MonoBehaviour
         {
             return;
         }
+    }
 
+    [PunRPC]
+    public void RPC_Move(object[] tmp)
+    {
+        moveflip = (float)tmp[0];
+        bool move = (bool)tmp[1];
 
+        if (move)
+        {
+            spdX = -8 * moveflip;
+            spdY = rb.velocity.y;
+
+            rb.velocity = new Vector2(spdX, spdY);
+        }
+        else
+        {
+            return;
+        }
     }
 
     IEnumerator Rekoopa()

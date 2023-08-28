@@ -11,7 +11,6 @@ public class Mario_kicked : Mario_state
     public override void Enter()
     {
         //base.Enter();
-        Debug.Log("kicked ÁøÀÔ" + mario.gameObject.name  + " " + animBoolName);
         stateTimer = 10f * Time.deltaTime;
         mario.anim.SetBool("Idle", false);
         mario.anim.SetBool("Kicked", true);
@@ -21,7 +20,6 @@ public class Mario_kicked : Mario_state
     public override void Exit()
     {
         //base.Exit();
-        //Debug.Log("kicked exit" + mario.gameObject.name);
         mario.anim.SetBool("Kicked", false);
         mario.anim.SetBool("Idle", true);
         //mario.transform.localScale = new Vector3(1, 1, 1);
@@ -30,8 +28,8 @@ public class Mario_kicked : Mario_state
     public override void Update()
     {
         //base.Update();
-        if(stateTimer > 0)
-        Debug.Log(stateTimer);
+        //if(stateTimer > 0)
+        //Debug.Log(stateTimer);
         stateTimer -= Time.deltaTime;
 
         //if (stateTimer2 < 0)
