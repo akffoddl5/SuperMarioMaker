@@ -54,7 +54,7 @@ public class Enemy_shell : MonoBehaviour
 		if (fsecMove == true) Move(fsecMove);
 	
 		// wall flip
-		if (IswallRDetected() || IswallLDetected())
+		if (IsWallRDetected() || IsWallLDetected())
 		{
 			Flip2();
 			//Move(true);
@@ -69,23 +69,19 @@ public class Enemy_shell : MonoBehaviour
 	
 	    //if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
 	    //{
-
 	    //    StartCoroutine("Rekoopa");
-
 	    //}
 	    //Debug.Log(fly);
 	    //if (fly == true)// 수직낙하 거북스
 	    //{
 	    //   /rb.velocity = new Vector2(0, rb.velocity.y);
-
-
 	    //}
 	    //else if (fly == false)
 	    //{
 	    //    rb.gravityScale = 1;
 	    //}
     }
-	void Move(bool move)//움직임
+	void Move(bool move)
 	{
 		//object[] tmp = new object[] { moveflip, move, rb.velocity.y };
 		//PV.RPC("RPC_Move", RpcTarget.AllBuffered, tmp);
@@ -179,8 +175,8 @@ public class Enemy_shell : MonoBehaviour
 
     //그라운드 체크
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public bool IswallLDetected() => Physics2D.Raycast(wallLCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
-    public bool IswallRDetected() => Physics2D.Raycast(wallRCheck.position, Vector2.right * moveflip, wallCheckDistance, whatIsGround);
+    public bool IsWallLDetected() => Physics2D.Raycast(wallLCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
+    public bool IsWallRDetected() => Physics2D.Raycast(wallRCheck.position, Vector2.right * moveflip, wallCheckDistance, whatIsGround);
 
 
     //플레이어 위감지
@@ -205,21 +201,6 @@ public class Enemy_shell : MonoBehaviour
     //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);
-
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    playerRL();
-
-    //    if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
-    //    {
-    //        transform.Rotate(0, 180, 0);
-
-    //        moveflip = moveflip * -1;
-    //    }
-
-
-    //}
 
     private void OnDrawGizmos()
     {

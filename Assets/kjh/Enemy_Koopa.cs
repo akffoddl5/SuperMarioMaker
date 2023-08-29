@@ -29,9 +29,6 @@ public class Enemy_Koopa : Enemy
 
     }
 
-
-
-
     private void FixedUpdate()
     {
         Debug.Log(rb.velocity.x);
@@ -44,8 +41,6 @@ public class Enemy_Koopa : Enemy
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
-
-    
 
     public override void Die()
     {
@@ -78,11 +73,10 @@ public class Enemy_Koopa : Enemy
     {
         //  Debug.Log(Enemy_shell.fsecMove);
 
+        // Shell Tuttle collision && Shell is not moving
         if (collision.gameObject.GetComponent<Enemy_shell>() != null && !collision.gameObject.GetComponent<Enemy_shell>().fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
             transform.Rotate(0, 180, 0);
-
-
             moveflip = moveflip * -1;
         }
         else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
@@ -92,7 +86,6 @@ public class Enemy_Koopa : Enemy
             var a= PhotonNetwork.Instantiate("Prefabs/Koopa_Stop", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
             //var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
 
-
             a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
             PV.RPC("RPC_Die", RpcTarget.AllBuffered);
             //Destroy(gameObject);
@@ -100,16 +93,8 @@ public class Enemy_Koopa : Enemy
         }
         else if (collision.collider.gameObject.CompareTag("Enemy"))
         {
-
-
             transform.Rotate(0, 180, 0);
-
-
             moveflip = moveflip * -1;
-
-
         }
-
-        
     }
 }

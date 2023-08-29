@@ -73,7 +73,6 @@ public class Mario_state
 			mario.collider.sharedMaterial = mario.PM;
 		}
 
-
 		// 입력 받는 곳
 		xInput = Input.GetAxisRaw("Horizontal");
 		yInput = Input.GetAxisRaw("Vertical");

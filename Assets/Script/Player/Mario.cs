@@ -33,9 +33,6 @@ public class Mario : MonoBehaviour
 	public AudioClip[] clips;
 
 	
-	
-
-
 
     [HideInInspector] public Rigidbody2D rb;
 	[HideInInspector] public CapsuleCollider2D collider;
@@ -52,17 +49,13 @@ public class Mario : MonoBehaviour
 	public Mario_slide slideState;
 	public Mario_walk walkState;
 	public Mario_kicked kickedState;
-
 	public Mario_sitDown sitDown;
 	public Mario_die dieState;
-
 	public Mario_stamp stampState;
 
 
 	private void Awake()
 	{
-		
-
 		rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
@@ -82,10 +75,8 @@ public class Mario : MonoBehaviour
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
 		slideState = new Mario_slide(this, stateMachine, "Slide");
 		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
-
 		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
 		dieState = new Mario_die(this, stateMachine, "Die");
-
         stampState = new Mario_stamp(this, stateMachine, "Jump");
 		
 	}
@@ -95,13 +86,12 @@ public class Mario : MonoBehaviour
 		spriteRenderer.flipX = a;
 	}
 
-
-
 	private void Start()
 	{
 		//if(!GetComponent<PhotonView>().IsMine) return ;
         stateMachine.InitState(idleState);
 	}
+
 	// Update is called once per frame
 	void Update()
     {
@@ -110,12 +100,15 @@ public class Mario : MonoBehaviour
 		stateMachine.currentState.Update();
 	}
 
-	// 부활 만들기
-	void Respawn()
-	{
-		// 체크 포인트에 Respawn 되도록 코드짜기
-
-	}
+	//// 부활 만들기
+	//void Respawn()
+	//{
+	//	if (GetComponent<PhotonView>().IsMine)
+	//	{
+	//		// 로컬이면 체크 포인트에서 Respawn
+	//		//PhotonNetwork.Instantiate()
+	//	}
+	//}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
@@ -126,7 +119,7 @@ public class Mario : MonoBehaviour
 		}
 		else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
 		{
-			Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
+			//Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
 			// 멈춰있는 거북이 등딱지에 맞으면 삶
 			if (collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)
 			{
@@ -197,7 +190,6 @@ public class Mario : MonoBehaviour
         Vector3 positionA;
         Vector3 positionB;
 		
-
 		if (!stateMachine.currentState.isFlip)
         {
 			positionA = obj_isWallA.localPosition;
@@ -209,8 +201,8 @@ public class Mario : MonoBehaviour
 			positionB = new Vector3(-obj_isWallB.localPosition.x, obj_isWallA.localPosition.y, obj_isWallB.localPosition.z);
         }
 		
-		Debug.DrawLine(transform.position+ positionA, transform.position+ positionB,Color.cyan);
-		Collider2D[] cols = Physics2D.OverlapAreaAll(transform.position+positionA, transform.position+positionB);
+		Debug.DrawLine(transform.position + positionA, transform.position + positionB, Color.cyan);
+		Collider2D[] cols = Physics2D.OverlapAreaAll(transform.position + positionA, transform.position + positionB);
 		for (int i = 0; i < cols.Length; i++)
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Ground"))
@@ -222,14 +214,10 @@ public class Mario : MonoBehaviour
 		return false;
 	}
 
-
 	protected virtual void OnDrawGizmos()
 	{
 		Gizmos.DrawLine(obj_isGround.position,
 			new Vector3(obj_isGround.position.x, obj_isGround.position.y - groundCheckDist));
-
-		
 		//Gizmos.DrawLine(obj_isWallA.position, obj_isWallB.position);
-
 	}
 }
