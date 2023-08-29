@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_Star : MonoBehaviour
+public class Item_Star : Item
 {
     public float moveSpeed = 4f;
     public float jumpPower = 10f;
 	
+	bool isStarJump =false;
 	float moveflip = 1;
-	float jumpStartTime = 2f;
+	float jumpStartTime = 1f;
 	[SerializeField] private Transform groundCheck;
 	[SerializeField] private float groundCheckDistance;
 	[SerializeField] private Transform wallLCheck;
@@ -16,24 +17,42 @@ public class Item_Star : MonoBehaviour
 	[SerializeField] private float wallCheckDistance;
 	[SerializeField] private LayerMask whatIsGround;
 
-	Rigidbody2D rb;
+	
+	protected override void Awake()
+	{
+		base.Awake();
+		
+	}
 
 	void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-		StartCoroutine(starJump());
+	{
+	
     }
 
     // Update is called once per frame
     void Update()
-    {
-		rb.velocity = new Vector2(moveSpeed * moveflip, rb.velocity.y);
-
-		// if wall collision, transform Rotate
-		if (IsWallLDetected() || IsWallRDetected())
+	{
+		if (isSpawn && !isStarJump)
 		{
-			moveflip = -moveflip;
-			transform.Rotate(0, 180, 0);
+			StartCoroutine(starJump());
+			isStarJump = true;
+		}
+
+		Move();
+	}
+
+	protected virtual void Move()
+	{
+		if (isSpawn)
+		{
+			rb.velocity = new Vector2(moveSpeed * moveflip, rb.velocity.y);
+
+			// if wall collision, transform Rotate
+			if (IsWallLDetected() || IsWallRDetected())
+			{
+				moveflip = -moveflip;
+				transform.Rotate(0, 180, 0);
+			}
 		}
 	}
 
@@ -51,7 +70,6 @@ public class Item_Star : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 	}
-
 
 	public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
 	public bool IsWallLDetected() => Physics2D.Raycast(wallLCheck.position, Vector2.right * moveflip, wallCheckDistance, whatIsGround);

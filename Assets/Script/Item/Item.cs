@@ -6,12 +6,17 @@ public class Item : MonoBehaviour
 {
     Vector3 current_pos;
     Vector3 des_pos;
-    Collider2D collider;
 
-    private void Awake()
+    public bool isSpawn = false;
+
+    Collider2D collider;
+	public Rigidbody2D rb;
+	protected virtual void Awake()
     {
         collider = GetComponent<Collider2D>();
-        collider.enabled = false;
+		rb = GetComponent<Rigidbody2D>();
+		collider.enabled = false;
+        rb.gravityScale = 0f;
         current_pos = transform.position;
         des_pos = current_pos + new Vector3(0, 1f, 0);
         Spawn();
@@ -20,6 +25,16 @@ public class Item : MonoBehaviour
     void Start()
     {
         
+    }
+
+    void Update()
+    {
+        
+    }
+
+    public void Spawn()
+    {
+        StartCoroutine(ISpawn());
     }
 
     IEnumerator ISpawn()
@@ -32,18 +47,12 @@ public class Item : MonoBehaviour
         }
 
         collider.enabled = true;
+        rb.gravityScale = 3f;
+        isSpawn = true;
         yield break;
-
-    }
-
-    public void Spawn()
-    {
-        StartCoroutine(ISpawn());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
+
+
+
 }
