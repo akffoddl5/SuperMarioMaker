@@ -61,8 +61,6 @@ public class Mario : MonoBehaviour
 	public Mario_die dieState;
 	public Mario_stamp stampState;
 
-    public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
-    public bool isStarMario = false;
 
 
 
