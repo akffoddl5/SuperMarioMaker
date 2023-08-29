@@ -119,26 +119,27 @@ public class Mario : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		// ¹Ø¿¡ ÀûÀÌ ÀÖÀ½ == Á×À¸¸é ¾È µÊ
-		//if (IsEnemyDetected() != null)
-		//{
-		//	return;
-		//}
-		//else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
-  //		{
-		//	Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
-		//	// ¸ØÃçÀÖ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é »î
-		//	if (Mathf.Abs(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x) == 0) return;
-		//	// ¿òÁ÷ÀÌ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é Á×À½
-		//	else stateMachine.ChangeState(dieState);
+		//¹Ø¿¡ ÀûÀÌ ÀÖÀ½ == Á×À¸¸é ¾È µÊ
+		if (IsEnemyDetected() != null)
+		{
+			return;
+		}
+		else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+		{
+			Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
+			// ¸ØÃçÀÖ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é »î
+			if (collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)
+			{
+				collision.gameObject.GetComponent<Enemy_shell>().fsecMove = true;
+				return;
+			}
+			else stateMachine.ChangeState(dieState); // ¿òÁ÷ÀÌ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é Á×À½
+		}
 
-			
-		//}
-
-		//if (collision.gameObject.tag=="Enemy" && IsEnemyDetected() == null)
-		//{
-		//	stateMachine.ChangeState(dieState);
-		//}
+		if (collision.gameObject.tag == "Enemy" && IsEnemyDetected() == null)
+		{
+			stateMachine.ChangeState(dieState);
+		}
 
 	}
 
