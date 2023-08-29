@@ -789,11 +789,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4187828607848442128, guid: 5c06d26d509857d4cb1a419f37458998, type: 3}
       propertyPath: sceneViewId
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1032628601791052151, guid: 5c06d26d509857d4cb1a419f37458998, type: 3}
       propertyPath: m_Name
       value: Mario_P4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: 5c06d26d509857d4cb1a419f37458998, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7930311769667582423, guid: 5c06d26d509857d4cb1a419f37458998, type: 3}
       propertyPath: m_RootOrder
@@ -862,11 +866,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3567563313951354898, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.411611
+      value: -2.74
       objectReference: {fileID: 0}
     - target: {fileID: 3567563313951354898, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7119238
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3567563313951354898, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -900,6 +904,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7326929789502641871, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1713214116}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -978,9 +986,10 @@ GameObject:
   - component: {fileID: 1713214119}
   - component: {fileID: 1713214118}
   - component: {fileID: 1713214117}
+  - component: {fileID: 1713214120}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1097,6 +1106,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1713214120
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713214116}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!1001 &1791454529
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4187828607848442128, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_Name
+      value: Mario
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5479684
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930311769667582423, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7910d082764b71d4e9f62134ac3667e7, type: 3}
 --- !u!1 &1949395169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,6 +1769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mario_P3
       objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: bcd9561cb38e7cc498a44ebb811a22e3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7930311769667582423, guid: bcd9561cb38e7cc498a44ebb811a22e3, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -1723,11 +1832,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4187828607848442128, guid: 94ee591ef4f82324da151629c88add2e, type: 3}
       propertyPath: sceneViewId
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1032628601791052151, guid: 94ee591ef4f82324da151629c88add2e, type: 3}
       propertyPath: m_Name
       value: Mario_P2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: 94ee591ef4f82324da151629c88add2e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7930311769667582423, guid: 94ee591ef4f82324da151629c88add2e, type: 3}
       propertyPath: m_RootOrder
@@ -1788,11 +1901,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4187828607848442128, guid: 3d2081f08978a254baf2dfb6020f8e1f, type: 3}
       propertyPath: sceneViewId
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1032628601791052151, guid: 3d2081f08978a254baf2dfb6020f8e1f, type: 3}
       propertyPath: m_Name
       value: Mario_P1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032628601791052151, guid: 3d2081f08978a254baf2dfb6020f8e1f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7930311769667582423, guid: 3d2081f08978a254baf2dfb6020f8e1f, type: 3}
       propertyPath: m_RootOrder
