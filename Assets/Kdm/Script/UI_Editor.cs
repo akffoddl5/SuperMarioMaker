@@ -35,6 +35,14 @@ public class UI_Editor : MonoBehaviour
 
     int currentOpenButtonPanelNumber = -1;
 
+
+    public bool pipeLinkMode { get; private set; } = false;
+    GameObject[] pipeLinkObject = new GameObject[2];
+    Transform PipeLinkStart = null;
+    Transform PipeLinkEnd = null;
+
+
+
     private void Awake()
     {
         if (instance == null)
@@ -54,7 +62,47 @@ public class UI_Editor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(pipeLinkMode);
+        if (buildSystem.currentTileName == "Pipe" && pipeLinkMode)
+        {
+            if (pipeLinkObject[0] == null)
+            {
+                PipeLink(0);
+            }
+            else if (pipeLinkObject[1] == null)
+            {
+                PipeLink(1);
+            }
+            else
+            {
+                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
+                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
+                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
+                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+            }
+        }
+    }
 
+    void PipeLink(int _pipeLinkPosIndex)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.gameObject.GetComponent<Pipe_top>() != null)
+            {
+                Debug.Log("파이프 클릭");
+                
+                pipeLinkObject[_pipeLinkPosIndex] = hit.collider.gameObject;
+
+                if (_pipeLinkPosIndex == 0)
+                {
+                    pipeLinkObject[_pipeLinkPosIndex].GetComponent<Pipe_top>().lineActive = true;
+                }
+            }
+        }
     }
 
     public bool IsSetTile()
@@ -142,8 +190,22 @@ public class UI_Editor : MonoBehaviour
             buildSystem.currentTile[buildSystem.currentTile.Length - 1].sprite;
 
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
-    }
 
+        pipeLinkMode = false;
+    }
+    public void PipeTileButtonClick(int _pipeDir)
+    {
+        buildSystem.pipeDir = _pipeDir;
+        TileButtonClick("Pipe");
+    }
+    public void PipeLinkButtonClick()
+    {
+        pipeLinkMode = true;
+
+        buildSystem.PastTempTileClear();
+
+        ButtonPanel_OnOff(currentOpenButtonPanelNumber);
+    }
 
     #endregion
 }

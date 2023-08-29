@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: -2995135678574889312}
   - component: {fileID: -5350794749424982148}
   m_Layer: 7
-  m_Name: Mario
+  m_Name: Mario3
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
+  m_Sprite: {fileID: -1517238084, guid: 5d9baeaf3560ccb4ba5ef17084df4659, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -265,7 +265,7 @@ Animator:
   m_GameObject: {fileID: 1032628601791052151}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 494c4d2f4f076f448ab783bbf3786767, type: 2}
+  m_Controller: {fileID: 9100000, guid: 87f469f8cc78f73449ed98dc9190e168, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -310,13 +310,13 @@ MonoBehaviour:
   obj_bulletGeneratorB: {fileID: 8459602313537133484}
   jump_audioSource: {fileID: 0}
   clips: []
-  marioMode: 0
-  isStarMario: 0
   rb: {fileID: 0}
   collider: {fileID: 0}
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  marioMode: 0
+  isStarMario: 0
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0

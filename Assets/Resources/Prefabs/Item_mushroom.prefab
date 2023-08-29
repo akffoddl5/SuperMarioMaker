@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 8800388249417271349}
   m_Layer: 0
   m_Name: Item_mushroom
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,13 +91,13 @@ Transform:
   m_GameObject: {fileID: 6374375659716200658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.492714, y: 2.238, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3260082238214982947}
   - {fileID: 964095270656163234}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4625790571817435368
 SpriteRenderer:
@@ -166,7 +166,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 119
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -225,6 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f773044447ad0fd4ea22d0306116b552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpawn: 0
+  rb: {fileID: 0}
   moveSpeed: 3
   wallLCheck: {fileID: 3260082238214982947}
   wallRCheck: {fileID: 964095270656163234}

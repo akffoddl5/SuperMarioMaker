@@ -50,7 +50,6 @@ public class BuildSystem : MonoBehaviour
     //    boo
     //}
 
-    [SerializeField] public int AAA { get; private set; }
 
     [SerializeField]
     Tiles[] tiles;
@@ -89,6 +88,11 @@ public class BuildSystem : MonoBehaviour
     int tileX = 1;
     int tileY = 1;
 
+    //Pipe 방향 설정(위쪽 : 0, 오른쪽 : 1, 아래쪽 : 2, 왼쪽 : 3)
+    public int pipeDir { get; set; } = 0;
+    Vector3Int pipeTopPosition = new Vector3Int(0, 0, -100);
+    Vector3Int defaultPipeTopPosition = new Vector3Int(0, 0, -100);
+
 
     Vector3Int pastMousePosition;
 
@@ -118,6 +122,7 @@ public class BuildSystem : MonoBehaviour
         //    tiles.Add((TileName)i, tileList[i]);
         //}
 
+        //타일 이름으로 타일과 프리팹을 찾기위해 딕셔너리에 이름과 인덱스 저장
         for (int i = 0; i < tiles.Length; i++)
         {
             tilesDictionary.Add(tiles[i].tileName, i);
@@ -133,13 +138,12 @@ public class BuildSystem : MonoBehaviour
     {
         CameraMove();
 
-        //SetCurrentTile(currentTileName);
-
         isSetTile = ui_Editor.IsSetTile();
 
-        ClickSetTile();
+        if (!ui_Editor.pipeLinkMode)
+            ClickSetTile();
 
-
+        //Debug.Log("????????");
         //리스트 테스트용 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -168,9 +172,10 @@ public class BuildSystem : MonoBehaviour
         else if (mousePositionInCamera.y <= -cameraMoveTriggerPos)
             moveY = -1;
 
-        //카메라 이동
+        ////카메라 이동
         Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
             moveY * cameraSpeed * Time.deltaTime, 0);
+
     }
 
     private void ClickSetTile()
@@ -186,7 +191,33 @@ public class BuildSystem : MonoBehaviour
         //현재 타일에 맞게 x,y값 설정
         if (currentTileName == "Pipe")
         {
-            tileX = 2;
+            if (pipeDir == 0 || pipeDir == 2)
+            {
+                tileX = 2;
+                tileY = 1;
+            }
+            else if (pipeDir == 1 || pipeDir == 3)
+            {
+                tileX = 1;
+                tileY = 2;
+            }
+
+            //임시 타일맵에 그려진 이전 위치 타일 지워줌
+            for (int i = 0; i < tileX; i++)
+            {
+                for (int j = 0; j < tileY; j++)
+                {
+                    TempTilemap.SetTile(pastMousePosition + new Vector3Int(i, -j), null);
+                }
+            }
+            //임시 타일맵에 배치할 타일 표시
+            for (int i = 0; i < tileX; i++)
+            {
+                for (int j = 0; j < tileY; j++)
+                {
+                    TempTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + pipeDir * 4]);
+                }
+            }
         }
         else if (currentTileName == "StoneMonster")
         {
@@ -204,22 +235,30 @@ public class BuildSystem : MonoBehaviour
             tileY = 1;
         }
 
-        //임시 타일맵에 그려진 이전 위치 타일 지워줌
-        for (int i = 0; i < tileX; i++)
+        if (currentTileName == "Pipe")
         {
-            for (int j = 0; j < tileY; j++)
+
+        }
+        else
+        {
+            //임시 타일맵에 그려진 이전 위치 타일 지워줌
+            for (int i = 0; i < tileX; i++)
             {
-                TempTilemap.SetTile(pastMousePosition + new Vector3Int(i, -j), null);
+                for (int j = 0; j < tileY; j++)
+                {
+                    TempTilemap.SetTile(pastMousePosition + new Vector3Int(i, -j), null);
+                }
+            }
+            //임시 타일맵에 배치할 타일 표시
+            for (int i = 0; i < tileX; i++)
+            {
+                for (int j = 0; j < tileY; j++)
+                {
+                    TempTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
+                }
             }
         }
-        //임시 타일맵에 배치할 타일 표시
-        for (int i = 0; i < tileX; i++)
-        {
-            for (int j = 0; j < tileY; j++)
-            {
-                TempTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
-            }
-        }
+
 
         //이전 마우스 위치 저장
         pastMousePosition = tilemapMousePosition;
@@ -230,24 +269,104 @@ public class BuildSystem : MonoBehaviour
 
             if (PossibleSetTile(tilemapMousePosition))
             {
-                //타일맵에 타일 생성
-                //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
-                for (int i = 0; i < tileX; i++)
-                {
-                    for (int j = 0; j < tileY; j++)
-                    {
-                        SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
-                    }
-                }
-
-                //실제 오브젝트 생성
-                //(생성할 오브젝트, 생성위치 리스트에 저장해놓고 한번에 생성할듯?)
+                //오브젝트를 생성할 월드포지션을 계산
                 Vector3 tilemapToWorldPoint = SetTilemap.CellToWorld(tilemapMousePosition);
                 Vector3 createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
                     tilemapToWorldPoint.y + grid.cellSize.x / 2);
-                GameObject createObj = Instantiate(currentTileObjectPrefab[0], createPos, Quaternion.identity);
+
+                GameObject createObj;
+
+                //파이프 배치
+                if (currentTileName == "Pipe")
+                {
+                    int pipePrefabIndex;
+
+                    //첫 클릭만 파이프 입구 생성
+                    if (pipeTopPosition == defaultPipeTopPosition)
+                    {
+                        pipeTopPosition = tilemapMousePosition;
+
+                        //타일맵에 타일 생성
+                        for (int i = 0; i < tileX; i++)
+                        {
+                            for (int j = 0; j < tileY; j++)
+                            {
+                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + pipeDir * 4]);
+                            }
+                        }
+
+                        if (pipeDir == 2)
+                            createPos += new Vector3(grid.cellSize.x, 0);
+                        else if (pipeDir == 3)
+                            createPos += new Vector3(0, -grid.cellSize.y);
+
+                        pipePrefabIndex = 0;
+                    }
+                    else //파이프 몸통 생성
+                    {
+                        //파이프 몸통이 입구 밑으로만 만들어지도록 제한
+                        if (pipeDir == 0 || pipeDir == 2)
+                        {
+                            tilemapMousePosition = new Vector3Int(pipeTopPosition.x, tilemapMousePosition.y);
+                            if (pipeDir == 0 && tilemapMousePosition.y > pipeTopPosition.y)
+                                return;
+                            else if (pipeDir == 2 && tilemapMousePosition.y < pipeTopPosition.y)
+                                return;
+                        }
+                        else if (pipeDir == 1 || pipeDir == 3)
+                        {
+                            tilemapMousePosition = new Vector3Int(tilemapMousePosition.x, pipeTopPosition.y);
+                            if (pipeDir == 1 && tilemapMousePosition.x > pipeTopPosition.x)
+                                return;
+                            else if (pipeDir == 3 && tilemapMousePosition.x < pipeTopPosition.x)
+                                return;
+                        }
+                        if (!PossibleSetTile(tilemapMousePosition))
+                        {
+                            return;
+                        }
+
+                        //타일맵에 타일 생성
+                        for (int i = 0; i < tileX; i++)
+                        {
+                            for (int j = 0; j < tileY; j++)
+                            {
+                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + 2 + pipeDir * 4]);
+                            }
+                        }
+
+                        tilemapToWorldPoint = SetTilemap.CellToWorld(tilemapMousePosition);
+                        createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
+                            tilemapToWorldPoint.y + grid.cellSize.x / 2);
+
+                        if (pipeDir == 2)
+                            createPos += new Vector3(grid.cellSize.x, 0);
+                        else if (pipeDir == 3)
+                            createPos += new Vector3(0, -grid.cellSize.y);
+
+                        pipePrefabIndex = 1;
+                    }
+
+                    //실제 오브젝트 생성
+                    createObj = Instantiate(currentTileObjectPrefab[pipePrefabIndex], createPos, Quaternion.Euler(0, 0, pipeDir * (-90)));
+                }
+                else
+                {
+                    //타일맵에 타일 생성
+                    //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
+                    for (int i = 0; i < tileX; i++)
+                    {
+                        for (int j = 0; j < tileY; j++)
+                        {
+                            SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
+                        }
+                    }
+
+                    createObj = Instantiate(currentTileObjectPrefab[0], createPos, Quaternion.identity);
+                }
 
                 //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
+                //오브젝트 삭제할때도 써먹음
                 objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
                     tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
             }
@@ -294,12 +413,46 @@ public class BuildSystem : MonoBehaviour
             }
 
         }
+
+        //마우스 뗄 때
+        if (Input.GetMouseButtonUp(0))
+        {
+            //파이프 타일 배치가 끝나면 pipeTopPosition 초기화
+            if (currentTileName == "Pipe")
+            {
+                pipeTopPosition = defaultPipeTopPosition;
+
+
+
+                //(파이프 끝 부분 HardBrick으로 마무리(미완성))
+                ////타일맵에 타일 생성
+                //for (int i = 0; i < tileX; i++)
+                //{
+                //    for (int j = 0; j < tileY; j++)
+                //    {
+                //        SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), tiles[tilesDictionary["HardBrick"]].tile[0]);
+                //    }
+                //}
+            }
+        }
+
     }
 
     //현재 타일 설정
     public void SetCurrentTile(string _tileName)
     {
-        //타일 변경 시 임시 타일맵에 그려진 이전 위치 타일 지워줌
+        PastTempTileClear();
+
+        //현재 타일 설정
+        currentTile = tiles[tilesDictionary[_tileName]].tile;
+        currentTileName = _tileName;
+        currentTileObjectPrefab = tiles[tilesDictionary[_tileName]].objectPrefab;
+
+    }
+
+    //타일 변경 시 임시 타일맵에 그려진 이전 위치 타일 지워줌
+    public void PastTempTileClear()
+    {
         for (int i = 0; i < tileX; i++)
         {
             for (int j = 0; j < tileY; j++)
@@ -307,11 +460,6 @@ public class BuildSystem : MonoBehaviour
                 TempTilemap.SetTile(pastMousePosition + new Vector3Int(i, -j), null);
             }
         }
-
-        //현재 타일 설정
-        currentTile = tiles[tilesDictionary[_tileName]].tile;
-        currentTileName = _tileName;
-        currentTileObjectPrefab = tiles[tilesDictionary[_tileName]].objectPrefab;
     }
 
     bool PossibleSetTile(Vector3Int _tilemapMousePosition)

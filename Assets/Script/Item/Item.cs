@@ -11,6 +11,8 @@ public class Item : MonoBehaviour
 
     Collider2D collider;
 	public Rigidbody2D rb;
+    public string prefabPath;
+
 	protected virtual void Awake()
     {
         collider = GetComponent<Collider2D>();
@@ -52,7 +54,4 @@ public class Item : MonoBehaviour
         yield break;
         
     }
-
-
-
 }

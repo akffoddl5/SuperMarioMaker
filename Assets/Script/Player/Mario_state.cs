@@ -83,8 +83,6 @@ public class Mario_state
 
 	}
 
-
-
 	private void FlipCheck()
 	{
 		if (xInput > 0)
