@@ -48,80 +48,111 @@ public class Enemy_shell : MonoBehaviour
         timer -= Time.deltaTime;
     }
 
-    private void FixedUpdate()
-    {
-        if (timer > 0) return;
+	private void FixedUpdate()
+	{
+		if (timer > 0) return;
+		if (fsecMove == true) Move(fsecMove);
+	
+		// wall flip
+		if (IswallRDetected() || IswallLDetected())
+		{
+			Flip2();
+			//Move(true);
+		}
 
-        if (fsecMove == true)
-        {
-            secMove();
-        }
-        if (IswallRDetected() || IswallLDetected())
-        {
-            Flip2();
-            Move(true);
-        }
+		if (!IsGroundDetected())
+		{
+			Invoke("Fly", 0.1f);
+		}
+		//spdX = rb.position.x;
+		//spdY = rb.position.y;
+	
+	    //if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
+	    //{
 
-        if (!IsGroundDetected())
-        {
-            Invoke("Fly", 0.1f);
-        }
-        spdX = rb.position.x;
-        spdY = rb.position.y;
+	    //    StartCoroutine("Rekoopa");
 
-
-        //if (IsGroundDetected() && !fly && !IsSkyDetected())// 돌아가기
-        //{
-
-
-        //    StartCoroutine("Rekoopa");
-
-
-        //}
-        //Debug.Log(fly);
-        //if (fly == true)// 수직낙하 거북스
-        //{
-        //   /rb.velocity = new Vector2(0, rb.velocity.y);
+	    //}
+	    //Debug.Log(fly);
+	    //if (fly == true)// 수직낙하 거북스
+	    //{
+	    //   /rb.velocity = new Vector2(0, rb.velocity.y);
 
 
-        //}
-        //else if (fly == false)
-        //{
-        //    rb.gravityScale = 1;
-        //}
+	    //}
+	    //else if (fly == false)
+	    //{
+	    //    rb.gravityScale = 1;
+	    //}
     }
+	void Move(bool move)//움직임
+	{
+		//object[] tmp = new object[] { moveflip, move, rb.velocity.y };
+		//PV.RPC("RPC_Move", RpcTarget.AllBuffered, tmp);
+		if (move)
+		{
+			// right
+			if (rb.velocity.x > 0) moveflip = 1;
+			// left
+			else if (rb.velocity.x < 0) moveflip = -1;
 
+			spdX = 8 * moveflip;
+			spdY = rb.velocity.y;
 
-    private void secMove()
-    {
-        if (IsGroundDetected())
-        {
-            Move(true);
+			rb.velocity = new Vector2(spdX, spdY);
+		}
+		else return;
+	}
 
-            if (!fly && !IsSkyDetected())// 돌아가기
-            {
-                StartCoroutine("Rekoopa");
-            }
-        }
-    }
+	[PunRPC]
+	public void RPC_Move(object[] tmp)
+	{
+		moveflip = (float)tmp[0];
+		bool move = (bool)tmp[1];
 
-    private void playerRL()
-    {
-        if (IsPlayerLDetected())//왼플체크
-        {
-            Flip2();
-            Move(true);
-            fsecMove = true;
-        }
-        else if (IsPlayerRDetected())//오플체크
-        {
-            Move(true);
-            fsecMove = true;
-        }
+		if (move)
+		{
+			spdX = -8 * moveflip;
+			spdY = rb.velocity.y;
 
-    }
+			rb.velocity = new Vector2(spdX, spdY);
+		}
+		else
+		{
+			return;
+		}
+	}
 
-    private void Fly()//0.1초 동안 하늘일떄
+	//private void secMove()
+	//{
+	//    if (IsGroundDetected())
+	//    {
+	//        Move(true);
+
+	//        if (!fly && !IsSkyDetected())// 돌아가기
+	//        {
+	//            StartCoroutine("Rekoopa");
+	//        }
+	//    }
+	//}
+
+	//private void playerRL()
+	//{
+	//    if (IsPlayerLDetected())//왼플체크
+	//    {
+	//        Flip2();
+	//        Move(true);
+	//        fsecMove = true;
+	//    }
+	//    else if (IsPlayerRDetected())//오플체크
+	//    {
+	//        Move(true);
+	//        fsecMove = true;
+	//    }
+
+	//}
+
+	private void Fly()//0.1초 동안 하늘일떄
     {
         if (!IsGroundDetected())
         {
@@ -139,47 +170,9 @@ public class Enemy_shell : MonoBehaviour
         moveflip = -moveflip;
     }
 
-    void Move(bool move)//움직임
-    {
-        //object[] tmp = new object[] { moveflip, move, rb.velocity.y };
-        //PV.RPC("RPC_Move", RpcTarget.AllBuffered, tmp);
-        if (move)
-        {
-            spdX = -8 * moveflip;
-            spdY = rb.velocity.y;
-
-            rb.velocity = new Vector2(spdX, spdY);
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    [PunRPC]
-    public void RPC_Move(object[] tmp)
-    {
-        moveflip = (float)tmp[0];
-        bool move = (bool)tmp[1];
-
-        if (move)
-        {
-            spdX = -8 * moveflip;
-            spdY = rb.velocity.y;
-
-            rb.velocity = new Vector2(spdX, spdY);
-        }
-        else
-        {
-            return;
-        }
-    }
-
     IEnumerator Rekoopa()
     {
         yield return new WaitForSeconds(10f);
-
-
         Destroy(gameObject);
         Instantiate(koopa, new  Vector2(transform.position.x, transform.position.y), Quaternion.identity);
     }
@@ -209,25 +202,24 @@ public class Enemy_shell : MonoBehaviour
 
     }
 
-
     //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        playerRL();
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    playerRL();
 
-        if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
-        {
-            transform.Rotate(0, 180, 0);
+    //    if (collision.collider.gameObject.CompareTag("Enemy_Shell"))
+    //    {
+    //        transform.Rotate(0, 180, 0);
 
-            moveflip = moveflip * -1;
-        }
+    //        moveflip = moveflip * -1;
+    //    }
 
 
-    }
+    //}
 
     private void OnDrawGizmos()
     {
