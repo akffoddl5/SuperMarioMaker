@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ public class Mario_jump : Mario_state
 	{
 	}
 
-	
+
 
 	public override void Enter()
 	{
@@ -24,18 +25,48 @@ public class Mario_jump : Mario_state
 		stateTimer = 103 * Time.deltaTime;
 		jumpMoveSpeed = mario.rb.velocity.x;
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
-        mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
-        mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
+		mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
+		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
 		//last_velocity_y = mario.rb.velocity.y;
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+		mario.PM.friction = 0.4f;
+		mario.collider.sharedMaterial = mario.PM;
 	}
 	public override void Update()
 	{
-		base.Update();
+
+		if (mario.IsWallDetected())
+		{
+			mario.PM.friction = 0;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+		else
+		{
+			mario.PM.friction = 0.4f;
+			mario.collider.sharedMaterial = mario.PM;
+		}
+
+        //FIre
+        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
+        {
+            if (isFlip)
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+            }
+            else
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            }
+        }
+
+        //Debug.Log("jump.." + mario.rb.velocity.y);
+        base.Update();
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
 		{
 			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
@@ -62,18 +93,16 @@ public class Mario_jump : Mario_state
 		// if 그라운드 밟으면 상태 전환하기 idle
 		if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
 		{
-			Debug.Log("A");
 			stateMachine.ChangeState(mario.idleState);
 		} else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
-			Debug.Log("B");
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 			var kickedMario = mario.IsPlayerDetected();
 			kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
 			//Debug.Log(kickedMario.GetComponent<Mario>().stateMachine.currentState.animBoolName);
 			kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
 		} else if (mario.rb.velocity.y <= 0 && mario.IsEnemyDetected() != null)
 		{
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 		}
 	}
 }

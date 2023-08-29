@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,11 +34,30 @@ public class Mario_idle : Mario_state
 		{
 			stateMachine.ChangeState(mario.jumpState);
 		}
-
-		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
+		// ¾É±â
+		if (Input.GetKey(KeyCode.DownArrow) && mario.marioMode > 0)
 		{
-			Debug.Log("D");
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.sitDown);
+		}
+
+        //FIre
+        if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2 || 1==1))
+        {
+            if (isFlip)
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+            }
+            else
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            }
+        }
+
+        if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
+		{
+			stateMachine.ChangeState(mario.stampState);
 		}
 	}
 }

@@ -22,14 +22,7 @@ public class Goomba : Enemy
     {
         base.Update();
         TouchDown();
-
-
-
     }
-
-
-
-
 
     private void TouchDown()
     {
@@ -46,15 +39,12 @@ public class Goomba : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-
-        
-        if (collision.gameObject.GetComponent<Enemy_shell>() != null && false ==  collision.gameObject.GetComponent<Enemy_shell>().fsecMove)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
+        if (collision.gameObject.GetComponent<Enemy_shell>() != null && collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
 
             transform.Rotate(0, 180, 0);
 
-
+            
             moveflip = moveflip * -1;
         }
         else if (collision.gameObject.GetComponent<Enemy_shell>() != null)

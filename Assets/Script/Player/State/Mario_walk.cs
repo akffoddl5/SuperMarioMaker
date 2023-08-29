@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class Mario_walk : Mario_state
 	public override void Update()
 	{
 		base.Update();
+
+
 		mario.rb.velocity = new Vector2(xInput * mario.moveSpeed, mario.rb.velocity.y);
 
 		//Idle
@@ -41,9 +44,25 @@ public class Mario_walk : Mario_state
 			stateMachine.ChangeState(mario.jumpState);
 		}
 
-		if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
+		//FIre
+        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
+        {
+            
+			if (isFlip) {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+			}
+			else {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            } 
+
+
+		}
+
+        if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())
 		{
-			stateMachine.ChangeState(mario.jumpState);
+			stateMachine.ChangeState(mario.stampState);
 		}
 
 	}
