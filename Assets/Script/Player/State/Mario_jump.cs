@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,8 +50,23 @@ public class Mario_jump : Mario_state
 			mario.collider.sharedMaterial = mario.PM;
 		}
 
-		//Debug.Log("jump.." + mario.rb.velocity.y);
-		base.Update();
+        //FIre
+        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
+        {
+            if (isFlip)
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+            }
+            else
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            }
+        }
+
+        //Debug.Log("jump.." + mario.rb.velocity.y);
+        base.Update();
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
 		{
 			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);

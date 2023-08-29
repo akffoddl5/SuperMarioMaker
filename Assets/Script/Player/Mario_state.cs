@@ -25,7 +25,6 @@ public class Mario_state
 
     
 	
-	
 
     public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
 	{

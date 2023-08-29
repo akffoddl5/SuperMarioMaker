@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: -2995135678574889312}
   - component: {fileID: -5350794749424982148}
   m_Layer: 7
-  m_Name: Mario
+  m_Name: Mario4
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 316669850fc22b947a5ffd08a201559e, type: 3}
+  m_Sprite: {fileID: 1829471747, guid: b0018830ba9a6cc438553602c1c93404, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -265,7 +265,7 @@ Animator:
   m_GameObject: {fileID: 1032628601791052151}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 494c4d2f4f076f448ab783bbf3786767, type: 2}
+  m_Controller: {fileID: 9100000, guid: cbbdad1af332a654bbac9b422d06f3f2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
