@@ -34,7 +34,7 @@ public class Mario_idle : Mario_state
 			stateMachine.ChangeState(mario.jumpState);
 		}
 		// ¾É±â
-		if (Input.GetKey(KeyCode.DownArrow) && mario.marioMode > 0)
+		if (Input.GetKey(KeyCode.DownArrow) && marioMode > 0)
 		{
 			stateMachine.ChangeState(mario.sitDown);
 		}
