@@ -255,7 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdef8dd4d3990c140854001710b24c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marioMode: 0
   moveSpeed: 5
   runSpeed: 7
   jumpPower: 14

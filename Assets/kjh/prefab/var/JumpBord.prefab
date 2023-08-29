@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 166791993574239094}
   - component: {fileID: 6389455153517478689}
   - component: {fileID: 3286919721215520026}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,9 +104,9 @@ GameObject:
   - component: {fileID: 1873833955345804090}
   - component: {fileID: 4501106455646585651}
   - component: {fileID: 2016869568725558043}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: JumpBord
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
