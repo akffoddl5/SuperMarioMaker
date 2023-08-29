@@ -31,7 +31,7 @@ public class Enemy_Koopa : Enemy
 
     private void FixedUpdate()
     {
-        Debug.Log(rb.velocity.x);
+      //  Debug.Log(rb.velocity.x);
         if (rb.velocity.x > 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
