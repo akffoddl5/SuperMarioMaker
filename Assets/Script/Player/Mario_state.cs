@@ -23,9 +23,9 @@ public class Mario_state
 
 	public PhotonView PV;
 
-    
-
-
+    public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
+	public bool isStarMario = false;
+	
 
     public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
 	{

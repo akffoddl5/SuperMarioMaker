@@ -8,7 +8,7 @@ public class Mario : MonoBehaviour
 {
 
 	// marioMode_0: smallMario, marioMode_1: bigMario, marioMode_2: fireMario
-	public int marioMode = 0;
+	
 	
     [Header("Move Info")]
     public float moveSpeed = 5;
