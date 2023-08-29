@@ -25,8 +25,6 @@ public class Mario_state
 
     
 
-
-
     public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
 	{
 		mario = _mario;
@@ -72,7 +70,6 @@ public class Mario_state
 			mario.PM.friction = 0.4f;
 			mario.collider.sharedMaterial = mario.PM;
 		}
-
 
 		// 입력 받는 곳
 		xInput = Input.GetAxisRaw("Horizontal");
