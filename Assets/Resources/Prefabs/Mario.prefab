@@ -31,6 +31,37 @@ Transform:
   m_Father: {fileID: 7930311769667582423}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &484682335578692482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7593687317483460363}
+  m_Layer: 7
+  m_Name: BulletGeneratorA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7593687317483460363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484682335578692482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7, y: 0.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7930311769667582423}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768071804531425281
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,8 +136,10 @@ Transform:
   - {fileID: 2709324723404141274}
   - {fileID: 7838783628332860886}
   - {fileID: 8676133179858168007}
+  - {fileID: 7593687317483460363}
+  - {fileID: 8459602313537133484}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -255,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdef8dd4d3990c140854001710b24c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marioMode: 0
+  virtual_camera: {fileID: 0}
   moveSpeed: 5
   runSpeed: 7
   jumpPower: 14
@@ -273,6 +306,8 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  obj_bulletGeneratorA: {fileID: 7593687317483460363}
+  obj_bulletGeneratorB: {fileID: 8459602313537133484}
   jump_audioSource: {fileID: 0}
   clips: []
   rb: {fileID: 0}
@@ -280,6 +315,8 @@ MonoBehaviour:
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  marioMode: 0
+  isStarMario: 0
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +471,37 @@ Transform:
   m_GameObject: {fileID: 1072940052395503423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.382, y: -0.514, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7930311769667582423}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2781786873751219490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8459602313537133484}
+  m_Layer: 7
+  m_Name: BulletGeneratorB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8459602313537133484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2781786873751219490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

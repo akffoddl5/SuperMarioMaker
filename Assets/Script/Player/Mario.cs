@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Cinemachine;
 
 public class Mario : MonoBehaviour
 {
 
 	// marioMode_0: smallMario, marioMode_1: bigMario, marioMode_2: fireMario
+	[Header("Camera")]
+	public GameObject virtual_camera;
 	
 	
     [Header("Move Info")]
@@ -26,6 +29,8 @@ public class Mario : MonoBehaviour
 	public float playerCheckDist;
 	public LayerMask whatIsGround;
 	public LayerMask whatIsPlayer;
+	public Transform obj_bulletGeneratorA;
+	public Transform obj_bulletGeneratorB;
 	
 
     [Header("Audio source")]
@@ -53,9 +58,14 @@ public class Mario : MonoBehaviour
 	public Mario_die dieState;
 	public Mario_stamp stampState;
 
+    public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
+    public bool isStarMario = false;
 
-	private void Awake()
+
+
+    private void Awake()
 	{
+		
 		rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
@@ -90,7 +100,13 @@ public class Mario : MonoBehaviour
 	{
 		//if(!GetComponent<PhotonView>().IsMine) return ;
         stateMachine.InitState(idleState);
-	}
+
+        if (GameObject.Find("Virtual Camera") != null && GetComponent<PhotonView>().IsMine)
+        {
+            virtual_camera = GameObject.Find("Virtual Camera");
+			virtual_camera.GetComponent<CinemachineVirtualCamera>().Follow = gameObject.transform;
+        }
+    }
 
 	// Update is called once per frame
 	void Update()
@@ -98,7 +114,9 @@ public class Mario : MonoBehaviour
 		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
-	}
+
+       
+    }
 
 	//// 부활 만들기
 	//void Respawn()
