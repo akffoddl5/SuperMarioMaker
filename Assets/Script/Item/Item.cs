@@ -52,7 +52,4 @@ public class Item : MonoBehaviour
         yield break;
         
     }
-
-
-
 }

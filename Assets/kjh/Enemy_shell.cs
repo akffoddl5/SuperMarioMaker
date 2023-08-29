@@ -160,7 +160,18 @@ public class Enemy_shell : MonoBehaviour
         }
     }
 
-    void Flip2()//스프라이트 회전
+	public virtual void FilpOverDie()
+	{
+		Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
+		gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
+		gameObject.transform.Rotate(180, 0, 0);
+		var col = gameObject.GetComponent<Collider2D>();
+		col.enabled = false;
+
+		Destroy(gameObject, 1f);
+	}
+
+	void Flip2()//스프라이트 회전
     {
         transform.Rotate(0, 180, 0);
         moveflip = -moveflip;

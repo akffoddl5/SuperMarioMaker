@@ -9,7 +9,7 @@ public class Enemy_Koopa : Enemy
 {
     public  GameObject shell;
     public  GameObject stop;
- 
+    public bool isDie = false;
     
     public Enemy_Koopa()
     {
@@ -32,11 +32,13 @@ public class Enemy_Koopa : Enemy
     private void FixedUpdate()
     {
         Debug.Log(rb.velocity.x);
+        if (isDie) return;
+
         if (rb.velocity.x > 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-        else if(rb.velocity.x < 0)
+        else if (rb.velocity.x < 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -44,8 +46,6 @@ public class Enemy_Koopa : Enemy
 
     public override void Die()
     {
-        Debug.Log("Die");
-
         //PV.RPC("RPC_Die", RpcTarget.AllBuffered);
        
          PhotonNetwork.Instantiate("Prefabs/Koopa_Shell", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
@@ -57,8 +57,13 @@ public class Enemy_Koopa : Enemy
         //Destroy(gameObject);
 
     }
+	public override void FilpOverDie()
+	{
+		base.FilpOverDie();
+        isDie = true;
+	}
 
-    [PunRPC]
+	[PunRPC]
     public void RPC_Die()
     {
         
@@ -72,13 +77,15 @@ public class Enemy_Koopa : Enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //  Debug.Log(Enemy_shell.fsecMove);
-
+       
         // Shell Tuttle collision && Shell is not moving
+        // tuttle have to move flip side
         if (collision.gameObject.GetComponent<Enemy_shell>() != null && !collision.gameObject.GetComponent<Enemy_shell>().fsecMove)// && collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
             transform.Rotate(0, 180, 0);
             moveflip = moveflip * -1;
         }
+        // moving shell kill other tuttles
         else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
         {
 
@@ -91,6 +98,7 @@ public class Enemy_Koopa : Enemy
             //Destroy(gameObject);
 
         }
+        // tuttle collision with other enemy
         else if (collision.collider.gameObject.CompareTag("Enemy"))
         {
             transform.Rotate(0, 180, 0);

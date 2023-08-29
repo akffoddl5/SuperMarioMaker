@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Enemy_Shell
   - Ground
+  - Item
   layers:
   - Default
   - TransparentFX

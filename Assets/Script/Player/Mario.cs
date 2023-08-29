@@ -32,9 +32,12 @@ public class Mario : MonoBehaviour
     public AudioSource jump_audioSource;
 	public AudioClip[] clips;
 
-	
+	public int marioMode = 0;   // 0: ÀÏ¹Ý ¸¶¸®¿À, 1 : ºò¸¶¸®¿À, 2: ²É ¸¶¸®¿À
+	public bool isStarMario = false;
+	float starTime = 5f;
+	float starTimer = 0;
 
-    [HideInInspector] public Rigidbody2D rb;
+	[HideInInspector] public Rigidbody2D rb;
 	[HideInInspector] public CapsuleCollider2D collider;
 
 	[HideInInspector] public PhysicsMaterial2D PM;
@@ -80,6 +83,7 @@ public class Mario : MonoBehaviour
         stampState = new Mario_stamp(this, stateMachine, "Jump");
 		
 	}
+
 	[PunRPC]
 	public void Flip(bool a)
 	{
@@ -95,6 +99,8 @@ public class Mario : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+		starTimer -= Time.deltaTime;
+		if (starTimer < 0) isStarMario = false;
 		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
@@ -112,6 +118,25 @@ public class Mario : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		// starMode kill enemy script
+		if (collision.gameObject.CompareTag("Enemy"))
+		{
+			if (isStarMario)
+			{
+				if (collision.gameObject.GetComponent<Enemy>() != null)
+				{
+					collision.gameObject.GetComponent<Enemy>().FilpOverDie();
+				}
+				else if (collision.gameObject.GetComponent<Enemy_shell>() != null
+					&& collision.gameObject.GetComponent<Enemy_shell>().fsecMove == true)
+				{
+					// kill moving enemy_shell
+					collision.gameObject.GetComponent<Enemy_shell>().FilpOverDie();
+				}
+				return;
+			}
+		}
+		
 		//¹Ø¿¡ ÀûÀÌ ÀÖÀ½ == Á×À¸¸é ¾È µÊ
 		if (IsEnemyDetected() != null)
 		{
@@ -128,10 +153,42 @@ public class Mario : MonoBehaviour
 			}
 			else stateMachine.ChangeState(dieState); // ¿òÁ÷ÀÌ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é Á×À½
 		}
+		else if (collision.gameObject.GetComponent<Goomba>() != null)
+		{
+			// isFlat Goomba No die
+			if (collision.gameObject.GetComponent<Goomba>().isFlat) return;
+		}
 
-		if (collision.gameObject.tag == "Enemy" && IsEnemyDetected() == null)
+		if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
 		{
 			stateMachine.ChangeState(dieState);
+		}
+
+		//Item
+		if (collision.gameObject.CompareTag("Item"))
+		{
+			
+			if(collision.gameObject.GetComponent<Item_Star>() != null)
+			{
+				// star
+				isStarMario = true;
+				starTimer = starTime; // starTime init 
+				Debug.Log("star ¸ÔÀ½!!!!!!!!!!!!!: " + isStarMario);
+			}
+
+			if (collision.gameObject.GetComponent<Item_mushroom>() != null)
+			{
+				// mushroom
+				marioMode = 1;
+				Debug.Log("mushroom ¸ÔÀ½!!!!!!!!!!!!!: " + marioMode);
+
+			}
+			//else if (collision.gameObject.GetComponent<Item_flower>() != null)
+			//{
+			//	//flower
+			//	stateMachine.currentState.marioMode = 2;
+			//}
+			Destroy(collision.gameObject);
 		}
 
 	}

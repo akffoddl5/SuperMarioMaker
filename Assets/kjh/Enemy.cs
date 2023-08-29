@@ -45,9 +45,6 @@ public class Enemy : MonoBehaviour
 
     public PhotonView PV;
     
-
-
-
     protected virtual void Start()
     {
 
@@ -64,27 +61,11 @@ public class Enemy : MonoBehaviour
         Move(move);
     }
 
-
-
-    //protected void Flat()
-    //{
-
-
-    //    if (IsSkyDetected())
-    //    {
-    //        anim.SetBool("Flat", true);
-
-    //   }
-    //}
-
-
-
     protected void Move(bool move)
     {
         
         if (move)
         {
-          
             spdX = -1 *moveflip;
             spdY = rb.velocity.y;
             rb.velocity = new Vector2(spdX, spdY);
@@ -115,27 +96,22 @@ public class Enemy : MonoBehaviour
 
         if (IsGroundDetected() != true)
         {
-            
             //transform.Rotate(0, 180, 0);
-
-
             moveflip = moveflip * -1;
-
         }
 
         if (IswallDetected() == true)
         {
-
             moveflip = moveflip * -1;
-
         }
     }
-    //그라운드 체크
+
+
+    //GroundCheck
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IswallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.left * moveflip, wallCheckDistance, whatIsGround);
 
-
-    //플레이어 위감지
+    //플레이어 Up / Left / Right Detect
     //public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
     public bool IsSkyDetected()
     {
@@ -147,22 +123,26 @@ public class Enemy : MonoBehaviour
             }
         }
 
-
-
         return false;
     }
-
-
-    //플레이어 좌우 감지
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
     public bool IsPlayerRDetected() => Physics2D.Raycast(playerRCheck.position, Vector2.right, playerCheckDistance, whatIsPlayer);
 
-
-    public virtual void Die()
+	public virtual void Die()
     {
+		
+	}
 
-        
-    }
+    public virtual void FilpOverDie()
+    {
+        Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
+        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
+		gameObject.transform.Rotate(180, 0, 0);
+		var col = gameObject.GetComponent<Collider2D>();
+		col.enabled = false;
+
+		Destroy(gameObject, 1f);
+	}
 
     private void OnDrawGizmos()
     {
