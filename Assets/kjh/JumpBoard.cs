@@ -1,14 +1,22 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JumpBoard : MonoBehaviour
 {
-    Animator anim;
-    bool jumpBoard=false;
+   public Animator anim;
+  //bool jumpBoard = false;
+    Mario mario;
+   // public GameObject player;
+    // Rigidbody rb;
     void Start()
     {
-        anim= GetComponent<Animator>();
+
+
+        
+        // rb= GetComponent<Rigidbody>();
     }
 
 
@@ -16,19 +24,27 @@ public class JumpBoard : MonoBehaviour
     {
 
     }
-    private void OnCollisionEnter(Collision collision)
-    {if(collision.gameObject.tag=="Player")
-            anim.SetBool("Jump", jumpBoard);
-       // Invoke("jumpBoard", 0.5f);
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+           // jumpBoard = true;
+            anim.SetBool("Jump", true);
+
+            StartCoroutine(IJump((collision.gameObject)));
+           // Invoke(jumpBoard)
+          
+        }
+
+    }
+
+    IEnumerator IJump(GameObject obj)
+    {
+        yield return new WaitForSeconds(0.1f);
+        obj.GetComponent<Mario>().rb.AddForce(Vector3.up * 1000);
+        anim.SetBool("Jump", false);
     }
 
 
-
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //        anim.SetBool("Jump", false);
-
-    //}
 }
