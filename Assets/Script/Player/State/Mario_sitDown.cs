@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -27,5 +28,20 @@ public class Mario_sitDown : Mario_state
 		{
 			stateMachine.ChangeState(mario.idleState);
 		}
-	}
+
+        //FIre
+        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
+        {
+            if (isFlip)
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+            }
+            else
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            }
+        }
+    }
 }

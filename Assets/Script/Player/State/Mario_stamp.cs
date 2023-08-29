@@ -1,8 +1,8 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class Mario_stamp : Mario_state
 {
@@ -40,6 +40,21 @@ public class Mario_stamp : Mario_state
         {
             mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
             stateTimer = -1;
+        }
+
+        //FIre
+        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
+        {
+            if (isFlip)
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = -1;
+            }
+            else
+            {
+                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+                a.GetComponent<Fire_Bullet>().faceDir = 1;
+            }
         }
 
         //if (Input.GetKey(KeyCode.Space) && stateTimer > 0 && stateTimer < 3 * Time.deltaTime)
