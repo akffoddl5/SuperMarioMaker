@@ -31,7 +31,7 @@ public class Enemy_Koopa : Enemy
 
     private void FixedUpdate()
     {
-        Debug.Log(rb.velocity.x);
+      //  Debug.Log(rb.velocity.x);
         if (isDie) return;
 
         if (rb.velocity.x > 0)
