@@ -18,11 +18,13 @@ public class Pipe_top : MonoBehaviour
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.SetPosition(0, myTransform.position);
+        lineRenderer.SetPosition(1, myTransform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(lineActive);
         //라인 연결 코드
         if (lineActive)
         {

@@ -55,46 +55,51 @@ public class UI_Editor : MonoBehaviour
     void Start()
     {
         buildSystem = BuildSystem.instance;
-
+        Debug.Log(pipeLinkObject[0]);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pipeLinkMode);
-        if (buildSystem.currentTileName == "Pipe" && pipeLinkMode)
+        if (pipeLinkMode)// && buildSystem.currentTileName == "Pipe")
         {
-            if (pipeLinkObject[0] == null)
+            if (Input.GetMouseButtonDown(0))
             {
-                PipeLink(0);
+                if (pipeLinkObject[0] == null)
+                {
+                    PipeLink(0);
+                }
+                else if (pipeLinkObject[1] == null)
+                {
+                    PipeLink(1);
+
+                    pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
+                        pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
+                    pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
+                        pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+
+                    pipeLinkObject[0] = null;
+                    pipeLinkObject[1] = null;
+                }
             }
-            else if (pipeLinkObject[1] == null)
-            {
-                PipeLink(1);
-            }
-            else
-            {
-                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
-                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
-            }
+
         }
     }
 
     void PipeLink(int _pipeLinkPosIndex)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit hit;
+        RaycastHit2D hit = Physics2D.Raycast(ray, transform.forward, 15);
 
-        if (Physics.Raycast(ray, out hit))
+        if (hit)
         {
+            Debug.Log("파이프 클릭1");
             if (hit.collider.gameObject.GetComponent<Pipe_top>() != null)
             {
                 Debug.Log("파이프 클릭");
-                
+
                 pipeLinkObject[_pipeLinkPosIndex] = hit.collider.gameObject;
 
                 if (_pipeLinkPosIndex == 0)
