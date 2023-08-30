@@ -117,7 +117,7 @@ Transform:
   m_Children:
   - {fileID: 5298325984203746955}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7161856650714483256
 MonoBehaviour:
@@ -177,7 +177,7 @@ LineRenderer:
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 10, y: 10, z: 0}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
