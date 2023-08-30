@@ -32,8 +32,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public Text log_text;
 
+	string characterPrefab;
     float instMarioX = 0;
-
 	// Room에 있는 함수를 실행하기 위한 이벤트 함수
 	//public UnityEvent RoomUISync;
 	public PhotonView PV;
@@ -104,23 +104,9 @@ public class Lobby : MonoBehaviourPunCallbacks
         
 	}
 
-    
-
-    public void Room_Init()
-    {
-		GameObject room_layer = GameObject.Find("Room_Layer");
-        // 옆으로 슉 넘어가는 거
-		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
-        // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
-		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(instMarioX++, 2, 0), Quaternion.identity);
-
-        //Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
-        // 마리오는 0, 1, 2, 3 x 값에서 생성됨
-        if (instMarioX > 4) instMarioX = 0;
-    }
+   
 
 
-    
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
@@ -327,11 +313,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             {
                 break;
             }
-
             yield return null;
-                
         }
-
         yield break;;
     }
 
@@ -341,20 +324,59 @@ public class Lobby : MonoBehaviourPunCallbacks
         base.OnFriendListUpdate(friendList);
     }
 
+	public void Room_Init()
+	{
+		// lobby left move
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+        // room left move
+		GameObject room_layer = GameObject.Find("Room_Layer");
+		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(0, 0, 0)));
+	}
+
 	public override void OnJoinedRoom()
 	{
 		base.OnJoinedRoom();
 
-		GameObject lobby = GameObject.Find("Lobby_Layer");
-
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
-			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
-
-		var a = GameObject.Find("Room_Make_Layer");
-        Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
-		StartCoroutine(CorLerp(a, localPositionA, new Vector3(localPositionA.x, 1000, 0)));
-
 		Room_Init();
+        
+		// The number of players in the room determines which prefab is created.
+		int playerNum = PhotonNetwork.CurrentRoom.PlayerCount;
+		Vector3 spawnPosition = new Vector3(instMarioX, 2, 0);
+		switch (playerNum)
+        {
+            case 1:
+		        PhotonNetwork.Instantiate("Prefabs/Mario", spawnPosition, Quaternion.identity);
+				characterPrefab = "Prefabs/Mario";
+				break;
+            case 2:
+		        PhotonNetwork.Instantiate("Prefabs/Mario2", spawnPosition, Quaternion.identity);
+				characterPrefab = "Prefabs/Mario2";
+                break;
+            case 3:
+		        PhotonNetwork.Instantiate("Prefabs/Mario3", spawnPosition, Quaternion.identity);
+				characterPrefab = "Prefabs/Mario3";
+                break;
+            case 4:
+		        PhotonNetwork.Instantiate("Prefabs/Mario4", spawnPosition, Quaternion.identity);
+				characterPrefab = "Prefabs/Mario4";
+                break;
+        }
+        instMarioX++;
+		if (instMarioX > 4) instMarioX = 0;
+
+		ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+		customProperties.Add("characterName", characterPrefab);
+		PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+
+
+		if (PV.IsMine)
+        {
+            
+        }
+		//Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
+		// Mario spawns from x values ??0, 1, 2, 3
 
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 		//RoomUISync.Invoke();

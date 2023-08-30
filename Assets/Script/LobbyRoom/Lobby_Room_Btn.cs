@@ -31,7 +31,6 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
     public Sprite jpFlag;
 
 
-
     void Start()
     {
         room_number_text.text = room_num.ToString();                           //¹æ¹øÈ£  ¼³Á¤
@@ -48,39 +47,39 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
 
 	}
 
-    // ¹æÀå ´Ð³×ÀÓÀÇ Ã¹±ÛÀÚ°¡ ¹¹³Ä¿¡ µû¶ó Room Btn¿¡ ¶ß´Â ±¹±â ¸ð¾ç º¯°æ
-    Sprite CheckCountry(char _firstNickName)
-    {
-        // À¯´ÏÄÚµå
-        // ÇÑ±¹¾î
-        if ((0xAC00 <= _firstNickName && _firstNickName <= 0xD7A3) // ÇÑ±Û À½Àý(°¡~ÆR)
-            || (0x3131 <= _firstNickName && _firstNickName <= 0x318E)) // È£È¯¿ë ÇÑ±Û(ÀÚÀ½, ¸ðÀ½)
-            return korFlag;
+	// Change the shape of the flag that appears in Room Btn
+    // depending on the first letter of the room leader's nickname.
+	Sprite CheckCountry(char _firstNickName)
+	{
+		// À¯´ÏÄÚµå
+		// Korean
+		if ((0xAC00 <= _firstNickName && _firstNickName <= 0xD7A3) // ÇÑ±Û À½Àý(°¡~ÆR)
+			|| (0x3131 <= _firstNickName && _firstNickName <= 0x318E)) // È£È¯¿ë ÇÑ±Û(ÀÚÀ½, ¸ðÀ½)
+			return korFlag;
 
+		// English
+		else if ((0x61 <= _firstNickName && _firstNickName <= 0x7A)
+				 || (0x41 <= _firstNickName && _firstNickName <= 0x5A))
+			return engFlag;
 
-        // ¿µ¾î
-        else if ((0x61 <= _firstNickName && _firstNickName <= 0x7A)
-                 || (0x41 <= _firstNickName && _firstNickName <= 0x5A))
-            return engFlag;
+		// Japanese
+		else if ((0x3040 <= _firstNickName && _firstNickName <= 0x309F) // È÷¶ó°¡³ª
+				|| (0x30A0 <= _firstNickName && _firstNickName <= 0x30FF) // °¡Å¸Ä«³ª
+				|| (0x31F0 <= _firstNickName && _firstNickName <= 0x31FF)) // ÇÑÁßÀÏ ºÎ¼ö º¸Ãæ
+			return jpFlag;
 
-        // ÀÏº»¾î
-        else if ((0x3040 <= _firstNickName && _firstNickName <= 0x309F) // È÷¶ó°¡³ª
-                || (0x30A0 <= _firstNickName && _firstNickName <= 0x30FF) // °¡Å¸Ä«³ª
-                || (0x31F0 <= _firstNickName && _firstNickName <= 0x31FF)) // °¡Å¸Ä«³ª À½¼º È®Àå
-            return jpFlag;
-
-        // ÇÑÀÚ
-        else if ((0x2E80 <= _firstNickName && _firstNickName <= 0x2EFF) // ÇÑÁßÀÏ ºÎ¼ö º¸Ãæ
-                || (0x3400 <= _firstNickName && _firstNickName <= 0x4DBF) // ÇÑÁßÀÏ ÅëÇÕÇÑÀÚ È®Àå -A
-                || (0x4E00 <= _firstNickName && _firstNickName <= 0x9FBF) // ÇÑÁßÀÏ ÅëÇÕ ÇÑÀÚ
-                || (0xF900 <= _firstNickName && _firstNickName <= 0xFAFF) // ÇÑÁßÀÏ È£È¯¿ë ÇÑÀÚ
-                || (0x20000 <= _firstNickName && _firstNickName <= 0x2A6DF) // ÇÑÁßÀÏ ÅëÇÕÇÑÀÚ È®Àå
-                || (0x2F800 <= _firstNickName && _firstNickName <= 0x2FA1F)) // ÇÑÁßÀÏ È£È¯ ÇÑÀÚ º¸Ãæ
-            return chFlag;
-        else
-            return korFlag;
+		// Chinese
+		else if ((0x2E80 <= _firstNickName && _firstNickName <= 0x2EFF) // ÇÑÁßÀÏ ºÎ¼ö º¸Ãæ
+				|| (0x3400 <= _firstNickName && _firstNickName <= 0x4DBF) // ÇÑÁßÀÏ ÅëÇÕÇÑÀÚ È®Àå -A
+				|| (0x4E00 <= _firstNickName && _firstNickName <= 0x9FBF) // ÇÑÁßÀÏ ÅëÇÕ ÇÑÀÚ
+				|| (0xF900 <= _firstNickName && _firstNickName <= 0xFAFF) // ÇÑÁßÀÏ È£È¯¿ë ÇÑÀÚ
+				|| (0x20000 <= _firstNickName && _firstNickName <= 0x2A6DF) // ÇÑÁßÀÏ ÅëÇÕÇÑÀÚ È®Àå
+				|| (0x2F800 <= _firstNickName && _firstNickName <= 0x2FA1F)) // ÇÑÁßÀÏ È£È¯ ÇÑÀÚ º¸Ãæ
+			return chFlag;
+		else
+			return korFlag;
 	}
-    
+
     // Btn ·Îºñ¿¡ »ý¼ºµÈ ¹æÀ» Å¬¸¯ÇßÀ» ¶§ ½ÇÇàµÇ´Â ÇÔ¼ö
     public void OnClick()
     {

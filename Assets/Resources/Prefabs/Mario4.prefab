@@ -310,13 +310,13 @@ MonoBehaviour:
   obj_bulletGeneratorB: {fileID: 8459602313537133484}
   jump_audioSource: {fileID: 0}
   clips: []
+  marioMode: 0
+  isStarMario: 0
   rb: {fileID: 0}
   collider: {fileID: 0}
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  marioMode: 0
-  isStarMario: 0
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0
