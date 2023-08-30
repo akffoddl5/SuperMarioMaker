@@ -13,6 +13,7 @@ public class Box : MonoBehaviour
     public float resetTimer = 0.2f;
     public List<GameObject> init_item_list = new List<GameObject>();
     public Queue<GameObject> items = new Queue<GameObject>();
+    public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
     // Start is called before the first frame update
     void Start()
     {
