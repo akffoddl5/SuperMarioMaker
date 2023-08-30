@@ -29,8 +29,6 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-    
-    
 
     public Text log_text;
 
@@ -55,15 +53,17 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         StartCoroutine(ILobby_Refresh());
     }
-	private void Update()
-	{
-		Lobby_Player_Count();
-	}
 
     private void Start()
     {
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.LOBBY_BGM, true, 0);
     }
+
+	private void Update()
+	{
+		Lobby_Player_Count();
+	}
+
 
     private void Lobby_Player_Count()
 	{
@@ -114,16 +114,11 @@ public class Lobby : MonoBehaviourPunCallbacks
         // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
 		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(instMarioX++, 2, 0), Quaternion.identity);
 
-        Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
+        //Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
         // 마리오는 0, 1, 2, 3 x 값에서 생성됨
         if (instMarioX > 4) instMarioX = 0;
     }
 
-
-	public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        base.OnCreateRoomFailed(returnCode, message);
-    }
 
     
     public override void OnJoinedLobby()
@@ -132,7 +127,14 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     }
 
-
+	public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+    }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -140,10 +142,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         
     }
 
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        base.OnJoinRoomFailed(returnCode, message);
-    }
 
     
     // 로비에 있는 사람만 받을 수 있음
