@@ -7,7 +7,7 @@ public class Goomba : Enemy
 {
     public GameObject stop;
     public bool isFlat = false;
-    public bool isFilpOverDie = false;
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -19,13 +19,17 @@ public class Goomba : Enemy
     protected override void Update()
     {
         base.Update();
-        TouchDown();
+        if (!isFilpOverDie)TouchDown();
     }
 
     private void TouchDown()
     {
-        if (IsSkyDetected() && !isFilpOverDie)
+        
+        //Debug.Log("TouchDown()" + isFilpOverDie);
+        if (IsSkyDetected())
         {
+            //Debug.Log("IsSkyDetected(): " + isFilpOverDie);
+
             move = false;
             anim.SetBool("Flat", true);
             isFlat = true;
@@ -38,7 +42,7 @@ public class Goomba : Enemy
 	public override void FilpOverDie()
 	{
 		base.FilpOverDie();
-        isFilpOverDie = true;
+        
 	}
 
 

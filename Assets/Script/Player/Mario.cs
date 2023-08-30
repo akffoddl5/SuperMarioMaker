@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class Mario : MonoBehaviour
 {
@@ -37,18 +38,36 @@ public class Mario : MonoBehaviour
     public AudioSource jump_audioSource;
 	public AudioClip[] clips;
 
+
 	public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
 	public bool isStarMario = false;
+
+	//Star Mode
+	bool starCoroutineTrigger = true;
 	float starTime = 5f;
 	float starTimer = 0;
+	Coroutine starModeColor;
+	Color[] color = {
+		Color.white,
+		Color.red,
+		Color.yellow,
+		Color.green,
+		Color.blue,
+		Color.cyan,
+		Color.magenta
+	};
+	int colorIndex = 0;
+	float colorChangeSec = 0.2f;
 
+	// Component
 	[HideInInspector] public Rigidbody2D rb;
 	[HideInInspector] public CapsuleCollider2D collider;
-
 	[HideInInspector] public PhysicsMaterial2D PM;
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
+	
 
+	//StateMachine
 	public Mario_stateMachine stateMachine;
  
     public Mario_idle idleState;
@@ -113,14 +132,26 @@ public class Mario : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		starTimer -= Time.deltaTime;
-		if (starTimer < 0) isStarMario = false;
 		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
 
-       
-    }
+		//star Mario
+		starTimer -= Time.deltaTime;
+		if (starTimer < 0) isStarMario = false;
+		if (isStarMario && starCoroutineTrigger)
+		{
+			starCoroutineTrigger = false;
+			starModeColor = StartCoroutine(IStarModeColor());
+		}
+		else if (!isStarMario)
+		{
+			starCoroutineTrigger = true;
+			if (starModeColor != null) StopCoroutine(starModeColor);
+			spriteRenderer.color = Color.white;
+		}
+
+	}
 
 	//// 부활 만들기
 	//void Respawn()
@@ -131,6 +162,20 @@ public class Mario : MonoBehaviour
 	//		//PhotonNetwork.Instantiate()
 	//	}
 	//}
+
+	IEnumerator IStarModeColor()
+	{
+		while (true)
+		{
+			if (!isStarMario) yield break;
+
+			spriteRenderer.color = color[colorIndex++];
+
+			if (colorIndex >= color.Length) colorIndex = 0;
+
+			yield return new WaitForSeconds(colorChangeSec);
+		}
+	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
@@ -245,6 +290,7 @@ public class Mario : MonoBehaviour
 
 	public GameObject IsEnemyDetected()
 	{
+		if (isStarMario) return null;
 		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
 		for (int i = 0; i < cols.Length; i++)
 		{

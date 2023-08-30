@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 public class Box : MonoBehaviour
 {
@@ -38,10 +39,9 @@ public class Box : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.tag == "Player")
         {
-
+            if (collision.otherCollider.gameObject.name == "boxmove") return;
              anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
