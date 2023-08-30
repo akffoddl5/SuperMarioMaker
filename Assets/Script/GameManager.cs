@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
+public class GameManager : MonoBehaviourPunCallbacks
 {
 
 	private static GameManager m_instance; // 싱글톤이 할당될 static 변수
@@ -28,11 +28,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 		}
 	}
 
-	// Synchronization method, automatically executed periodically
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		throw new System.NotImplementedException();
-	}
 	private void Awake()
 	{
 		// 씬에 싱글톤 오브젝트가 된 다른 GameManager 오브젝트가 있다면

@@ -370,11 +370,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 		customProperties.Add("characterName", characterPrefab);
 		PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
-
-		if (PV.IsMine)
-        {
-            
-        }
 		//Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
 		// Mario spawns from x values ??0, 1, 2, 3
 
