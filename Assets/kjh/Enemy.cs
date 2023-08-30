@@ -10,7 +10,6 @@ using Photon.Realtime;
 public class Enemy : MonoBehaviour
 {
 
-
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
@@ -26,16 +25,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform skyCheckA;
     [SerializeField] private Transform skyCheckB;
 
-
-
     public Rigidbody2D rb;
     protected Animator anim;
     GameObject enemy;
     protected bool anim2=false;
     protected float moveflip = 1;
 
-    protected float overShellSpeed = 1;//1±âº» 10Å»¶ô ->2ÀÌ»óÀÌ¸é Å»¶ôÃ³¸®
+	public bool isDie = false;
+	public bool isFilpOverDie = false;
+
+	protected float overShellSpeed = 1;//1±âº» 10Å»¶ô ->2ÀÌ»óÀÌ¸é Å»¶ôÃ³¸®
     protected bool overShell = false;//²®Áú Á×À½
+
     //protected static float posX;
     //protected static float posY;
     public  float spdX;
@@ -58,13 +59,13 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        Move(move);
+        if (isDie || isFilpOverDie) return;
+		Move(move);
     }
 
     protected void Move(bool move)
     {
-        
-        if (move)
+		if (move)
         {
             spdX = -1 *moveflip;
             spdY = rb.velocity.y;
@@ -84,7 +85,7 @@ public class Enemy : MonoBehaviour
 
     protected void Flip()
     {
-        if (moveflip > 0)
+		if (moveflip > 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -92,8 +93,6 @@ public class Enemy : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-
-
         if (IsGroundDetected() != true)
         {
             //transform.Rotate(0, 180, 0);
@@ -115,6 +114,8 @@ public class Enemy : MonoBehaviour
     //public bool IsSkyDetected() => Physics2D.Raycast(skyCheck.position, Vector2.up, skyCheckDistance, whatIsPlayer);
     public bool IsSkyDetected()
     {
+        // if superMario, dont detect sky
+        //if (isFilpOverDie) return false;
         Collider2D[] colliders = Physics2D.OverlapAreaAll(skyCheckA.position, skyCheckB.position);
         for (int i = 0; i < colliders.Length; i++){
             if (colliders[i] != this.gameObject && colliders[i].CompareTag("Player"))
@@ -122,7 +123,6 @@ public class Enemy : MonoBehaviour
                 return true;
             }
         }
-
         return false;
     }
     public bool IsPlayerLDetected() => Physics2D.Raycast(playerLCheck.position, Vector2.left, playerCheckDistance, whatIsPlayer);
@@ -135,8 +135,10 @@ public class Enemy : MonoBehaviour
 
     public virtual void FilpOverDie()
     {
-        Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
-        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
+        //Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
+		isDie = true;
+        isFilpOverDie = true;
+		gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
 		gameObject.transform.Rotate(180, 0, 0);
 		var col = gameObject.GetComponent<Collider2D>();
 		col.enabled = false;
