@@ -106,7 +106,7 @@ Transform:
   - {fileID: 7838783628332860886}
   - {fileID: 8676133179858168007}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdef8dd4d3990c140854001710b24c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marioMode: 0
+  virtual_camera: {fileID: 0}
   moveSpeed: 5
   runSpeed: 7
   jumpPower: 14
@@ -273,6 +273,8 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  obj_bulletGeneratorA: {fileID: 0}
+  obj_bulletGeneratorB: {fileID: 0}
   jump_audioSource: {fileID: 0}
   clips: []
   rb: {fileID: 0}
@@ -280,6 +282,8 @@ MonoBehaviour:
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  marioMode: 0
+  isStarMario: 0
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class Stone : MonoBehaviour
     public float speed = 10;
     float ground;
     Vector2 pos;
-
+    float timer;
     Animator anim;
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
@@ -31,16 +31,14 @@ public class Stone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetBool("Move", false);
+     
+     //   timer-=Time.deltaTime;
+        
 
-
-        if (IsPlayerCheck() || IsPlayer2Check())
+        if (IsPlayerCheck() || IsPlayer2Check())//통과해서 판독이 어려움
         {
-            anim.SetBool("Move", false);
-           
+            anim.SetBool("Move", true);
             Invoke("start", 1);
-            Invoke("back", 3f);
-
         }
 
 
@@ -48,18 +46,24 @@ public class Stone : MonoBehaviour
 
     private void start()
     {
-        anim.SetBool("Move", true);
+        //timer = 3;
+       // {
 
-        transform.position = Vector3.MoveTowards(pos, new Vector2(transform.position.x, IsGroundDetected().collider.gameObject.transform.position.y ), Time.deltaTime * speed);
+
+            anim.SetBool("Move", false);
+         //   Debug.Log(1);
+      //transform.position = Vector3.MoveTowards(pos, new Vector2(transform.position.x, IsGroundDetected().collider.gameObject.transform.position.y ), Time.deltaTime * speed);
+       // }
     }
 
     private void back()
     {
-        transform.position = Vector3.MoveTowards(new Vector2(transform.position.x, IsGroundDetected().collider.gameObject.transform.position.y ), pos, Time.deltaTime * speed);
+      //  transform.position = Vector3.MoveTowards(new Vector2(transform.position.x, IsGroundDetected().collider.gameObject.transform.position.y ), pos, Time.deltaTime * speed);
     }
 
     public bool IsPlayerCheck() => Physics2D.Raycast(playerCheck.position, Vector2.down, playerCheckDistance, whatIsPlayer);
     public bool IsPlayer2Check() => Physics2D.Raycast(playerCheck2.position, Vector2.down, playerCheckDistance, whatIsPlayer);
+   // public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public RaycastHit2D IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
 
 
