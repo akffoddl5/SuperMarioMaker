@@ -39,12 +39,27 @@ public class Mario : MonoBehaviour
 
 	public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
 	public bool isStarMario = false;
+	bool starInvokeTrigger = true;
 	float starTime = 5f;
 	float starTimer = 0;
 
+
+	Color[] color = {
+		Color.white,
+		Color.red,
+		Color.yellow,
+		Color.green,
+		Color.blue,
+		Color.cyan,
+		Color.magenta
+	};
+
+	int colorIndex = 0;
+	public float colorChangeSec = 0.2f;
+
+
 	[HideInInspector] public Rigidbody2D rb;
 	[HideInInspector] public CapsuleCollider2D collider;
-
 	[HideInInspector] public PhysicsMaterial2D PM;
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
