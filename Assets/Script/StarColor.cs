@@ -37,6 +37,7 @@ public class StarColor : MonoBehaviour
         else if (!isStar)
         {
             trigger = true;
+            spriteRenderer.color = Color.white;
         }
     }
 

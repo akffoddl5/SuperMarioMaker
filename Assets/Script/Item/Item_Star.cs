@@ -17,11 +17,14 @@ public class Item_Star : Item
 	[SerializeField] private float wallCheckDistance;
 	[SerializeField] private LayerMask whatIsGround;
 
-	
+	new string prefabPath = "Prefabs/Item_Star";
+    
+
+
 	protected override void Awake()
 	{
 		base.Awake();
-		
+
 	}
 
 	void Start()
