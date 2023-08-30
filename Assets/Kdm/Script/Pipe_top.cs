@@ -11,12 +11,14 @@ public class Pipe_top : MonoBehaviour
     public Transform linkObjectTransform { get; set; }
     public bool lineActive { get; set; } = false;
 
+    [SerializeField] float lineWidth = 0.15f;
+
     // Start is called before the first frame update
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
         lineRenderer.SetPosition(0, myTransform.position);
         lineRenderer.SetPosition(1, myTransform.position);
     }

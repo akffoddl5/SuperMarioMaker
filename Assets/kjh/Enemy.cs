@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++){
             if (colliders[i] != this.gameObject && colliders[i].CompareTag("Player"))
             {
+                if(!colliders[i].gameObject.GetComponent<Mario>().isStarMario)
                 return true;
             }
         }
@@ -135,13 +136,13 @@ public class Enemy : MonoBehaviour
 
     public virtual void FilpOverDie()
     {
-        //Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
+        Debug.Log("FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()FilpOverDie()");
+		var col = gameObject.GetComponent<Collider2D>();
+		col.enabled = false;
 		isDie = true;
         isFilpOverDie = true;
 		gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
 		gameObject.transform.Rotate(180, 0, 0);
-		var col = gameObject.GetComponent<Collider2D>();
-		col.enabled = false;
 
 		Destroy(gameObject, 1f);
 	}
