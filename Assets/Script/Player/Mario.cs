@@ -290,6 +290,7 @@ public class Mario : MonoBehaviour
 
 	public GameObject IsEnemyDetected()
 	{
+		if (isStarMario) return null;
 		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position);
 		for (int i = 0; i < cols.Length; i++)
 		{
