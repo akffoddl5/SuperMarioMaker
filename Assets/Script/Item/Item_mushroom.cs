@@ -7,7 +7,7 @@ public class Item_mushroom : Item
 	public float moveSpeed=3f;
 	
 	float moveflip = 1;
-    new string prefabPath = "Prefabs/Item_mushroom";
+    //new string prefabPath = "Prefabs/Item_mushroom";
 
 	[SerializeField] private Transform wallLCheck;
 	[SerializeField] private Transform wallRCheck;

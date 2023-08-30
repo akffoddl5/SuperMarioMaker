@@ -38,8 +38,7 @@ public class UI_Editor : MonoBehaviour
 
     public bool pipeLinkMode { get; private set; } = false;
     GameObject[] pipeLinkObject = new GameObject[2];
-    Transform PipeLinkStart = null;
-    Transform PipeLinkEnd = null;
+    List<GameObject> alreadyPipeLinkObject = new List<GameObject>();
 
 
 
@@ -55,51 +54,82 @@ public class UI_Editor : MonoBehaviour
     void Start()
     {
         buildSystem = BuildSystem.instance;
-
+        Debug.Log(pipeLinkObject[0]);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pipeLinkMode);
-        if (buildSystem.currentTileName == "Pipe" && pipeLinkMode)
+        PipeLinkMode_On();
+    }
+
+    //파이프 연결 모드
+    private void PipeLinkMode_On()
+    {
+        if (pipeLinkMode)// && buildSystem.currentTileName == "Pipe")
         {
-            if (pipeLinkObject[0] == null)
+            if (Input.GetMouseButtonDown(0))
             {
-                PipeLink(0);
-            }
-            else if (pipeLinkObject[1] == null)
-            {
-                PipeLink(1);
-            }
-            else
-            {
-                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
-                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+                if (pipeLinkObject[0] == null)
+                {
+                    PipeLink(0);
+                }
+                else if (pipeLinkObject[1] == null)
+                {
+                    PipeLink(1);
+                }
             }
         }
     }
 
+    //파이프 연결
     void PipeLink(int _pipeLinkPosIndex)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        RaycastHit hit;
+        RaycastHit2D hit = Physics2D.Raycast(ray, transform.forward, 15);
 
-        if (Physics.Raycast(ray, out hit))
+        if (hit)
         {
+
             if (hit.collider.gameObject.GetComponent<Pipe_top>() != null)
             {
-                Debug.Log("파이프 클릭");
-                
+                //이미 연결된 파이프인지 확인
+                for (int i = 0; i < alreadyPipeLinkObject.Count; i++)
+                {
+                    if (alreadyPipeLinkObject[i] == hit.collider.gameObject)
+                    {
+                        //Debug.Log("이미 연결된 파이프");
+                        return;
+                    }
+                }
+                //첫번째와 같은 파이프인지 확인(자기 자신에 연결 X)
+                if (hit.collider.gameObject == pipeLinkObject[0])
+                {
+                    Debug.Log("첫번째와 같은 파이프");
+                    return;
+                }
+
+
                 pipeLinkObject[_pipeLinkPosIndex] = hit.collider.gameObject;
 
                 if (_pipeLinkPosIndex == 0)
                 {
                     pipeLinkObject[_pipeLinkPosIndex].GetComponent<Pipe_top>().lineActive = true;
+                }
+                else if (_pipeLinkPosIndex == 1)
+                {
+                    pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
+                        pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
+                    pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
+                        pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+
+                    alreadyPipeLinkObject.Add(pipeLinkObject[0]);
+                    alreadyPipeLinkObject.Add(pipeLinkObject[1]);
+
+                    pipeLinkObject[0] = null;
+                    pipeLinkObject[1] = null;
                 }
             }
         }

@@ -193,14 +193,15 @@ public class Enemy_shell : MonoBehaviour
     //플레이어 위감지
     public GameObject IsSkyDetected()
     {
+		
         Collider2D[] cols= Physics2D.OverlapAreaAll(new Vector2(skyCheck.position.x - skyCheckDistance, skyCheck.position.y), new Vector2(skyCheck.position.x + skyCheckDistance, skyCheck.position.y));
 
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Player"))
             {
-                
-                return cols[i].gameObject;
+                if(!cols[i].gameObject.GetComponent<Mario>().isStarMario) 
+					return cols[i].gameObject;
             }
         }
 

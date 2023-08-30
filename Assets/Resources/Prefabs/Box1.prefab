@@ -327,6 +327,7 @@ MonoBehaviour:
   init_item_list:
   - {fileID: 6374375659716200658, guid: 261ba68c8bfe86e4283923fc0cdaf747, type: 3}
   - {fileID: 5888581124587718431, guid: ac98b255044c133438c378e372369639, type: 3}
+  stateNum: 1
 --- !u!61 &918574725049206832
 BoxCollider2D:
   m_ObjectHideFlags: 0

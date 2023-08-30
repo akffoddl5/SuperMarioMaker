@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 448788545, guid: 01998cf93c3fa274fb677f06b7a3bee3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fec6c573dc4ffa542b5b0c3adf251fbc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 918574725049206832}
   - component: {fileID: 3470430126897074497}
   m_Layer: 0
-  m_Name: Box1
+  m_Name: Box0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,7 @@ Transform:
   m_Children:
   - {fileID: 396919736223687186}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &43836736770535040
 MonoBehaviour:
@@ -327,6 +327,7 @@ MonoBehaviour:
   init_item_list:
   - {fileID: 6374375659716200658, guid: 261ba68c8bfe86e4283923fc0cdaf747, type: 3}
   - {fileID: 5888581124587718431, guid: ac98b255044c133438c378e372369639, type: 3}
+  stateNum: 0
 --- !u!61 &918574725049206832
 BoxCollider2D:
   m_ObjectHideFlags: 0

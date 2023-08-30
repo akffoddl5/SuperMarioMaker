@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 public class Box : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Box : MonoBehaviour
     public float resetTimer = 0.2f;
     public List<GameObject> init_item_list = new List<GameObject>();
     public Queue<GameObject> items = new Queue<GameObject>();
+    public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
     // Start is called before the first frame update
     void Start()
     {
@@ -37,10 +39,9 @@ public class Box : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.tag == "Player")
         {
-
+            if (collision.otherCollider.gameObject.name == "boxmove") return;
              anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
