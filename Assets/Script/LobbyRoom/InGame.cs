@@ -9,7 +9,8 @@ public class InGame : MonoBehaviourPunCallbacks
     object myFrefab;
     private void Awake()
     {
-       
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
     }
 
     private void Start()
