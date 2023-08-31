@@ -35,7 +35,6 @@ public class Mario_jump : Mario_state
 		base.Exit();
 		mario.PM.friction = 0.4f;
 		mario.collider.sharedMaterial = mario.PM;
-		Debug.Log("Exit????????????");
 	}
 	public override void Update()
 	{
@@ -91,7 +90,7 @@ public class Mario_jump : Mario_state
 			mario.rb.velocity = new Vector2(xInput * mario.moveSpeed, mario.rb.velocity.y);
         }
 
-		Debug.Log("mario.IsGroundDetected(): " + mario.IsGroundDetected());
+		//Debug.Log("mario.IsGroundDetected(): " + mario.IsGroundDetected());
 		// if 그라운드 밟으면 상태 전환하기 idle
 		if (mario.rb.velocity.y <= 0.01f && mario.IsGroundDetected())
 		{
