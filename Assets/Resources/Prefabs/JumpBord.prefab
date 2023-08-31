@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 7143810066884717758}
   m_Layer: 0
   m_Name: JumpBord
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,7 +128,7 @@ Transform:
   m_Children:
   - {fileID: 166791993574239094}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5169223186813955880
 SpriteRenderer:
@@ -296,7 +296,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7537997883944021663}
   - {fileID: 7143810066884717758}
-  sceneViewId: 0
+  sceneViewId: 9
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &7537997883944021663

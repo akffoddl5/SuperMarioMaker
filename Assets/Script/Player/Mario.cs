@@ -79,6 +79,8 @@ public class Mario : MonoBehaviour
 	public Mario_sitDown sitDown;
 	public Mario_die dieState;
 	public Mario_stamp stampState;
+	public Mario_BigSmall bigSmall;
+	public Mario_SmallBig smallBig;
 
 	public PhotonView PV;
 
@@ -111,7 +113,11 @@ public class Mario : MonoBehaviour
 		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
 		dieState = new Mario_die(this, stateMachine, "Die");
         stampState = new Mario_stamp(this, stateMachine, "Jump");
-		
+		bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
+		smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
+
+
+
 	}
 
 	[PunRPC]
@@ -246,9 +252,15 @@ public class Mario : MonoBehaviour
 			if (collision.GetComponent<Item_mushroom>() != null)
 			{
 				// mushroom
-				marioMode = 1;
-				collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
-				Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+				if (marioMode == 0)
+				{
+					marioMode = 1;
+					stateMachine.ChangeState(smallBig);
+					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
+					Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+				}
+				
+				
 
 			}
 			//else if (collision.gameObject.GetComponent<Item_flower>() != null)
