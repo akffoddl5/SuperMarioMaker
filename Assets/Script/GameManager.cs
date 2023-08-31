@@ -49,11 +49,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 			photonView.RPC("RPC_LoadGameStage", RpcTarget.All, startPos);
 		}
 	}
-
+	
 	[PunRPC]
 	private void RPC_LoadGameStage(Vector2 _startPosition)
 	{
-		Debug.Log("gameSceneNamgameSceneNamegameSceneNamegameSceneNamegameSceneNamegameSceneNamegameSceneNamegameSceneNamegameSceneNamee" + gameSceneName);
+		Debug.Log("gameSceneNamgameSceneNamegameSceneNamegameSceneNamegameSceneNamegame SceneNamegameSceneNamegameSceneNamegameSceneNamee" + gameSceneName);
 		// 모든 플레이어가 준비되었다고 가정하고, 다음 스테이지로 전환
 		PhotonNetwork.LoadLevel(gameSceneName);
 		string prefabName;
