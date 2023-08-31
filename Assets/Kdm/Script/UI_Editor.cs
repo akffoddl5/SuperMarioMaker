@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+//using static UI_Editor;
 
 public class UI_Editor : MonoBehaviour
 {
@@ -32,14 +34,27 @@ public class UI_Editor : MonoBehaviour
     [Header("ButtonPanel")]
     [SerializeField] GameObject[] buttonPanel;
 
+    [SerializeField] GameObject brickSetPanel;
 
     int currentOpenButtonPanelNumber = -1;
 
 
-    public bool pipeLinkMode { get; private set; } = false;
+    public enum FunctionEditMode
+    {
+        None,
+        PipeLinkMode,
+        BrickItemSetMode
+    }
+    public FunctionEditMode functionEditMode { get; private set; } = FunctionEditMode.None;
+    //public bool pipeLinkMode { get; private set; } = false;
     GameObject[] pipeLinkObject = new GameObject[2];
     List<GameObject> alreadyPipeLinkObject = new List<GameObject>();
 
+
+    [SerializeField] GameObject[] itemPrefab;
+    GameObject currentSetBrick = null;
+    [SerializeField] TextMeshProUGUI itemCountText;
+    int itemCount = 0;
 
 
     private void Awake()
@@ -61,30 +76,120 @@ public class UI_Editor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PipeLinkMode_On();
+        if (functionEditMode != FunctionEditMode.BrickItemSetMode && brickSetPanel.activeSelf)
+        {
+            BrickSetPanel_Off();
+        }
+        FunctionEditMode_On();
+        //Debug.Log(currentSetBrick);
     }
 
-    //파이프 연결 모드
-    private void PipeLinkMode_On()
+    private void FunctionEditMode_On()
     {
-        if (pipeLinkMode)// && buildSystem.currentTileName == "Pipe")
+        //파이프 연결 모드
+        if (functionEditMode == FunctionEditMode.PipeLinkMode)
         {
+            //마우스 클릭
             if (Input.GetMouseButtonDown(0))
             {
-                if (pipeLinkObject[0] == null)
+                //클릭한 대상 확인
+                GameObject tempObject = RaycastHitObject();
+                if (tempObject != null)
                 {
-                    PipeLink(0);
+                    PipeLink(tempObject);
                 }
-                else if (pipeLinkObject[1] == null)
+
+            }
+        }
+        else if (functionEditMode == FunctionEditMode.BrickItemSetMode)
+        {
+            //마우스 클릭
+            if (Input.GetMouseButtonDown(0))
+            {
+                //클릭한 대상 확인
+                GameObject tempObject = RaycastHitObject();
+                if (tempObject != null)
                 {
-                    PipeLink(1);
+                    BrickSet(tempObject);
                 }
+            }
+            //Debug.Log(currentSetBrick);
+
+        }
+    }
+
+    void BrickSet(GameObject _tempObject)
+    {
+        //클릭한 대상이 블럭일 때
+        if (_tempObject.GetComponent<Box>() != null || _tempObject.GetComponentInParent<Box>() != null)
+        {
+            currentSetBrick = _tempObject;
+            buildSystem.BrickItemSet_ObjectListCount(currentSetBrick);
+        }
+    }
+
+
+    void PipeLink(GameObject _tempObject)
+    {
+        //클릭한 대상이 파이프일 때
+        if (_tempObject.GetComponent<Pipe_top>() != null)
+        {
+            //이미 연결된 파이프인지 확인
+            for (int i = 0; i < alreadyPipeLinkObject.Count; i++)
+            {
+                if (alreadyPipeLinkObject[i] == _tempObject)
+                {
+                    //Debug.Log("이미 연결된 파이프");
+                    return;
+                }
+            }
+            //첫번째와 같은 파이프인지 확인(자기 자신에 연결 X)
+            if (_tempObject == pipeLinkObject[0])
+            {
+                //Debug.Log("첫번째와 같은 파이프");
+                return;
+            }
+
+            int pipeLinkPosIndex;
+            if (pipeLinkObject[0] == null)
+            {
+                pipeLinkPosIndex = 0;
+            }
+            else if (pipeLinkObject[1] == null)
+            {
+                pipeLinkPosIndex = 1;
+            }
+            else
+            {
+                return;
+            }
+
+
+            pipeLinkObject[pipeLinkPosIndex] = _tempObject;
+
+            if (pipeLinkPosIndex == 0)
+            {
+                pipeLinkObject[pipeLinkPosIndex].GetComponent<Pipe_top>().lineActive = true;
+            }
+            else if (pipeLinkPosIndex == 1)
+            {
+                buildSystem.PipeLinkPos_ObjectListInput(pipeLinkObject[0], pipeLinkObject[1]);
+
+                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
+                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
+                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
+                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+
+                alreadyPipeLinkObject.Add(pipeLinkObject[0]);
+                alreadyPipeLinkObject.Add(pipeLinkObject[1]);
+
+                pipeLinkObject[0] = null;
+                pipeLinkObject[1] = null;
             }
         }
     }
 
-    //파이프 연결
-    void PipeLink(int _pipeLinkPosIndex)
+    GameObject RaycastHitObject()
     {
         Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -92,48 +197,12 @@ public class UI_Editor : MonoBehaviour
 
         if (hit)
         {
-
-            if (hit.collider.gameObject.GetComponent<Pipe_top>() != null)
-            {
-                //이미 연결된 파이프인지 확인
-                for (int i = 0; i < alreadyPipeLinkObject.Count; i++)
-                {
-                    if (alreadyPipeLinkObject[i] == hit.collider.gameObject)
-                    {
-                        //Debug.Log("이미 연결된 파이프");
-                        return;
-                    }
-                }
-                //첫번째와 같은 파이프인지 확인(자기 자신에 연결 X)
-                if (hit.collider.gameObject == pipeLinkObject[0])
-                {
-                    Debug.Log("첫번째와 같은 파이프");
-                    return;
-                }
-
-
-                pipeLinkObject[_pipeLinkPosIndex] = hit.collider.gameObject;
-
-                if (_pipeLinkPosIndex == 0)
-                {
-                    pipeLinkObject[_pipeLinkPosIndex].GetComponent<Pipe_top>().lineActive = true;
-                }
-                else if (_pipeLinkPosIndex == 1)
-                {
-                    pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
-                        pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
-                    pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
-                        pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
-
-                    alreadyPipeLinkObject.Add(pipeLinkObject[0]);
-                    alreadyPipeLinkObject.Add(pipeLinkObject[1]);
-
-                    pipeLinkObject[0] = null;
-                    pipeLinkObject[1] = null;
-                }
-            }
+            return hit.collider.gameObject;
         }
+
+        return null;
     }
+
 
     public bool IsSetTile()
     {
@@ -193,6 +262,11 @@ public class UI_Editor : MonoBehaviour
             ButtonPanelSetActive_FALSE(currentOpenButtonPanelNumber);
             currentOpenButtonPanelNumber = -1;
         }
+
+        if (functionEditMode == FunctionEditMode.BrickItemSetMode)
+        {
+            functionEditMode = FunctionEditMode.None;
+        }
     }
 
     //버튼 패널 On
@@ -221,20 +295,58 @@ public class UI_Editor : MonoBehaviour
 
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
 
-        pipeLinkMode = false;
+        //pipeLinkMode = false;
+        functionEditMode = FunctionEditMode.None;
     }
+
+
+    //파이프 선택 버튼(방향)
     public void PipeTileButtonClick(int _pipeDir)
     {
         buildSystem.pipeDir = _pipeDir;
         TileButtonClick("Pipe");
     }
+
+    //파이프 연결 버튼
     public void PipeLinkButtonClick()
     {
-        pipeLinkMode = true;
+        //pipeLinkMode = true;
+        ButtonPanel_OnOff(currentOpenButtonPanelNumber);
+
+        functionEditMode = FunctionEditMode.PipeLinkMode;
 
         buildSystem.PastTempTileClear();
 
+
+    }
+
+
+    public void BrickItemSetButtonClick()
+    {
+        buildSystem.PastTempTileClear();
+
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
+
+        functionEditMode = FunctionEditMode.BrickItemSetMode;
+
+        //buildSystem.PastTempTileClear();
+
+        brickSetPanel.SetActive(true);
+
+    }
+
+    public void BrickSetPanel_Off()
+    {
+        functionEditMode = FunctionEditMode.None;
+
+        brickSetPanel.SetActive(false);
+    }
+
+    public void BrickItemButtonClick(int _brickItemNum)
+    {
+        int itemCount = buildSystem.BrickItemSet_ObjectListInput(currentSetBrick, _brickItemNum);
+        
+        itemCountText.text = itemCount.ToString();
     }
 
     #endregion
