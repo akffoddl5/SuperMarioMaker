@@ -80,7 +80,7 @@ public class Mario : MonoBehaviour
 	public Mario_die dieState;
 	public Mario_stamp stampState;
 
-
+	public PhotonView PV;
 
 
     private void Awake()
@@ -88,6 +88,7 @@ public class Mario : MonoBehaviour
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
+        PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
@@ -298,7 +299,7 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
 			{
-				if(cols[i].gameObject.GetComponent<Enemy>() != null)
+				if(cols[i].gameObject.GetComponent<Enemy>() != null && PV.IsMine)
 					cols[i].gameObject.GetComponent<Enemy>().Die();
 				return cols[i].gameObject;
 			}
