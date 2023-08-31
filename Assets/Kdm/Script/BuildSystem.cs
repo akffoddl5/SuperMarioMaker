@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -96,7 +95,7 @@ public class BuildSystem : MonoBehaviour
 
     Vector3 pipeLinkPos = new Vector3(0, 0, -100);
     int dirInfo = 0;
-    List<int> brickItemListInfo = new List<int>();
+    //List<int> brickItemListInfo = new List<int>();
 
     //brick
 
@@ -381,10 +380,10 @@ public class BuildSystem : MonoBehaviour
                 //오브젝트 삭제할때도 써먹음
                 //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
                 //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
-                objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, brickItemListInfo,
+                objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, new List<int>(),
                     tilemapMousePosition, tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
 
-                
+
             }
 
 
@@ -540,6 +539,18 @@ public class BuildSystem : MonoBehaviour
             {
                 ((List<int>)objectList[listIndex][4]).RemoveAt(((List<int>)objectList[listIndex][4]).Count - 1);
 
+                return ((List<int>)objectList[listIndex][4]).Count;
+            }
+        }
+        return 0;
+    }
+
+    public int BrickItemSet_ObjectListCount(GameObject _itemSetBrick)
+    {
+        for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
+        {
+            if (_itemSetBrick == (GameObject)objectList[listIndex][7])
+            {
                 return ((List<int>)objectList[listIndex][4]).Count;
             }
         }

@@ -1444,7 +1444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &125232380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1815,7 +1815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &193042911
 RectTransform:
   m_ObjectHideFlags: 0
@@ -57891,7 +57891,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8b3e62ce774e6da478446688c7cdc3b6, type: 2}
     TileName: Brick
     ObjectPrefab:
-    - {fileID: 8776863259092919868, guid: 045dd470c9ff7de4682da22b96dff87b, type: 3}
+    - {fileID: 6203670974470056822, guid: 1e44c85850e3e3d47b77f27e78e62b4a, type: 3}
   - Tile:
     - {fileID: 11400000, guid: 35522e461e7a5704eb9e508464c360b4, type: 2}
     - {fileID: 11400000, guid: d361a072aa65ea241ac32917aa8f09ea, type: 2}
@@ -57988,7 +57988,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e2eb4cbacf499b64fb5694ed7313c31e, type: 2}
     TileName: QuestionBrick0
     ObjectPrefab:
-    - {fileID: 8776863259092919868, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
+    - {fileID: 4283115920183455747, guid: c5dc0d88f78048149b4a42fe3555733a, type: 3}
   - Tile:
     - {fileID: 11400000, guid: 6618810a3d8c59b4a8f579eeeb0708c6, type: 2}
     TileName: QuestionBrick1
