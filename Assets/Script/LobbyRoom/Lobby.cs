@@ -186,9 +186,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
 			// +interactive(roomState)
+            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
 			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
             // false면 interactable true여야 함
-            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
             
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
