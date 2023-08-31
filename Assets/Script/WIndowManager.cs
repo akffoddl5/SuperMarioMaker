@@ -6,7 +6,23 @@ using UnityEngine;
 public class WIndowManager : MonoBehaviour
 {
 
-    [SerializeField] string screenShotName;
+    public static WIndowManager instance;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    string screenShotName = "test88";
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +50,10 @@ public class WIndowManager : MonoBehaviour
 
         tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         tex.Apply();
-        File.WriteAllBytes($"{Application.dataPath}/{screenShotName}.png", tex.EncodeToPNG());
+        Debug.Log(Application.dataPath);
+        //File.WriteAllBytes($"C:\\Users\\kim\\Documents\\red/{screenShotName}.png", tex.EncodeToPNG());
+        //File.WriteAllBytes($"C:\\Users\\kim\\Documents\\red/{screenShotName}.png", tex.EncodeToPNG());
+        File.WriteAllBytes($"{Application.dataPath}/../{screenShotName}.png", tex.EncodeToPNG());
 
         Debug.Log("shot end");
     }

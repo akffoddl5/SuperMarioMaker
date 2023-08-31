@@ -412,7 +412,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             //Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
             Lobby_Refresh();
 
