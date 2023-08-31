@@ -1881,7 +1881,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 495c9e2a934bcc640a8d7427b13cb680, type: 3}
+    m_Font: {fileID: 12800000, guid: d7d316e35dce62a4d97234f8e5ef2356, type: 3}
     m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
@@ -2105,7 +2105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc045dd86ee9fb4cb4d66e57b4f0320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenShotName: test77
 --- !u!4 &1371093122
 Transform:
   m_ObjectHideFlags: 0
