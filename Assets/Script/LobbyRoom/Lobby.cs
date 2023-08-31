@@ -29,11 +29,10 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-
-    public Text log_text;
+    public string mapMakeSceneName;
 
 	string characterPrefab;
-    float instMarioX = 0;
+    float instMarioX = -6;
 	// Room에 있는 함수를 실행하기 위한 이벤트 함수
 	//public UnityEvent RoomUISync;
 	public PhotonView PV;
@@ -43,7 +42,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
 
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
-        log_text = GameObject.Find("Log").GetComponent<Text>();
         Lobby_Player_Count();
 
         max_Player = 4;
@@ -195,8 +193,13 @@ public class Lobby : MonoBehaviourPunCallbacks
             
         }
     }
+    // Btn 맵 만들기 클릭
+    public void Map_Make_Click()
+    {
+        SceneManager.LoadScene(mapMakeSceneName);
+    }
 
-	// Btn방 만들기 클릭
+	// Btn 방 만들기 클릭
 	public void Room_Plus_Click()
     {
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
@@ -351,24 +354,21 @@ public class Lobby : MonoBehaviourPunCallbacks
 		switch (playerNum)
         {
             case 1:
-		        PhotonNetwork.Instantiate("Prefabs/Mario", spawnPosition, Quaternion.identity);
 				characterPrefab = "Prefabs/Mario";
 				break;
             case 2:
-		        PhotonNetwork.Instantiate("Prefabs/Mario2", spawnPosition, Quaternion.identity);
 				characterPrefab = "Prefabs/Mario2";
                 break;
             case 3:
-		        PhotonNetwork.Instantiate("Prefabs/Mario3", spawnPosition, Quaternion.identity);
 				characterPrefab = "Prefabs/Mario3";
                 break;
             case 4:
-		        PhotonNetwork.Instantiate("Prefabs/Mario4", spawnPosition, Quaternion.identity);
 				characterPrefab = "Prefabs/Mario4";
                 break;
         }
-        instMarioX++;
-		if (instMarioX > 4) instMarioX = 0;
+		PhotonNetwork.Instantiate(characterPrefab, spawnPosition, Quaternion.identity);
+		instMarioX++;
+		if (instMarioX > -2) instMarioX = -6;
 
 		ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
 		customProperties.Add("characterName", characterPrefab);

@@ -50,6 +50,7 @@ public class Mario_state
 		{
 			return;
 		}
+		Debug.Log("animBoolName Exit()" + animBoolName);
 		mario.anim.SetBool(animBoolName, false);
 	}
 	public virtual void Update()
