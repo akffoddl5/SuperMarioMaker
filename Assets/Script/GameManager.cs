@@ -44,25 +44,34 @@ public class GameManager : MonoBehaviourPunCallbacks
 		if (PhotonNetwork.IsMasterClient)
 		{
 			Debug.Log(startPos);
+            PhotonNetwork.LoadLevel(gameSceneName);
 
-			// 방장만 스테이지 전환을 호출
-			photonView.RPC("RPC_LoadGameStage", RpcTarget.All, startPos);
+			//StartCoroutine(Delay(startPos));
+
+            // 방장만 스테이지 전환을 호출
+            //photonView.RPC("RPC_LoadGameStage", RpcTarget.All, startPos);
 		}
 	}
+
+	//IEnumerator Delay(Vector2 startPos)
+	//{
+	//	yield return new WaitForSeconds(5);
+ //       photonView.RPC("RPC_LoadGameStage", RpcTarget.All, startPos);
+ //   }
 	
-	[PunRPC]
-	private void RPC_LoadGameStage(Vector2 _startPosition)
-	{
-		Debug.Log("gameSceneNamgameSceneNamegameSceneNamegameSceneNamegameSceneNamegame SceneNamegameSceneNamegameSceneNamegameSceneNamee" + gameSceneName);
-		// 모든 플레이어가 준비되었다고 가정하고, 다음 스테이지로 전환
-		PhotonNetwork.LoadLevel(gameSceneName);
-		string prefabName;
-		// 다음 스테이지로 넘어갈 때, 캐릭터 생성
-		if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("characterName", out object characterPrefabNameObj))
-		{
-			prefabName = characterPrefabNameObj.ToString();
-			Debug.Log("prefabNameprefabNameprefabNameprefabNameprefabNameprefabName" + prefabName);
-			PhotonNetwork.Instantiate(prefabName, _startPosition, Quaternion.identity);
-		}
-	}
+	//[PunRPC]
+	//private void RPC_LoadGameStage(Vector2 _startPosition)
+	//{
+ //       PhotonNetwork.Instantiate("Prefabs/Mario", _startPosition, Quaternion.identity);
+	//	// 모든 플레이어가 준비되었다고 가정하고, 다음 스테이지로 전환
+		
+	//	//string prefabName;
+	//	//// 다음 스테이지로 넘어갈 때, 캐릭터 생성
+	//	//if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("characterName", out object characterPrefabNameObj))
+	//	//{
+	//	//	prefabName = characterPrefabNameObj.ToString();
+	//	//	Debug.Log("prefabNameprefabNameprefabNameprefabNameprefabNameprefabName" + prefabName);
+	//	//	PhotonNetwork.Instantiate(prefabName, _startPosition, Quaternion.identity);
+	//	//}
+	//}
 }

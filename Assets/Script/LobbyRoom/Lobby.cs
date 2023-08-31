@@ -427,7 +427,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         //RoomOptions RO = new RoomOptions();
         //RO.IsVisible = false;
         //RO.MaxPlayers = 30;
-        PhotonNetwork.LeaveLobby();
+        if(PhotonNetwork.InLobby)
+            PhotonNetwork.LeaveLobby();
         
 
     }
