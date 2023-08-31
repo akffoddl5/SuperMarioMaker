@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -93,6 +94,12 @@ public class BuildSystem : MonoBehaviour
     Vector3Int pipeTopPosition = new Vector3Int(0, 0, -100);
     Vector3Int defaultPipeTopPosition = new Vector3Int(0, 0, -100);
 
+    Vector3 pipeLinkPos = new Vector3(0, 0, -100);
+    int dirInfo = 0;
+    List<int> brickItemListInfo = new List<int>();
+
+    //brick
+
 
     Vector3Int pastMousePosition;
 
@@ -140,7 +147,8 @@ public class BuildSystem : MonoBehaviour
 
         isSetTile = ui_Editor.IsSetTile();
 
-        if (!ui_Editor.pipeLinkMode)
+        //if (!ui_Editor.pipeLinkMode)
+        if (ui_Editor.functionEditMode == UI_Editor.FunctionEditMode.None)
             ClickSetTile();
 
         //Debug.Log("????????");
@@ -271,10 +279,12 @@ public class BuildSystem : MonoBehaviour
             {
                 //오브젝트를 생성할 월드포지션을 계산
                 Vector3 tilemapToWorldPoint = SetTilemap.CellToWorld(tilemapMousePosition);
+
                 Vector3 createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
                     tilemapToWorldPoint.y + grid.cellSize.x / 2);
 
                 GameObject createObj;
+                int dirInfo = 0;
 
                 //파이프 배치
                 if (currentTileName == "Pipe")
@@ -347,6 +357,8 @@ public class BuildSystem : MonoBehaviour
                         pipePrefabIndex = 1;
                     }
 
+                    dirInfo = pipeDir;
+
                     //실제 오브젝트 생성
                     createObj = Instantiate(currentTileObjectPrefab[pipePrefabIndex], createPos, Quaternion.Euler(0, 0, pipeDir * (-90)));
                 }
@@ -367,8 +379,12 @@ public class BuildSystem : MonoBehaviour
 
                 //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
                 //오브젝트 삭제할때도 써먹음
-                objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
-                    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+                //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
+                //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+                objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, brickItemListInfo,
+                    tilemapMousePosition, tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+
+                
             }
 
 
@@ -386,8 +402,8 @@ public class BuildSystem : MonoBehaviour
                 //리스트에서 삭제해야할 오브젝트 검색
                 for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
                 {
-                    Vector3Int startSearchPoint = ((Vector3Int)objectList[listIndex][2]);
-                    Vector3Int endSearchPoint = ((Vector3Int)objectList[listIndex][3]);
+                    Vector3Int startSearchPoint = ((Vector3Int)objectList[listIndex][5]);
+                    Vector3Int endSearchPoint = ((Vector3Int)objectList[listIndex][6]);
                     //마우스 위치에 해당하는 오브젝트 검색
                     if (tilemapMousePosition.x >= startSearchPoint.x &&
                         tilemapMousePosition.x <= endSearchPoint.x &&
@@ -405,7 +421,7 @@ public class BuildSystem : MonoBehaviour
                         //((GameObject)objectList[listIndex][4]).SetActive(false);
 
                         //생성된 오브젝트 삭제
-                        Destroy((GameObject)objectList[listIndex][4]);
+                        Destroy((GameObject)objectList[listIndex][7]);
                         //리스트 요소에서 제거
                         objectList.RemoveAt(listIndex);
                     }
@@ -484,5 +500,49 @@ public class BuildSystem : MonoBehaviour
     public void Undo()
     {
 
+    }
+
+    public void PipeLinkPos_ObjectListInput(GameObject _pipeLinkObject_0, GameObject _pipeLinkObject_1)
+    {
+        for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
+        {
+            if (_pipeLinkObject_0 == (GameObject)objectList[listIndex][7])
+            {
+                objectList[listIndex][2] = _pipeLinkObject_1.transform.position;
+            }
+
+            if (_pipeLinkObject_1 == (GameObject)objectList[listIndex][7])
+            {
+                objectList[listIndex][2] = _pipeLinkObject_0.transform.position;
+            }
+        }
+    }
+
+    public int BrickItemSet_ObjectListInput(GameObject _itemSetBrick, int _brickItemNum)
+    {
+        for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
+        {
+            if (_itemSetBrick == (GameObject)objectList[listIndex][7])
+            {
+                ((List<int>)objectList[listIndex][4]).Add(_brickItemNum);
+
+                return ((List<int>)objectList[listIndex][4]).Count;
+            }
+        }
+        return 0;
+    }
+
+    public int BrickItemSet_ObjectListOutput(GameObject _itemSetBrick, int _brickItemNum)
+    {
+        for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
+        {
+            if (_itemSetBrick == (GameObject)objectList[listIndex][7])
+            {
+                ((List<int>)objectList[listIndex][4]).RemoveAt(((List<int>)objectList[listIndex][4]).Count - 1);
+
+                return ((List<int>)objectList[listIndex][4]).Count;
+            }
+        }
+        return 0;
     }
 }
