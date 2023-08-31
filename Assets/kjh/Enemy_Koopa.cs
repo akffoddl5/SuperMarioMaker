@@ -9,7 +9,6 @@ public class Enemy_Koopa : Enemy
 {
     public  GameObject shell;
     public  GameObject stop;
-    public bool isDie = false;
     
     public Enemy_Koopa()
     {

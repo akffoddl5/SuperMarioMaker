@@ -91,16 +91,16 @@ public class Mario_jump : Mario_state
         }
 
 		// if 그라운드 밟으면 상태 전환하기 idle
-		if (mario.rb.velocity.y <= 0 && mario.IsGroundDetected())
+		if (mario.rb.velocity.y <= 0.01f && mario.IsGroundDetected())
 		{
 			stateMachine.ChangeState(mario.idleState);
-		} else if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected() != null) {
+		} else if (mario.rb.velocity.y <= 0.01f && mario.IsPlayerDetected() != null) {
 			stateMachine.ChangeState(mario.stampState);
 			var kickedMario = mario.IsPlayerDetected();
 			kickedMario.GetComponent<Mario>().stateMachine.currentState = mario.idleState;
 			//Debug.Log(kickedMario.GetComponent<Mario>().stateMachine.currentState.animBoolName);
 			kickedMario.GetComponent<Mario>().stateMachine.ChangeState(kickedMario.GetComponent<Mario>().kickedState);
-		} else if (mario.rb.velocity.y <= 0 && mario.IsEnemyDetected() != null)
+		} else if (mario.rb.velocity.y <= 0.01f && mario.IsEnemyDetected() != null)
 		{
 			stateMachine.ChangeState(mario.stampState);
 		}
