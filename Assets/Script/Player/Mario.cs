@@ -85,8 +85,10 @@ public class Mario : MonoBehaviour
 
     private void Awake()
 	{
-		
-		rb = GetComponent<Rigidbody2D>();
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+
+        rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
 		//collider.sharedMaterial = PM;

@@ -10,7 +10,6 @@ public class Enemy_Koopa : Enemy
     public  GameObject shell;
     public  GameObject stop;
     
-    
     public Enemy_Koopa()
     {
     }
@@ -31,7 +30,7 @@ public class Enemy_Koopa : Enemy
 
     private void FixedUpdate()
     {
-        //Debug.Log(rb.velocity.x);
+      //  Debug.Log(rb.velocity.x);
         if (isDie) return;
 
         if (rb.velocity.x > 0)
@@ -60,6 +59,7 @@ public class Enemy_Koopa : Enemy
 	public override void FilpOverDie()
 	{
 		base.FilpOverDie();
+        isDie = true;
 	}
 
 	[PunRPC]

@@ -14,7 +14,6 @@ public class Room : MonoBehaviourPunCallbacks
 	[Header("Room Info")]
 	[SerializeField] private Text roomName;
 	[SerializeField] private Button readyBtn;
-	public string gameScene; // OnClickStart change thisScene to gameScene
 
 	[Header("CharacterBox Info")]
 	public Image[] img_star; // Crown in CharacterBox
@@ -85,8 +84,6 @@ public class Room : MonoBehaviourPunCallbacks
 					readyBtn.GetComponent<Button>().interactable = false;
 				}
 			}
-			// img_ready[i].gameObject.SetActive(isReady);
-			// 이걸 넣어서 문제가 생긴 거 
 		}
 	}
 
@@ -153,19 +150,16 @@ public class Room : MonoBehaviourPunCallbacks
 	// Btn Ready
 	public void OnClick_Ready()
 	{
-		// 모든 플레이어가 준비 완료상태면서 && 방장이 Ready(=방장한테는 Start니까) 누르면
-		// 방장이 버튼을 눌렀다는 사실을 다른 플레이어가 알아야 함 RPC
+		// 모든 플레이어가 준비 완료상태면서 && 방장이 Start(=방장한테는 Ready가 Start)
 		if (PhotonNetwork.IsMasterClient && isPossibleToStart)
 		{
-			// 방장만 첫 번째 화면으로 넘어감
-			// 당연하지 여기 들어오는 건 방장만 들어오니까
-			// 그러면 방장이 시작버튼을 누름 => 다른 애들한테 RPC 해주는 방법밖에 없나?
-			//PhotonNetwork.LoadLevel(0);
-
-			// RPC 하는 방법
-			//GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.All);
+			// {"room_state", true} means GameStart
 			PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "room_state", true } });
-			PhotonNetwork.LoadLevel(gameScene);
+
+			// 일단 zero로 해두고 나중에 roomoption에 map정보를 담을 수 있게 해서
+			// 해당 map의 startposition을 여기에 넣어줄 수 있게 할 수 있음?
+			GameManager.instance.GameStart(Vector2.zero);
+			//PhotonNetwork.LoadLevel(gameScene);
 			return;
 			
 		}
@@ -185,8 +179,8 @@ public class Room : MonoBehaviourPunCallbacks
 		object[] obj = new object[2] { (object)isReady, (object)localPlayerIdx };
 		GetComponent<PhotonView>().RPC("SyncReadyStatus", RpcTarget.AllBuffered, obj);
 
+		// Lobby 스크립트의 public override void OnLeftRoom()에서
 		// 룸 패널 다시 오른쪽으로 슉 넘겨야 함
-		// Lobby 스크립트의 public override void OnLeftRoom()에서 하기
 
 		// 방 나가게 처리 하고
 		PhotonNetwork.LeaveRoom();

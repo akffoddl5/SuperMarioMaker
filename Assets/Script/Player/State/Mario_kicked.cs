@@ -11,7 +11,7 @@ public class Mario_kicked : Mario_state
     public override void Enter()
     {
         //base.Enter();
-        stateTimer = 10f * Time.deltaTime;
+        stateTimer = 7f * Time.deltaTime;
         mario.anim.SetBool("Idle", false);
         mario.anim.SetBool("Kicked", true);
         //mario.transform.localScale = new Vector3(1, 0.5f, 1);

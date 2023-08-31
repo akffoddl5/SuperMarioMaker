@@ -29,13 +29,10 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-    
-    
+    public string mapMakeSceneName;
 
-    public Text log_text;
-
-    float instMarioX = 0;
-
+	string characterPrefab;
+    float instMarioX = -6;
 	// Room에 있는 함수를 실행하기 위한 이벤트 함수
 	//public UnityEvent RoomUISync;
 	public PhotonView PV;
@@ -45,7 +42,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
 
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
-        log_text = GameObject.Find("Log").GetComponent<Text>();
         Lobby_Player_Count();
 
         max_Player = 4;
@@ -55,15 +51,17 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         StartCoroutine(ILobby_Refresh());
     }
-	private void Update()
-	{
-		Lobby_Player_Count();
-	}
 
     private void Start()
     {
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.LOBBY_BGM, true, 0);
     }
+
+	private void Update()
+	{
+		Lobby_Player_Count();
+	}
+
 
     private void Lobby_Player_Count()
 	{
@@ -104,35 +102,23 @@ public class Lobby : MonoBehaviourPunCallbacks
         
 	}
 
-    
-
-    public void Room_Init()
-    {
-		GameObject room_layer = GameObject.Find("Room_Layer");
-        // 옆으로 슉 넘어가는 거
-		StartCoroutine(CorLerp(room_layer, new Vector3(0,1100,0), new Vector3(0,0,0)));
-        // 방 처음 만들면 방장 마리오 캐릭터 생성되어야 함
-		PhotonNetwork.Instantiate("Prefabs/Mario", new Vector3(instMarioX++, 2, 0), Quaternion.identity);
-
-        Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
-        // 마리오는 0, 1, 2, 3 x 값에서 생성됨
-        if (instMarioX > 4) instMarioX = 0;
-    }
+   
 
 
-	public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        base.OnCreateRoomFailed(returnCode, message);
-    }
-
-    
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
 
     }
 
-
+	public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+    }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -140,10 +126,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         
     }
 
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        base.OnJoinRoomFailed(returnCode, message);
-    }
 
     
     // 로비에 있는 사람만 받을 수 있음
@@ -202,17 +184,22 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
 			// +interactive(roomState)
+            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
 			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
             // false면 interactable true여야 함
-            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
             
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
             a.GetComponent<Lobby_Room_Btn>().room_name = myList[i].CustomProperties["room_name"].ToString();
             
         }
     }
+    // Btn 맵 만들기 클릭
+    public void Map_Make_Click()
+    {
+        SceneManager.LoadScene(mapMakeSceneName);
+    }
 
-	// Btn방 만들기 클릭
+	// Btn 방 만들기 클릭
 	public void Room_Plus_Click()
     {
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
@@ -329,11 +316,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             {
                 break;
             }
-
             yield return null;
-                
         }
-
         yield break;;
     }
 
@@ -343,20 +327,55 @@ public class Lobby : MonoBehaviourPunCallbacks
         base.OnFriendListUpdate(friendList);
     }
 
+	public void Room_Init()
+	{
+		// lobby left move
+		GameObject lobby = GameObject.Find("Lobby_Layer");
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
+		// room move leftside
+		GameObject room_layer = GameObject.Find("Room_Layer");
+		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(0, 0, 0)));
+        // room maker move upside
+		var a = GameObject.Find("Room_Make_Layer");
+		Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
+		StartCoroutine(CorLerp(a, localPositionA, new Vector3(localPositionA.x, 1000, 0)));
+	}
+
 	public override void OnJoinedRoom()
 	{
 		base.OnJoinedRoom();
 
-		GameObject lobby = GameObject.Find("Lobby_Layer");
-
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
-			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
-
-		var a = GameObject.Find("Room_Make_Layer");
-        Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
-		StartCoroutine(CorLerp(a, localPositionA, new Vector3(localPositionA.x, 1000, 0)));
-
 		Room_Init();
+        
+		// The number of players in the room determines which prefab is created.
+		int playerNum = PhotonNetwork.CurrentRoom.PlayerCount;
+		Vector3 spawnPosition = new Vector3(instMarioX, 2, 0);
+		switch (playerNum)
+        {
+            case 1:
+				characterPrefab = "Prefabs/Mario";
+				break;
+            case 2:
+				characterPrefab = "Prefabs/Mario2";
+                break;
+            case 3:
+				characterPrefab = "Prefabs/Mario3";
+                break;
+            case 4:
+				characterPrefab = "Prefabs/Mario4";
+                break;
+        }
+		PhotonNetwork.Instantiate(characterPrefab, spawnPosition, Quaternion.identity);
+		instMarioX++;
+		if (instMarioX > -2) instMarioX = -6;
+
+		ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+		customProperties.Add("characterName", characterPrefab);
+		PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+
+		//Debug.Log("marioX 위치 왜 안 바뀌는 거야: " + new Vector3(instMarioX, 2, 0));
+		// Mario spawns from x values ??0, 1, 2, 3
 
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 		//RoomUISync.Invoke();
@@ -393,7 +412,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             //Debug.Log("refresh..." + PhotonNetwork.IsConnected + " " + PhotonNetwork.IsConnectedAndReady + " " + PhotonNetwork.InLobby + " " + PhotonNetwork.InRoom);
             Lobby_Refresh();
 
@@ -408,7 +427,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         //RoomOptions RO = new RoomOptions();
         //RO.IsVisible = false;
         //RO.MaxPlayers = 30;
-        PhotonNetwork.LeaveLobby();
+        if(PhotonNetwork.InLobby)
+            PhotonNetwork.LeaveLobby();
         
 
     }

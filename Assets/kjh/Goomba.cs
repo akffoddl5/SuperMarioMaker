@@ -25,7 +25,7 @@ public class Goomba : Enemy
     private void TouchDown()
     {
         
-        //Debug.Log("TouchDown()" + isFilpOverDie);
+        //Debug.Log("TouchDown()"// + isFilpOverDie);
         if (IsSkyDetected())
         {
             //Debug.Log("IsSkyDetected(): " + isFilpOverDie);
