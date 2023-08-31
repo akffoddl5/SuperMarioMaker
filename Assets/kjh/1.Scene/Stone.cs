@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Stone : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 10f;
     Vector2 speedV;
     Vector3 vel = Vector3.zero;
 
@@ -25,6 +25,8 @@ public class Stone : MonoBehaviour
     // [SerializeField] private float playerCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
+
+    
 
 
     GameObject groundObject;
@@ -141,7 +143,7 @@ public class Stone : MonoBehaviour
         // 반복문
          while(groundDist > 2.8f)
          { // 계속내려감 [땅이 닿을때까지]
-            transform.Translate(Vector2.down * 8.5f* Time.deltaTime);
+            transform.Translate(Vector2.down * speed * Time.deltaTime);
 
 
             groundDist = Vector2.Distance(transform.position, groundObject.transform.position);
