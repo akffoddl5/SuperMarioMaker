@@ -81,7 +81,7 @@ public class UI_Editor : MonoBehaviour
             BrickSetPanel_Off();
         }
         FunctionEditMode_On();
-        Debug.Log(currentSetBrick);
+        //Debug.Log(currentSetBrick);
     }
 
     private void FunctionEditMode_On()
@@ -124,6 +124,7 @@ public class UI_Editor : MonoBehaviour
         if (_tempObject.GetComponent<Box>() != null || _tempObject.GetComponentInParent<Box>() != null)
         {
             currentSetBrick = _tempObject;
+            buildSystem.BrickItemSet_ObjectListCount(currentSetBrick);
         }
     }
 
@@ -322,6 +323,8 @@ public class UI_Editor : MonoBehaviour
 
     public void BrickItemSetButtonClick()
     {
+        buildSystem.PastTempTileClear();
+
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
 
         functionEditMode = FunctionEditMode.BrickItemSetMode;
@@ -342,7 +345,7 @@ public class UI_Editor : MonoBehaviour
     public void BrickItemButtonClick(int _brickItemNum)
     {
         int itemCount = buildSystem.BrickItemSet_ObjectListInput(currentSetBrick, _brickItemNum);
-        //Debug.Log(itemCount);
+        
         itemCountText.text = itemCount.ToString();
     }
 
