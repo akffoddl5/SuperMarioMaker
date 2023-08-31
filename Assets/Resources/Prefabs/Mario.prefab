@@ -316,6 +316,7 @@ MonoBehaviour:
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  PV: {fileID: 0}
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +350,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 8116241220452144449}
   - {fileID: -9020336049205713306}
-  - {fileID: 0}
   - {fileID: -5350794749424982148}
   sceneViewId: 0
   InstantiationId: 0

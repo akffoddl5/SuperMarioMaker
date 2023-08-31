@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,23 @@ using UnityEngine;
 public class WIndowManager : MonoBehaviour
 {
 
-    [SerializeField] string screenShotName;
+    public static WIndowManager instance;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +42,7 @@ public class WIndowManager : MonoBehaviour
     {
         Debug.Log("shot");
         yield return new WaitForEndOfFrame();
-
+        string screenShotName = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         var width = Screen.width;
         var height = Screen.height;
@@ -34,7 +51,19 @@ public class WIndowManager : MonoBehaviour
 
         tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         tex.Apply();
-        File.WriteAllBytes($"{Application.dataPath}/{screenShotName}.png", tex.EncodeToPNG());
+        Debug.Log(Application.dataPath);
+
+
+        //pc
+
+        //Application.dataPath는 해당 프로젝트 Assets 폴더.
+
+        //해당 경로에 NewDirectory라는 이름을 가진 폴더 생성
+
+        Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
+
+
+        File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", tex.EncodeToPNG());
 
         Debug.Log("shot end");
     }

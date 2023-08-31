@@ -80,7 +80,7 @@ public class Mario : MonoBehaviour
 	public Mario_die dieState;
 	public Mario_stamp stampState;
 
-
+	public PhotonView PV;
 
 
     private void Awake()
@@ -88,6 +88,7 @@ public class Mario : MonoBehaviour
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
+        PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
@@ -227,22 +228,26 @@ public class Mario : MonoBehaviour
 			stateMachine.ChangeState(dieState);
 		}
 
+	}
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
 		//Item
-		if (collision.gameObject.CompareTag("Item"))
+		if (collision.CompareTag("Item"))
 		{
-			
-			if(collision.gameObject.GetComponent<Item_Star>() != null)
+
+			if (collision.GetComponent<Item_Star>() != null)
 			{
 				// star
 				isStarMario = true;
-				starTimer = starTime; // starTime init 
+				starTimer = starTime; // starTime init
 				Debug.Log("star ∏‘¿Ω!!!!!!!!!!!!!: " + isStarMario);
 			}
 
-			if (collision.gameObject.GetComponent<Item_mushroom>() != null)
+			if (collision.GetComponent<Item_mushroom>() != null)
 			{
 				// mushroom
 				marioMode = 1;
+				collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
 				Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
 
 			}
@@ -253,8 +258,8 @@ public class Mario : MonoBehaviour
 			//}
 			Destroy(collision.gameObject);
 		}
-
 	}
+
 
 	//public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
 	public bool IsGroundDetected()
@@ -298,7 +303,7 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
 			{
-				if(cols[i].gameObject.GetComponent<Enemy>() != null)
+				if(cols[i].gameObject.GetComponent<Enemy>() != null && PV.IsMine)
 					cols[i].gameObject.GetComponent<Enemy>().Die();
 				return cols[i].gameObject;
 			}

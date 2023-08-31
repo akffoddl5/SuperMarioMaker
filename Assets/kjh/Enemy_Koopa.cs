@@ -46,7 +46,7 @@ public class Enemy_Koopa : Enemy
     public override void Die()
     {
         //PV.RPC("RPC_Die", RpcTarget.AllBuffered);
-       
+        
          PhotonNetwork.Instantiate("Prefabs/Koopa_Shell", new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         
 
