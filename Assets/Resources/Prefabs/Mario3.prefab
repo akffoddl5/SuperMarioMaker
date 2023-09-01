@@ -313,6 +313,8 @@ MonoBehaviour:
   isStarMario: 0
   rb: {fileID: 0}
   collider: {fileID: 0}
+  collider_big: {fileID: 0}
+  check_body: {fileID: 0}
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
