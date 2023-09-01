@@ -36,8 +36,9 @@ public class UI_Editor : MonoBehaviour
 
     [SerializeField] GameObject brickSetPanel;
 
-    int currentOpenButtonPanelNumber = -1;
+    [SerializeField] RectTransform stopButton;
 
+    int currentOpenButtonPanelNumber = -1;
 
     public enum FunctionEditMode
     {
@@ -57,6 +58,14 @@ public class UI_Editor : MonoBehaviour
     int itemCount = 0;
 
 
+    bool isPanelOutIn = false;
+    bool isPanelIn = false;
+    Vector3 upPanelPos;
+    Vector3 leftPanelPos;
+    Vector3 rightPanelPos;
+    Vector3 stopButtonPos;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -69,8 +78,11 @@ public class UI_Editor : MonoBehaviour
     void Start()
     {
         buildSystem = BuildSystem.instance;
-        Debug.Log(pipeLinkObject[0]);
 
+        upPanelPos = upPanel.position;
+        leftPanelPos = leftPanel.position;
+        rightPanelPos = rightPanel.position;
+        stopButtonPos = stopButton.position;
     }
 
     // Update is called once per frame
@@ -124,7 +136,8 @@ public class UI_Editor : MonoBehaviour
         if (_tempObject.GetComponent<Box>() != null || _tempObject.GetComponentInParent<Box>() != null)
         {
             currentSetBrick = _tempObject;
-            buildSystem.BrickItemSet_ObjectListCount(currentSetBrick);
+
+            itemCountText.text = buildSystem.BrickItemSet_ObjectListCount(currentSetBrick).ToString();
         }
     }
 
@@ -321,6 +334,7 @@ public class UI_Editor : MonoBehaviour
     }
 
 
+    //블럭 아이템 편집 버튼
     public void BrickItemSetButtonClick()
     {
         buildSystem.PastTempTileClear();
@@ -335,6 +349,7 @@ public class UI_Editor : MonoBehaviour
 
     }
 
+    //아이템 편집 기능 OFF
     public void BrickSetPanel_Off()
     {
         functionEditMode = FunctionEditMode.None;
@@ -342,11 +357,109 @@ public class UI_Editor : MonoBehaviour
         brickSetPanel.SetActive(false);
     }
 
+    //블럭에 넣을 아이템 선택
     public void BrickItemButtonClick(int _brickItemNum)
     {
         int itemCount = buildSystem.BrickItemSet_ObjectListInput(currentSetBrick, _brickItemNum);
-        
+
         itemCountText.text = itemCount.ToString();
+    }
+
+
+    //플레이 버튼 클릭
+    public void PlayButtonClick()
+    {
+        buildSystem.PlayButtonOn();
+
+        isPanelOutIn = true;
+        StartCoroutine(PanelOut());
+    }
+
+    //스탑 버튼 클릭
+    public void StopButtonClick()
+    {
+        buildSystem.StopButtonOn();
+
+        isPanelOutIn = false;
+        StartCoroutine(PanelIn());
+    }
+
+    IEnumerator PanelOut()
+    {
+        float upPanelStopPos = upPanelPos.y + upPanel.rect.height;
+        float leftPanelStopPos = leftPanelPos.x - leftPanel.rect.width;
+        float rightPanelStopPos = rightPanelPos.x + rightPanel.rect.width;
+        float stopButtonStopPos = -stopButtonPos.y;
+
+        float moveSpeed = 5f;
+
+        while (true)
+        {
+            if (!isPanelOutIn)
+            {
+                yield break;
+            }
+
+            upPanel.position = (Vector3.Lerp(upPanel.position,
+                new Vector3(0, upPanelStopPos), moveSpeed * Time.deltaTime));
+            leftPanel.position = (Vector3.Lerp(leftPanel.position,
+                new Vector3(leftPanelStopPos, 0), moveSpeed * Time.deltaTime));
+            rightPanel.position = (Vector3.Lerp(rightPanel.position,
+                new Vector3(rightPanelStopPos, 0), moveSpeed * Time.deltaTime));
+            stopButton.position = (Vector3.Lerp(stopButton.position,
+                new Vector3(stopButton.position.x, stopButtonStopPos), moveSpeed * Time.deltaTime));
+
+            if (upPanel.position.y >= upPanelStopPos - 1)
+            {
+                upPanel.position = new Vector3(0, upPanelStopPos);
+                leftPanel.position = new Vector3(leftPanelStopPos, 0);
+                rightPanel.position = new Vector3(rightPanelStopPos, 0);
+                stopButton.position = new Vector3(stopButton.position.x, stopButtonStopPos);
+
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator PanelIn()
+    {
+        float upPanelStopPos = upPanelPos.y;
+        float leftPanelStopPos = leftPanelPos.x;
+        float rightPanelStopPos = rightPanelPos.x;
+        float stopButtonStopPos = stopButtonPos.y;
+
+        float moveSpeed = 5f;
+
+        while (true)
+        {
+            if (isPanelOutIn)
+            {
+                yield break;
+            }
+
+            upPanel.position = (Vector3.Lerp(upPanel.position,
+                new Vector3(0, upPanelStopPos), moveSpeed * Time.deltaTime));
+            leftPanel.position = (Vector3.Lerp(leftPanel.position,
+                new Vector3(leftPanelStopPos, 0), moveSpeed * Time.deltaTime));
+            rightPanel.position = (Vector3.Lerp(rightPanel.position,
+                new Vector3(rightPanelStopPos, 0), moveSpeed * Time.deltaTime));
+            stopButton.position = (Vector3.Lerp(stopButton.position,
+                new Vector3(stopButton.position.x, stopButtonStopPos), moveSpeed * Time.deltaTime));
+
+            if (upPanel.position.y <= upPanelStopPos + 1)
+            {
+                upPanel.position = new Vector3(0, upPanelStopPos);
+                leftPanel.position = new Vector3(leftPanelStopPos, 0);
+                rightPanel.position = new Vector3(rightPanelStopPos, 0);
+                stopButton.position = new Vector3(stopButton.position.x, stopButtonStopPos);
+
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 
     #endregion
