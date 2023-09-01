@@ -16,7 +16,8 @@ public class Castle : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {//Debug.Log(flag.move);
+    {//
+     //Debug.Log(flag.move);
         if (flag.move==true)
         {
 
