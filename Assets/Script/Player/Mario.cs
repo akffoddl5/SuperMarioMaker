@@ -258,25 +258,23 @@ public class Mario : MonoBehaviour
 				// mushroom
 				if (marioMode == 0)
 				{
-					marioMode = 2;
+					marioMode = 1;
 					stateMachine.ChangeState(smallBig);
 					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
 				}
-				else if (marioMode == 1)
+				
+			}
+			else if (collision.gameObject.GetComponent<Item_flower>() != null)
+			{
+				Debug.Log("flower !!");
+				if (marioMode == 0)
+				{
+					marioMode = 2;
+					stateMachine.ChangeState(smallFire);
+				} else if (marioMode == 1)
 				{
                     marioMode = 2;
-                    stateMachine.ChangeState(smallBig);
-
-                }
-			}
-			else if (collision.gameObject.GetComponent<Item>() != null)
-			{
-                if (marioMode == 0)
-                {
-                    marioMode = 1;
-                    stateMachine.ChangeState(smallBig);
-                    //collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
-                    Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+                    stateMachine.ChangeState(bigFire);
                 }
             }
 			Destroy(collision.gameObject);
