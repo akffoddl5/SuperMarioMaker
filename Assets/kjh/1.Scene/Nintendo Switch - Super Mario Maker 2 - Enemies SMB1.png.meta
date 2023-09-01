@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 46cd791168919f94482a9269c49950bb
+guid: 5189409c59734614fa75dbb64a014955
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -132,19 +132,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -152,19 +139,61 @@ TextureImporter:
       name: Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_0
       rect:
         serializedVersion: 2
-        x: 460
-        y: 904
+        x: 489
+        y: 903
         width: 24
-        height: 31
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c93ec37a263a54f4fb216be73fa9d669
-      internalID: 277066630
+      spriteID: 7ae455dd27b756c4c9a1e3c0fa904697
+      internalID: -1681235974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_1
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 903
+        width: 25
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 285d2039d7a855544bc226603fc74c75
+      internalID: 247321392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_2
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 903
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c523e9f5aa4e1164686414fc1ee348b9
+      internalID: 662115273
       vertices: []
       indices: 
       edges: []
@@ -180,7 +209,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_0: 277066630
+      Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_0: -1681235974
+      Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_1: 247321392
+      Nintendo Switch - Super Mario Maker 2 - Enemies SMB1_2: 662115273
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

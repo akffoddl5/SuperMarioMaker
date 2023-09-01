@@ -61,7 +61,9 @@ public class Mario : MonoBehaviour
 
 	// Component
 	[HideInInspector] public Rigidbody2D rb;
-	[HideInInspector] public CapsuleCollider2D collider;
+	public CapsuleCollider2D collider;
+	public CapsuleCollider2D collider_big;
+	public Transform check_body;
 	[HideInInspector] public PhysicsMaterial2D PM;
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
@@ -81,6 +83,8 @@ public class Mario : MonoBehaviour
 	public Mario_stamp stampState;
 	public Mario_BigSmall bigSmall;
 	public Mario_SmallBig smallBig;
+	public Mario_smallFire smallFire;
+	public Mario_bigFire bigFire;
 
 	public PhotonView PV;
 
@@ -92,14 +96,15 @@ public class Mario : MonoBehaviour
 
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
-		collider = GetComponent<CapsuleCollider2D>();
+		//collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
 		//collider.sharedMaterial = PM;
 		PM = new PhysicsMaterial2D();
 		collider.sharedMaterial = PM;
-		//PM = collider.GetComponent<PhysicsMaterial2D>();
+        collider_big.sharedMaterial = PM;
+        //PM = collider.GetComponent<PhysicsMaterial2D>();
 
-		anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
         stateMachine = new Mario_stateMachine();
@@ -115,7 +120,8 @@ public class Mario : MonoBehaviour
         stampState = new Mario_stamp(this, stateMachine, "Jump");
 		bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
 		smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
-
+		smallFire = new Mario_smallFire(this, stateMachine, "SmallToFire");
+		bigFire = new Mario_bigFire(this, stateMachine, "BigToFire");
 
 
 	}
@@ -247,26 +253,32 @@ public class Mario : MonoBehaviour
 				starTimer = starTime; // starTime init
 				Debug.Log("star ∏‘¿Ω!!!!!!!!!!!!!: " + isStarMario);
 			}
-
-			if (collision.GetComponent<Item_mushroom>() != null)
+			else if (collision.GetComponent<Item_mushroom>() != null)
 			{
 				// mushroom
 				if (marioMode == 0)
 				{
-					marioMode = 1;
+					marioMode = 2;
 					stateMachine.ChangeState(smallBig);
 					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
-					Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
 				}
-				
-				
+				else if (marioMode == 1)
+				{
+                    marioMode = 2;
+                    stateMachine.ChangeState(smallBig);
 
+                }
 			}
-			//else if (collision.gameObject.GetComponent<Item_flower>() != null)
-			//{
-			//	//flower
-			//	stateMachine.currentState.marioMode = 2;
-			//}
+			else if (collision.gameObject.GetComponent<Item>() != null)
+			{
+                if (marioMode == 0)
+                {
+                    marioMode = 1;
+                    stateMachine.ChangeState(smallBig);
+                    //collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
+                    Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+                }
+            }
 			Destroy(collision.gameObject);
 		}
 	}

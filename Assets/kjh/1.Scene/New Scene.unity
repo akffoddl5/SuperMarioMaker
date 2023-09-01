@@ -790,6 +790,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 101940213848852059, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1023432997813708736, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_Name
       value: JumpBord
@@ -1278,6 +1282,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 503721571563727326, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
+      propertyPath: groundCheckDistance_short
+      value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 2670659279971867510, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3734277606848552363, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6598138816066317252, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
       propertyPath: m_RootOrder
       value: 10
