@@ -26,6 +26,8 @@ public class ScriptableMapInfo : ScriptableObject
             pipeLinkPos = _pipeLinkPos;
             dirInfo = _dirInfo;
             brickListInfo = _brickListInfo;
+
+
         }
     }
     public List<CreateObjectInfo> createObjectInfoList;

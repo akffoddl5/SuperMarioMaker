@@ -42,6 +42,7 @@ public class Mario_state
 			return;
 		}
 		mario.anim.SetBool(animBoolName, true);
+		mario.anim.SetInteger("Mario_Mode", mario.marioMode);
 	}
 
 	public virtual void Exit()

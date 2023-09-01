@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a3527f289f832084cb707bdb97119ab6
+guid: 35f7e6d27f3a77d4da31260e07e0e3ab
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Objects SMB1_0
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 74
+        width: 82
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6862665166c7844e9d5a82260e1fbea
+      internalID: 1183123811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Nintendo Switch - Super Mario Maker 2 - Objects SMB1_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 138
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22e0a299fb87fed49af107571105acba
+      internalID: 1552377689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +187,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Nintendo Switch - Super Mario Maker 2 - Objects SMB1_0: 1183123811
+      Nintendo Switch - Super Mario Maker 2 - Objects SMB1_1: 1552377689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

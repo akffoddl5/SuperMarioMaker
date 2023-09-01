@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8564891426861926262}
   - component: {fileID: 1519191924971703853}
   - component: {fileID: 3098753773842223426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: boxAnim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 3480751837519289779}
   - component: {fileID: 8871718359716673875}
   - component: {fileID: 8966911660158488392}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: boxmove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,9 +287,9 @@ GameObject:
   - component: {fileID: 43836736770535040}
   - component: {fileID: 918574725049206832}
   - component: {fileID: 3470430126897074497}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Box0
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
