@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: -5350794749424982148}
   - component: {fileID: 3080808554506575841}
   m_Layer: 7
-  m_Name: Mario
+  m_Name: Mario 2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,12 +399,6 @@ MonoBehaviour:
   - Type: 3
     SynchronizeType: 1
     Name: Mario_Mode
-  - Type: 4
-    SynchronizeType: 0
-    Name: SmallToFire
-  - Type: 4
-    SynchronizeType: 0
-    Name: BigToFire
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
