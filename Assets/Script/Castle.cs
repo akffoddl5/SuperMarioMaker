@@ -4,49 +4,42 @@ using UnityEngine;
 
 public class Castle : MonoBehaviour
 {
-    flag flag = new flag();
+    //flag flag = new flag();
+    GameObject flag;
     Vector2 pos;
-    Vector2 pos2;
-    // Start is called before the first frame update
+	Vector2 pos2;
+    bool isCatleCo = false;
+
+
     void Start()
     {
+		flag = GameObject.Find("flag_finish");
+
         pos = transform.position;
         pos2 = new Vector2(pos.x, pos.y + 2.2f);
     }
 
     // Update is called once per frame
     void Update()
-    {//
-     //Debug.Log(flag.move);
-        if (flag.move==true)
+    {
+        if (flag.GetComponent<Flag>().isCoroutineStart && !isCatleCo)
         {
+			isCatleCo = true;
+			StartCoroutine(CastleFlagUp());
+		}
+	}
 
-        
-            Flag_up();
-        }
-    }
+	IEnumerator CastleFlagUp()
+	{
+		//Debug.Log("CastleFlagUp() µÈæÓø»!!");
+		while (Vector2.Distance(transform.position, pos2) > 1)
+		{
+			//Debug.Log("CastleFlagUp()  while µÈæÓø»!!");
+			transform.position = Vector2.MoveTowards(transform.position, new Vector2(pos.x, pos2.y), 0.02f);
+			//Debug.Log("CastleFlagUp()  castleFlag.position ºˆ¡§ƒ⁄µÂ µÈæÓø»!!");
+			yield return new WaitForSeconds(0.05f);
+		}
 
-
-
-
-
-    public void Flag_up()
-    {
-        StartCoroutine(Drop());
-    }
-
-    IEnumerator Drop()
-    {
-        while (Vector2.Distance(transform.position, pos2) > 1)
-        { // ∞Ëº”≥ª∑¡∞® [∂•¿Ã ¥Í¿ª∂ß±Ó¡ˆ]
-            transform.position = Vector2.MoveTowards(transform.position, pos2, 0.00005f);
-            yield return new WaitForSeconds(0.05f);
-
-        }
-
-        yield return null;
-
-        // dropCoroutine = null;
-
-    }
+		yield return null;
+	}
 }
