@@ -99,11 +99,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        
 	}
-
-   
-
 
     public override void OnJoinedLobby()
     {
@@ -335,7 +331,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
 		// room move leftside
 		GameObject room_layer = GameObject.Find("Room_Layer");
-		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(0, 0, 0)));
+		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(-30, 0, 0)));
         // room maker move upside
 		var a = GameObject.Find("Room_Make_Layer");
 		Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
