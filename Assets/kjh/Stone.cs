@@ -11,7 +11,7 @@ public class Stone : MonoBehaviour
     public float speed = 10f;
     Vector2 speedV;
     Vector3 vel = Vector3.zero;
-
+    Sprite spr;
     float ground;
     Vector2 pos;
     float timer = 2f;
@@ -41,6 +41,8 @@ public class Stone : MonoBehaviour
         anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
         speedV = new Vector2(0, 10000);
+        spr= GetComponent<Sprite>();
+        
     }
     // Update is called once per frame
     void Update()
@@ -149,10 +151,10 @@ public class Stone : MonoBehaviour
 
             
             groundDist = Vector2.Distance(transform.position, groundObject.transform.position);
-           // Debug.Log(" 거리 ::" +  groundDist);
-
+            // Debug.Log(" 거리 ::" +  groundDist);
             yield return new WaitForEndOfFrame();
         }
+           
 
          // 땅에닿고난 이후에 1초 기다림
         yield return new WaitForSeconds(1f);
@@ -164,8 +166,7 @@ public class Stone : MonoBehaviour
             dist = Vector2.Distance(transform.position, pos);
 
             transform.Translate(Vector2.up * 1.5f * Time.deltaTime);
-
-
+// gameObject.GetComponent<SpriteRenderer>().sprite = spr;
             yield return new WaitForEndOfFrame();
         }
 
