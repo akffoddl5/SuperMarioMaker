@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 public class Stone : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 10f;
     Vector2 speedV;
     Vector3 vel = Vector3.zero;
 
@@ -20,11 +21,14 @@ public class Stone : MonoBehaviour
     [Header("Collision Info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
+    [SerializeField] private float groundCheckDistance_short;
     // [SerializeField] private Transform playerCheck;
     // [SerializeField] private Transform playerCheck2;
     // [SerializeField] private float playerCheckDistance;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
+
+    
 
 
     GameObject groundObject;
@@ -34,7 +38,7 @@ public class Stone : MonoBehaviour
     {
         float ground = whatIsGround.value;
         pos = transform.position;
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody2D>();
         speedV = new Vector2(0, 10000);
     }
@@ -70,7 +74,7 @@ public class Stone : MonoBehaviour
         //    anim.SetBool("Move", false);
         //    dropCoroutine = null;
         //}
-            timer -= Time.deltaTime;
+        timer -= Time.deltaTime;
 
         //균일하게 시간가게 처음다으면 흐륵게하기
 
@@ -134,16 +138,16 @@ public class Stone : MonoBehaviour
         IEnumerator Drop()
     {
         // 타이머[2초] 기다림
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         anim.SetBool("Move", false);
 
         var groundDist = 100f;
         // 반복문
-         while(groundDist > 2.8f)
+         while(!IsGroundDetected_Short())
          { // 계속내려감 [땅이 닿을때까지]
-            transform.Translate(Vector2.down * 8.5f* Time.deltaTime);
+            transform.Translate(Vector2.down * speed * Time.deltaTime);
 
-
+            
             groundDist = Vector2.Distance(transform.position, groundObject.transform.position);
            // Debug.Log(" 거리 ::" +  groundDist);
 
@@ -209,6 +213,19 @@ public class Stone : MonoBehaviour
             return hit;
     }
 
+    public bool IsGroundDetected_Short()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance_short, whatIsGround);
+
+        if (hit)
+        {
+            return true;
+
+        }
+
+        return false;
+    }
+
 
     private void OnDrawGizmos()
     { //
@@ -217,10 +234,24 @@ public class Stone : MonoBehaviour
       // Gizmos.DrawLine(playerCheck2.position, new Vector3(playerCheck2.position.x,
       //     playerCheck2.position.y - playerCheckDistance));
 
-        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x,
-          groundCheck.position.y - groundCheckDistance));
+        //Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
 
-        Gizmos.DrawCube((new Vector2(transform.position.x, transform.position.y - (transform.position.y - IsGroundDetected().collider.transform.position.y) / 2)), new Vector2(7, (transform.position.y - IsGroundDetected().collider.transform.position.y)));
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x,
+          groundCheck.position.y - groundCheckDistance_short));
+
+        //Gizmos.DrawCube((new Vector2(transform.position.x, transform.position.y - (transform.position.y - IsGroundDetected().collider.transform.position.y) / 2)), new Vector2(7, (transform.position.y - IsGroundDetected().collider.transform.position.y)));
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (!collision.gameObject.GetComponent<PhotonView>().IsMine) return;
+            var mario = collision.gameObject.GetComponent<Mario>();
+            // star Mode라면 죽지 않도록
+            if (mario.isStarMario) return;
+            mario.stateMachine.ChangeState(mario.dieState);
+        }
     }
 
 

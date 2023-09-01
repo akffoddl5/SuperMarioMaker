@@ -79,8 +79,10 @@ public class Mario : MonoBehaviour
 	public Mario_sitDown sitDown;
 	public Mario_die dieState;
 	public Mario_stamp stampState;
+	public Mario_BigSmall bigSmall;
+	public Mario_SmallBig smallBig;
 
-
+	public PhotonView PV;
 
 
     private void Awake()
@@ -88,6 +90,7 @@ public class Mario : MonoBehaviour
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
+        PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
@@ -110,7 +113,11 @@ public class Mario : MonoBehaviour
 		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
 		dieState = new Mario_die(this, stateMachine, "Die");
         stampState = new Mario_stamp(this, stateMachine, "Jump");
-		
+		bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
+		smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
+
+
+
 	}
 
 	[PunRPC]
@@ -245,9 +252,15 @@ public class Mario : MonoBehaviour
 			if (collision.GetComponent<Item_mushroom>() != null)
 			{
 				// mushroom
-				marioMode = 1;
-				collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
-				Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+				if (marioMode == 0)
+				{
+					marioMode = 1;
+					stateMachine.ChangeState(smallBig);
+					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
+					Debug.Log("mushroom ∏‘¿Ω!!!!!!!!!!!!!: " + marioMode);
+				}
+				
+				
 
 			}
 			//else if (collision.gameObject.GetComponent<Item_flower>() != null)
@@ -302,7 +315,7 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
 			{
-				if(cols[i].gameObject.GetComponent<Enemy>() != null)
+				if(cols[i].gameObject.GetComponent<Enemy>() != null && PV.IsMine)
 					cols[i].gameObject.GetComponent<Enemy>().Die();
 				return cols[i].gameObject;
 			}

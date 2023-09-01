@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ public class WIndowManager : MonoBehaviour
         }
     }
 
-    string screenShotName = "test88";
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +42,7 @@ public class WIndowManager : MonoBehaviour
     {
         Debug.Log("shot");
         yield return new WaitForEndOfFrame();
-
+        string screenShotName = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         var width = Screen.width;
         var height = Screen.height;
@@ -51,9 +52,18 @@ public class WIndowManager : MonoBehaviour
         tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
         tex.Apply();
         Debug.Log(Application.dataPath);
-        //File.WriteAllBytes($"C:\\Users\\kim\\Documents\\red/{screenShotName}.png", tex.EncodeToPNG());
-        //File.WriteAllBytes($"C:\\Users\\kim\\Documents\\red/{screenShotName}.png", tex.EncodeToPNG());
-        File.WriteAllBytes($"{Application.dataPath}/../{screenShotName}.png", tex.EncodeToPNG());
+
+
+        //pc
+
+        //Application.dataPath는 해당 프로젝트 Assets 폴더.
+
+        //해당 경로에 NewDirectory라는 이름을 가진 폴더 생성
+
+        Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
+
+
+        File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", tex.EncodeToPNG());
 
         Debug.Log("shot end");
     }
