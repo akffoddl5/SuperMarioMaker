@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/0 Scene.unity
     guid: 6bb4c2ad02e4a5945b28725eca14c073
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LobbyScene.unity
     guid: 827ec6828a2284c4fabaa919e2977218
-  - enabled: 1
+  - enabled: 0
     path: Assets/Kdm/Scenes/KdmScene.unity
     guid: 9680f3dba49beac4dbfde66d4cf77f39
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/InGame.unity
     guid: 3a590d9598416fa43bd8b267c519eb53
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TestServer.unity
     guid: dd695a333a465704a82f691b69a1e81e
   m_configObjects: {}
