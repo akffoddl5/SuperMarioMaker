@@ -35,7 +35,8 @@ public class Mario_jump : Mario_state
 		base.Exit();
 		mario.PM.friction = 0.4f;
 		mario.collider.sharedMaterial = mario.PM;
-	}
+        mario.collider_big.sharedMaterial = mario.PM;
+    }
 	public override void Update()
 	{
 
@@ -43,12 +44,14 @@ public class Mario_jump : Mario_state
 		{
 			mario.PM.friction = 0;
 			mario.collider.sharedMaterial = mario.PM;
-		}
+            mario.collider_big.sharedMaterial = mario.PM;
+        }
 		else
 		{
 			mario.PM.friction = 0.4f;
 			mario.collider.sharedMaterial = mario.PM;
-		}
+            mario.collider_big.sharedMaterial = mario.PM;
+        }
 
         //FIre
         if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
