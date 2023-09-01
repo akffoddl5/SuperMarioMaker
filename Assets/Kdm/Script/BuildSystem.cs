@@ -106,7 +106,7 @@ public class BuildSystem : MonoBehaviour
     [SerializeField] float cameraSpeed;
     [SerializeField] float cameraMoveTriggerPos;
 
-
+    public bool isPlay { get; set; } = false;
 
 
 
@@ -142,20 +142,17 @@ public class BuildSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isPlay)
+        {
+            return;
+        }
+
         CameraMove();
 
         isSetTile = ui_Editor.IsSetTile();
 
-        //if (!ui_Editor.pipeLinkMode)
         if (ui_Editor.functionEditMode == UI_Editor.FunctionEditMode.None)
             ClickSetTile();
-
-        //Debug.Log("????????");
-        //리스트 테스트용 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Instantiate((GameObject)objectList[objectList.Count - 1][4], (Vector3)objectList[objectList.Count - 1][1], Quaternion.identity);
-        }
 
     }
 
@@ -360,6 +357,7 @@ public class BuildSystem : MonoBehaviour
 
                     //실제 오브젝트 생성
                     createObj = Instantiate(currentTileObjectPrefab[pipePrefabIndex], createPos, Quaternion.Euler(0, 0, pipeDir * (-90)));
+                    //createObj.SetActive(false);
                 }
                 else
                 {
@@ -374,6 +372,7 @@ public class BuildSystem : MonoBehaviour
                     }
 
                     createObj = Instantiate(currentTileObjectPrefab[0], createPos, Quaternion.identity);
+                    createObj.SetActive(false);
                 }
 
                 //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
@@ -477,6 +476,7 @@ public class BuildSystem : MonoBehaviour
         }
     }
 
+    //타일 설치가 가능한지 확인
     bool PossibleSetTile(Vector3Int _tilemapMousePosition)
     {
         for (int i = 0; i < tileX; i++)
@@ -501,6 +501,7 @@ public class BuildSystem : MonoBehaviour
 
     }
 
+    //파이프 연결 설정
     public void PipeLinkPos_ObjectListInput(GameObject _pipeLinkObject_0, GameObject _pipeLinkObject_1)
     {
         for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
@@ -516,7 +517,8 @@ public class BuildSystem : MonoBehaviour
             }
         }
     }
-
+    
+    //블럭 아이템 설정, 블럭에 들어가있는 아이템 갯수 리턴
     public int BrickItemSet_ObjectListInput(GameObject _itemSetBrick, int _brickItemNum)
     {
         for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
@@ -531,6 +533,8 @@ public class BuildSystem : MonoBehaviour
         return 0;
     }
 
+    //블럭 아이템 삭제, 블럭에 들어가있는 아이템 갯수 리턴
+    //(안쓸듯?)
     public int BrickItemSet_ObjectListOutput(GameObject _itemSetBrick, int _brickItemNum)
     {
         for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
@@ -545,6 +549,7 @@ public class BuildSystem : MonoBehaviour
         return 0;
     }
 
+    //블럭에 들어가있는 아이템 갯수 리턴
     public int BrickItemSet_ObjectListCount(GameObject _itemSetBrick)
     {
         for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
@@ -555,5 +560,19 @@ public class BuildSystem : MonoBehaviour
             }
         }
         return 0;
+    }
+
+
+    public void PlayButtonOn()
+    {
+        Debug.Log("??");
+        isPlay = true;
+
+
+    }
+
+    public void StopButtonOn()
+    {
+        isPlay = false;
     }
 }

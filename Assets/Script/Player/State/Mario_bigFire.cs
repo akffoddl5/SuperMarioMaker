@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mario_SmallBig : Mario_state
+public class Mario_bigFire : Mario_state
 {
-    public Mario_SmallBig(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) : base(_mario, _stateMachine, _animBoolName)
+    public Mario_bigFire(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) : base(_mario, _stateMachine, _animBoolName)
     {
     }
 
@@ -12,11 +12,8 @@ public class Mario_SmallBig : Mario_state
     {
         base.Enter();
         stateTimer = 50 * Time.deltaTime;
-        mario.collider.enabled = false;
-        mario.transform.position += new Vector3(0, 0.5f, 0);
-        mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
+        mario.collider_big.enabled = false;
         mario.GetComponent<Rigidbody2D>().Sleep();
-        
     }
 
     public override void Exit()

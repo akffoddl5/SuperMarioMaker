@@ -99,11 +99,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        
 	}
-
-   
-
 
     public override void OnJoinedLobby()
     {
@@ -329,13 +325,13 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	public void Room_Init()
 	{
-		// lobby left move
+		// lobby move leftside
 		GameObject lobby = GameObject.Find("Lobby_Layer");
 		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
 		// room move leftside
 		GameObject room_layer = GameObject.Find("Room_Layer");
-		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(0, 0, 0)));
+		StartCoroutine(CorLerp(room_layer, new Vector3(0, 1100, 0), new Vector3(-30, 0, 0)));
         // room maker move upside
 		var a = GameObject.Find("Room_Make_Layer");
 		Vector3 localPositionA = a.GetComponent<RectTransform>().localPosition;
@@ -392,8 +388,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		// 로비도 데려와야 해
 		GameObject lobby = GameObject.Find("Lobby_Layer");
-
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition, Vector3.zero));
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
 
 		// 룸을 나가면 마스터로 가니까 로비로 다시 들어오게 해야 함
 		PhotonNetwork.JoinLobby();
