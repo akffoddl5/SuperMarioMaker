@@ -329,7 +329,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	public void Room_Init()
 	{
-		// lobby left move
+		// lobby move leftside
 		GameObject lobby = GameObject.Find("Lobby_Layer");
 		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(-2000, 0, 0)));
@@ -392,8 +392,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		// 로비도 데려와야 해
 		GameObject lobby = GameObject.Find("Lobby_Layer");
-
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition, Vector3.zero));
+		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+			lobby.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
 
 		// 룸을 나가면 마스터로 가니까 로비로 다시 들어오게 해야 함
 		PhotonNetwork.JoinLobby();

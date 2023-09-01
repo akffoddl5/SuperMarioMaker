@@ -316,6 +316,7 @@ MonoBehaviour:
   PM: {fileID: 0}
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  PV: {fileID: 0}
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0
