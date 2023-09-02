@@ -265,7 +265,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   rb: {fileID: 0}
-  prefabPath: 
   moveSpeed: 3
   wallLCheck: {fileID: 3260082238214982947}
   wallRCheck: {fileID: 964095270656163234}
