@@ -14,6 +14,7 @@ public class Mario_stateMachine
     
     public void ChangeState(Mario_state _changeState)
     {
+        Debug.Log(currentState.animBoolName + " << ");
         currentState.Exit();
         currentState = _changeState;
         currentState.Enter();
