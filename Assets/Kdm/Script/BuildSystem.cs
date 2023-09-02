@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public class BuildSystem : MonoBehaviour
     public static BuildSystem instance;
 
     UI_Editor ui_Editor;
+    TilemapManager tilemapManager = new TilemapManager();
 
     [Serializable]
     class Tiles
@@ -50,9 +52,18 @@ public class BuildSystem : MonoBehaviour
     //    boo
     //}
 
+    [SerializeField] GameObject virtualCamera;
 
-    [SerializeField]
-    Tiles[] tiles;
+    int backgroundNum = 0;
+    float timerCount = 0;
+    //int playerLifePoint;
+    Vector3 playerStartPos;
+    int mapScaleNum = 1;
+
+    [SerializeField] GameObject PlayerPrefab;
+    [SerializeField] Tile marioTile;
+
+    [SerializeField] Tiles[] tiles;
 
     //TileName tileName;
 
@@ -60,6 +71,7 @@ public class BuildSystem : MonoBehaviour
 
     [SerializeField] private Tilemap TempTilemap;
     [SerializeField] private Tilemap SetTilemap;
+    [SerializeField] private TilemapRenderer SetTilemapRenderer;
 
     int tileNum = 0;
     //[SerializeField] private Tile deleteTile;
@@ -133,7 +145,6 @@ public class BuildSystem : MonoBehaviour
         {
             tilesDictionary.Add(tiles[i].tileName, i);
         }
-        Debug.Log(tiles.Length);
 
         currentTile[0] = null;
 
@@ -177,6 +188,8 @@ public class BuildSystem : MonoBehaviour
             moveY = -1;
 
         ////카메라 이동
+        //Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
+        //    moveY * cameraSpeed * Time.deltaTime, 0);
         Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
             moveY * cameraSpeed * Time.deltaTime, 0);
 
@@ -279,113 +292,161 @@ public class BuildSystem : MonoBehaviour
                 Vector3 createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
                     tilemapToWorldPoint.y + grid.cellSize.x / 2);
 
-                GameObject createObj;
+                GameObject createObj = null;
                 int dirInfo = 0;
+                int prefabIndex = 0;
 
-                //파이프 배치
-                if (currentTileName == "Pipe")
+                if (currentTileName == "Mario") //플레이어 배치
                 {
-                    int pipePrefabIndex;
-
-                    //첫 클릭만 파이프 입구 생성
-                    if (pipeTopPosition == defaultPipeTopPosition)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        pipeTopPosition = tilemapMousePosition;
+                        //플레이어 시작위치는 하나이기 때문에 기존값이 있으면 삭제
+                        for (int listIndex = 0; listIndex < objectList.Count; listIndex++)
+                        {
+                            if ((string)objectList[listIndex][0] == "Mario")
+                            {
+                                SetTilemap.SetTile((Vector3Int)objectList[listIndex][5], null);
+                                Destroy(((GameObject)objectList[listIndex][7]));
+                                objectList.RemoveAt(listIndex);
+
+                                break;
+                            }
+                        }
+
 
                         //타일맵에 타일 생성
+                        //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
                         for (int i = 0; i < tileX; i++)
                         {
                             for (int j = 0; j < tileY; j++)
                             {
-                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + pipeDir * 4]);
+                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
                             }
                         }
 
-                        if (pipeDir == 2)
-                            createPos += new Vector3(grid.cellSize.x, 0);
-                        else if (pipeDir == 3)
-                            createPos += new Vector3(0, -grid.cellSize.y);
+                        playerStartPos = createPos;
 
-                        pipePrefabIndex = 0;
+                        //실제 오브젝트 생성
+                        //createObj = Instantiate(currentTileObjectPrefab[prefabIndex], createPos, Quaternion.Euler(0, 0, dirInfo * (-90)));
+                        createObj = PhotonNetwork.Instantiate("Prefabs/Mario", createPos, Quaternion.Euler(0, 0, dirInfo * (-90)));
+                        createObj.SetActive(false);
+
+
+                        //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
+                        //오브젝트 삭제할때도 써먹음
+                        //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
+                        //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+                        objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, new List<int>(),
+                            tilemapMousePosition, tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
                     }
-                    else //파이프 몸통 생성
-                    {
-                        //파이프 몸통이 입구 밑으로만 만들어지도록 제한
-                        if (pipeDir == 0 || pipeDir == 2)
-                        {
-                            tilemapMousePosition = new Vector3Int(pipeTopPosition.x, tilemapMousePosition.y);
-                            if (pipeDir == 0 && tilemapMousePosition.y > pipeTopPosition.y)
-                                return;
-                            else if (pipeDir == 2 && tilemapMousePosition.y < pipeTopPosition.y)
-                                return;
-                        }
-                        else if (pipeDir == 1 || pipeDir == 3)
-                        {
-                            tilemapMousePosition = new Vector3Int(tilemapMousePosition.x, pipeTopPosition.y);
-                            if (pipeDir == 1 && tilemapMousePosition.x > pipeTopPosition.x)
-                                return;
-                            else if (pipeDir == 3 && tilemapMousePosition.x < pipeTopPosition.x)
-                                return;
-                        }
-                        if (!PossibleSetTile(tilemapMousePosition))
-                        {
-                            return;
-                        }
-
-                        //타일맵에 타일 생성
-                        for (int i = 0; i < tileX; i++)
-                        {
-                            for (int j = 0; j < tileY; j++)
-                            {
-                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + 2 + pipeDir * 4]);
-                            }
-                        }
-
-                        tilemapToWorldPoint = SetTilemap.CellToWorld(tilemapMousePosition);
-                        createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
-                            tilemapToWorldPoint.y + grid.cellSize.x / 2);
-
-                        if (pipeDir == 2)
-                            createPos += new Vector3(grid.cellSize.x, 0);
-                        else if (pipeDir == 3)
-                            createPos += new Vector3(0, -grid.cellSize.y);
-
-                        pipePrefabIndex = 1;
-                    }
-
-                    dirInfo = pipeDir;
-
-                    //실제 오브젝트 생성
-                    createObj = Instantiate(currentTileObjectPrefab[pipePrefabIndex], createPos, Quaternion.Euler(0, 0, pipeDir * (-90)));
-                    //createObj.SetActive(false);
                 }
                 else
                 {
-                    //타일맵에 타일 생성
-                    //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
-                    for (int i = 0; i < tileX; i++)
+                    if (currentTileName == "Pipe") //파이프 배치
                     {
-                        for (int j = 0; j < tileY; j++)
+                        //첫 클릭만 파이프 입구 생성
+                        if (pipeTopPosition == defaultPipeTopPosition)
                         {
-                            SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
+                            pipeTopPosition = tilemapMousePosition;
+
+                            //타일맵에 타일 생성
+                            for (int i = 0; i < tileX; i++)
+                            {
+                                for (int j = 0; j < tileY; j++)
+                                {
+                                    SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + pipeDir * 4]);
+                                }
+                            }
+
+                            if (pipeDir == 2)
+                                createPos += new Vector3(grid.cellSize.x, 0);
+                            else if (pipeDir == 3)
+                                createPos += new Vector3(0, -grid.cellSize.y);
+
+                            prefabIndex = 0;
                         }
+                        else //파이프 몸통 생성
+                        {
+                            //파이프 몸통이 입구 밑으로만 만들어지도록 제한
+                            if (pipeDir == 0 || pipeDir == 2)
+                            {
+                                tilemapMousePosition = new Vector3Int(pipeTopPosition.x, tilemapMousePosition.y);
+                                if (pipeDir == 0 && tilemapMousePosition.y > pipeTopPosition.y)
+                                    return;
+                                else if (pipeDir == 2 && tilemapMousePosition.y < pipeTopPosition.y)
+                                    return;
+                            }
+                            else if (pipeDir == 1 || pipeDir == 3)
+                            {
+                                tilemapMousePosition = new Vector3Int(tilemapMousePosition.x, pipeTopPosition.y);
+                                if (pipeDir == 1 && tilemapMousePosition.x > pipeTopPosition.x)
+                                    return;
+                                else if (pipeDir == 3 && tilemapMousePosition.x < pipeTopPosition.x)
+                                    return;
+                            }
+                            if (!PossibleSetTile(tilemapMousePosition))
+                            {
+                                return;
+                            }
+
+                            //타일맵에 타일 생성
+                            for (int i = 0; i < tileX; i++)
+                            {
+                                for (int j = 0; j < tileY; j++)
+                                {
+                                    SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j + 2 + pipeDir * 4]);
+                                }
+                            }
+
+                            tilemapToWorldPoint = SetTilemap.CellToWorld(tilemapMousePosition);
+                            createPos = new Vector3(tilemapToWorldPoint.x + grid.cellSize.x / 2,
+                                tilemapToWorldPoint.y + grid.cellSize.x / 2);
+
+                            if (pipeDir == 2)
+                                createPos += new Vector3(grid.cellSize.x, 0);
+                            else if (pipeDir == 3)
+                                createPos += new Vector3(0, -grid.cellSize.y);
+
+                            prefabIndex = 1;
+                        }
+
+                        dirInfo = pipeDir;
+
+                    }
+                    else //타일 배치
+                    {
+                        //타일맵에 타일 생성
+                        //SetTilemap.SetTile(tilemapMousePosition, currentTile[0]);
+                        for (int i = 0; i < tileX; i++)
+                        {
+                            for (int j = 0; j < tileY; j++)
+                            {
+                                SetTilemap.SetTile(tilemapMousePosition + new Vector3Int(i, -j), currentTile[i + j * tileX]);
+                            }
+                        }
+
                     }
 
-                    createObj = Instantiate(currentTileObjectPrefab[0], createPos, Quaternion.identity);
-                    createObj.SetActive(false);
-                }
 
-                //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
-                //오브젝트 삭제할때도 써먹음
-                //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
-                //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
-                objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, new List<int>(),
+                    //실제 오브젝트 생성
+                    createObj = Instantiate(currentTileObjectPrefab[prefabIndex], createPos, Quaternion.Euler(0, 0, dirInfo * (-90)));
+
+                    if (currentTileName != "Pipe" && currentTileName != "Brick" &&
+                        currentTileName != "QuestionBrick0" && currentTileName != "IceBrick")
+                    {
+                        createObj.SetActive(false);
+                    }
+
+                    //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
+                    //오브젝트 삭제할때도 써먹음
+                    //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
+                    //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+                    objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, new List<int>(),
                     tilemapMousePosition, tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+                }
 
 
             }
-
-
 
         }
         //타일 삭제
@@ -458,9 +519,19 @@ public class BuildSystem : MonoBehaviour
         PastTempTileClear();
 
         //현재 타일 설정
-        currentTile = tiles[tilesDictionary[_tileName]].tile;
-        currentTileName = _tileName;
-        currentTileObjectPrefab = tiles[tilesDictionary[_tileName]].objectPrefab;
+        if (_tileName == "Mario")
+        {
+            currentTile[0] = marioTile;
+            currentTileName = _tileName;
+            currentTileObjectPrefab = new GameObject[1] { PlayerPrefab };
+        }
+        else
+        {
+            currentTile = tiles[tilesDictionary[_tileName]].tile;
+            currentTileName = _tileName;
+            currentTileObjectPrefab = tiles[tilesDictionary[_tileName]].objectPrefab;
+        }
+
 
     }
 
@@ -517,7 +588,7 @@ public class BuildSystem : MonoBehaviour
             }
         }
     }
-    
+
     //블럭 아이템 설정, 블럭에 들어가있는 아이템 갯수 리턴
     public int BrickItemSet_ObjectListInput(GameObject _itemSetBrick, int _brickItemNum)
     {
@@ -565,14 +636,48 @@ public class BuildSystem : MonoBehaviour
 
     public void PlayButtonOn()
     {
-        Debug.Log("??");
         isPlay = true;
+        PastTempTileClear();
 
+        for(int i = 0; i < objectList.Count; i++)
+        {
+            ((GameObject)objectList[i][7]).SetActive(true);
+        }
 
+        SetTilemapRenderer.enabled = false;
+
+        virtualCamera.SetActive(true);
     }
 
     public void StopButtonOn()
     {
         isPlay = false;
+
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            if((string)objectList[i][0] == "Mario")
+            {
+                ((GameObject)objectList[i][7]).transform.position = playerStartPos;
+            }
+
+            if ((string)objectList[i][0] != "Pipe" && (string)objectList[i][0] != "Brick" &&
+                        (string)objectList[i][0] != "QuestionBrick0" && (string)objectList[i][0] != "IceBrick")
+            {
+                ((GameObject)objectList[i][7]).SetActive(false);
+            }
+        }
+
+        SetTilemapRenderer.enabled = true;
+
+        virtualCamera.SetActive(false);
+    }
+
+
+    public void SaveMap()
+    {
+        tilemapManager._levelIndex = 0;
+        tilemapManager._timerCount = 888;
+        tilemapManager._playerStartPos = new Vector3(7.77f, 7.77f, 7.77f);
+        tilemapManager.SaveMap();
     }
 }

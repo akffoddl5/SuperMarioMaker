@@ -33,6 +33,7 @@ public class UI_Editor : MonoBehaviour
 
     [Header("ButtonPanel")]
     [SerializeField] GameObject[] buttonPanel;
+    [SerializeField] GameObject PipePanel;
 
     [SerializeField] GameObject brickSetPanel;
 
@@ -255,7 +256,7 @@ public class UI_Editor : MonoBehaviour
     {
         if (_buttonNum < 0 || _buttonNum >= buttonPanel.Length)
         {
-            Debug.Log("배열 범위를 벗어남");
+            //Debug.Log("배열 범위를 벗어남");
             return;
         }
 
@@ -302,9 +303,12 @@ public class UI_Editor : MonoBehaviour
     {
         buildSystem.SetCurrentTile(_tileName);
 
-        //타일 선택 이미지 변경
-        tileSetButtonImage[currentOpenButtonPanelNumber].sprite =
-            buildSystem.currentTile[buildSystem.currentTile.Length - 1].sprite;
+        if (_tileName != "Mario")
+        {
+            //타일 선택 이미지 변경
+            tileSetButtonImage[currentOpenButtonPanelNumber].sprite =
+                buildSystem.currentTile[buildSystem.currentTile.Length - 1].sprite;
+        }            
 
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
 
@@ -313,11 +317,19 @@ public class UI_Editor : MonoBehaviour
     }
 
 
+    //파이프 패널 OFF
+    public void PipePanel_Off()
+    {
+        PipePanel.SetActive(false);
+    }
+
     //파이프 선택 버튼(방향)
     public void PipeTileButtonClick(int _pipeDir)
     {
         buildSystem.pipeDir = _pipeDir;
         TileButtonClick("Pipe");
+
+        PipePanel_Off();
     }
 
     //파이프 연결 버튼
@@ -330,7 +342,7 @@ public class UI_Editor : MonoBehaviour
 
         buildSystem.PastTempTileClear();
 
-
+        PipePanel_Off();
     }
 
 
@@ -370,6 +382,10 @@ public class UI_Editor : MonoBehaviour
     public void PlayButtonClick()
     {
         buildSystem.PlayButtonOn();
+
+        PipePanel_Off();
+        BrickSetPanel_Off();
+        ButtonPanel_OnOff(currentOpenButtonPanelNumber);
 
         isPanelOutIn = true;
         StartCoroutine(PanelOut());
@@ -460,6 +476,11 @@ public class UI_Editor : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void SaveButtonClick()
+    {
+        buildSystem.SaveMap();
     }
 
     #endregion
