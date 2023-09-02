@@ -484,13 +484,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 101940213848852059, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1023432997813708736, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_Name
       value: JumpBord
       objectReference: {fileID: 0}
     - target: {fileID: 3567563313951354898, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3567563313951354898, guid: 096cd6d5dc030ae4699fbe41b3b28aaa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -668,9 +672,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2670659279971867510, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6598138816066317252, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6598138816066317252, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1083,6 +1091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   rb: {fileID: 0}
+  prefabPath: 
   moveSpeed: 4
   jumpPower: 10
   groundCheck: {fileID: 856350664}
@@ -1403,7 +1412,7 @@ Transform:
   - {fileID: 328069174}
   - {fileID: 265921867}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2032632108
 MonoBehaviour:
@@ -1419,6 +1428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   rb: {fileID: 0}
+  prefabPath: 
   moveSpeed: 3
   wallLCheck: {fileID: 328069174}
   wallRCheck: {fileID: 265921867}
