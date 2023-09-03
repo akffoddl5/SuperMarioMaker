@@ -308,7 +308,7 @@ Transform:
   m_Children:
   - {fileID: 396919736223687186}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &43836736770535040
 MonoBehaviour:
@@ -325,9 +325,22 @@ MonoBehaviour:
   upForce: -1
   resetTimer: 0.05
   init_item_list:
-  - {fileID: 6374375659716200658, guid: 261ba68c8bfe86e4283923fc0cdaf747, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
   - {fileID: 5888581124587718431, guid: ac98b255044c133438c378e372369639, type: 3}
+  - {fileID: 6374375659716200658, guid: 261ba68c8bfe86e4283923fc0cdaf747, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
+  - {fileID: 6182069758412820215, guid: 8cb3ab7b230beed4dbccec477c056860, type: 3}
   stateNum: 1
+  collision_cool_max: 0
+  collision_cool: 0
 --- !u!61 &918574725049206832
 BoxCollider2D:
   m_ObjectHideFlags: 0

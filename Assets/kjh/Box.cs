@@ -63,7 +63,15 @@ public class Box : MonoBehaviour
             }
             else
             {
-                //나무로 바뀌기
+                if (stateNum == 0)
+                {
+                    //부셔지기
+                }
+                else
+                {
+                    //나무로 바뀌기
+                }
+
             }
                 
             

@@ -35,7 +35,7 @@ public abstract class Item : MonoBehaviour
         
     }
 
-    public void Spawn()
+    public virtual void Spawn()
     {
         StartCoroutine(ISpawn());
     }
