@@ -16,7 +16,6 @@ public class Mario_SmallBig : Mario_state
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
         mario.GetComponent<Rigidbody2D>().Sleep();
-        
     }
 
     public override void Exit()

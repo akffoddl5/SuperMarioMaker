@@ -15,6 +15,10 @@ public class Box : MonoBehaviour
     public List<GameObject> init_item_list = new List<GameObject>();
     public Queue<GameObject> items = new Queue<GameObject>();
     public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
+    public float collision_cool_max;
+    public float collision_cool;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +28,14 @@ public class Box : MonoBehaviour
         {
             items.Enqueue(init_item_list[i]);
         }
+
+        collision_cool_max = 10 * Time.deltaTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        collision_cool -= Time.deltaTime;
     }
 
     public void Add_Item(GameObject obj)
@@ -39,21 +45,36 @@ public class Box : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && collision_cool < 0)
         {
+            collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
              anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
 
-            for (int i = 0; i < items.Count; i++)
+            if (items.Count > 0)
             {
                 GameObject tmp = items.Dequeue();
-                Debug.Log((tmp.GetComponent<Item>().prefabPath + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
-                //var a = PhotonNetwork.Instantiate(items.Dequeue().GetComponent<Item>().prefabPath, transform.position, Quaternion.identity);
-                //a.GetComponent<Item>().Spawn();
+                Debug.Log((tmp.GetComponent<Item>().Get_Prefab_Path() + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
+                var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
+                a.GetComponent<Item>().Spawn();
             }
+            else
+            {
+                if (stateNum == 0)
+                {
+                    //부셔지기
+                }
+                else
+                {
+                    //나무로 바뀌기
+                }
+
+            }
+                
+            
             //  Invoke("defort",0.3f);
         }
     }

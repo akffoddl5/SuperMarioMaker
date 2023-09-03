@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
     Vector3 current_pos;
     Vector3 des_pos;
@@ -11,7 +11,8 @@ public class Item : MonoBehaviour
 
     Collider2D collider;
 	public Rigidbody2D rb;
-    public string prefabPath;
+
+    public abstract string Get_Prefab_Path();
 
 	protected virtual void Awake()
     {
@@ -34,7 +35,7 @@ public class Item : MonoBehaviour
         
     }
 
-    public void Spawn()
+    public virtual void Spawn()
     {
         StartCoroutine(ISpawn());
     }

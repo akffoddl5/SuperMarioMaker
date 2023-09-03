@@ -58,4 +58,8 @@ public class Item_mushroom : Item
 		   wallRCheck.position.y));
 	}
 
+	public override string Get_Prefab_Path()
+    {
+		return "Prefabs/Item_mushroom";
+	}
 }

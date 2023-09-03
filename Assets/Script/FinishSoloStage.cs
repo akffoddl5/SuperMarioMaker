@@ -6,13 +6,16 @@ public class FinishSoloStage : MonoBehaviour
 {
     public bool isFinishGame = false;
     bool isCoroutineStart = false;
-    Vector2 minusVector = new Vector2(0.1f, 0.1f); 
+
+    Vector2 minusVector = new Vector2(0.5f, 0.5f); 
     Vector2 finishScale = new Vector2(3, 3);
+    Vector2 finishPosition; // 1µîÀÇ position
+
     // Start is called before the first frame update
     void Start()
     {
-        isFinishGame = true;
-        transform.localPosition = Vector3.zero;
+		gameObject.SetActive(false);
+		transform.localPosition = Vector3.zero;
         transform.localScale = new Vector2(40, 40);
     }
 
@@ -21,18 +24,19 @@ public class FinishSoloStage : MonoBehaviour
     {
         if (isFinishGame && !isCoroutineStart)
         {
+            gameObject.SetActive(true);
             isCoroutineStart = true;
             StartCoroutine(FinishGame_EF());
         }
     }
     IEnumerator FinishGame_EF()
     {
-        while(transform.localScale.x <= finishScale.x)
+        while(transform.localScale.x >= finishScale.x)
         {
-            Debug.Log("IEnumerator FinishGame_EF() µé¾î¿È!!!");
             Vector2 tmp = new Vector2(transform.localScale.x - minusVector.x, transform.localScale.y - minusVector.y);
             transform.localScale = tmp;
-            yield return new WaitForSeconds(0.5f);
+            //Debug.Log("IEnumerator FinishGame_EF() µé¾î¿È!!!" + transform.localScale);
+            yield return new WaitForSeconds(0.01f);
 
         }
     }

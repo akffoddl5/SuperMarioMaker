@@ -89,4 +89,9 @@ public class Item_Star : Item
 		Gizmos.DrawLine(wallRCheck.position, new Vector3(wallRCheck.position.x + wallCheckDistance,
 		   wallRCheck.position.y));
 	}
+
+    public override string Get_Prefab_Path()
+    {
+		return "Prefabs/Item_Star";
+	}
 }
