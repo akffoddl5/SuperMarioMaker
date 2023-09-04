@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -157,6 +158,7 @@ public class BuildSystem : MonoBehaviour
 
         currentTile[0] = null;
 
+        WIndowManager.instance.mapNum++;
     }
 
     // Update is called once per frame
@@ -708,7 +710,7 @@ public class BuildSystem : MonoBehaviour
 
     public void MakeMap()
     {
-        tilemapManager.LoadMap(0,out mapInfo);
+        tilemapManager.LoadMap(0, out mapInfo);
 
         //배경 설정
         for (int i = 0; i < background_ground.Length; i++)
@@ -747,9 +749,11 @@ public class BuildSystem : MonoBehaviour
                     Instantiate(tiles[tilesDictionary["Pipe"]].objectPrefab[1], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
                 }
             }
-            else if (creatObjList[i].objectName == "Brick" || creatObjList[i].objectName == "QuestionBrick0" || creatObjList[i].objectName == "QuestionBrick1")
+            else if (creatObjList[i].objectName == "Brick" || creatObjList[i].objectName == "QuestionBrick0" || creatObjList[i].objectName == "QuestionBrick1" || creatObjList[i].objectName == "IceBrick")
             {
-                Instantiate(tiles[tilesDictionary[creatObjList[i].objectName]].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90))).GetComponent<Box>().Add_Item_Num(creatObjList[i].brickListInfo);
+                Instantiate(tiles[tilesDictionary[creatObjList[i].objectName]].objectPrefab[0], creatObjList[i].createPos,
+                    Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90))).GetComponent<Box>().Add_Item_Num(creatObjList[i].brickListInfo);
+                //Debug.Log("아이템 리스트 : " + creatObjList[i].brickListInfo[0] + creatObjList[i].brickListInfo[1] + creatObjList[i].brickListInfo[2]);
             }
             else
             {
@@ -786,5 +790,45 @@ public class BuildSystem : MonoBehaviour
     public void TimerSet(float _timerCount)
     {
         timerCount = _timerCount;
+    }
+
+    [SerializeField] Texture renderTexture;
+    public RenderTexture DrawTexture;
+    IEnumerator TakeScreenShot()
+    {
+        Debug.Log("shot");
+        yield return new WaitForEndOfFrame();
+        string screenShotName = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+        var width = Screen.width;
+        var height = Screen.height;
+
+        RenderTexture.active = DrawTexture;
+        var texture2D = new Texture2D(DrawTexture.width, DrawTexture.height);
+        texture2D.ReadPixels(new Rect(0, 0, DrawTexture.width, DrawTexture.height), 0, 0);
+        texture2D.Apply();
+        var data = texture2D.EncodeToPNG();
+        File.WriteAllBytes("C:/Example/Image.png", data);
+        //var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+        //var tex = renderTexture.EncodeToPNG
+
+
+        //tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        //tex.Apply();
+        //Debug.Log(Application.dataPath);
+
+
+        //pc
+
+        //Application.dataPath는 해당 프로젝트 Assets 폴더.
+
+        //해당 경로에 NewDirectory라는 이름을 가진 폴더 생성
+
+        Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
+
+
+        File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", renderTexture.);
+
+        Debug.Log("shot end");
     }
 }

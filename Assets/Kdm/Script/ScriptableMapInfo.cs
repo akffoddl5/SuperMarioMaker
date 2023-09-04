@@ -15,7 +15,7 @@ public class ScriptableMapInfo
     public int playerLifePoint;
     public Vector3 playerStartPos;
     public int mapScaleNum;
-    public string name;
+    //public string name;
     public List<CreateObjectInfo> createObjectInfoList = new List<CreateObjectInfo>();
 
     [System.Serializable]

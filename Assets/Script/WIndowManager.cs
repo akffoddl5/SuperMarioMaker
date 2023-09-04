@@ -9,6 +9,8 @@ public class WIndowManager : MonoBehaviour
 
     public static WIndowManager instance;
 
+    public int mapNum = 0;
+
 
     private void Awake()
     {
