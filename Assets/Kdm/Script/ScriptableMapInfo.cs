@@ -15,12 +15,13 @@ public class ScriptableMapInfo
     public int playerLifePoint;
     public Vector3 playerStartPos;
     public int mapScaleNum;
-
+    public string name;
     public List<CreateObjectInfo> createObjectInfoList = new List<CreateObjectInfo>();
 
-    [Serializable]
+    [System.Serializable]
     public class CreateObjectInfo
     {
+        
         public string objectName;
         public Vector3 createPos;
         public int dirInfo; //(위 : 0, 오른 : 1, 왼 : 2, 아래 : 3)
