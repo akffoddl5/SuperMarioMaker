@@ -266,7 +266,7 @@ public class Mario : MonoBehaviour
 			}
 			else if (collision.gameObject.GetComponent<Item_flower>() != null)
 			{
-				Debug.Log("flower !!");
+				Debug.Log("flower !!" + marioMode);
 				if (marioMode == 0)
 				{
 					marioMode = 2;

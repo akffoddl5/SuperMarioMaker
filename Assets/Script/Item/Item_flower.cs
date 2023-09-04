@@ -8,4 +8,9 @@ public class Item_flower : Item
 	{
 		base.Awake();
 	}
+
+    public override string Get_Prefab_Path()
+    {
+        return "Prefabs/Item_flower";
+    }
 }

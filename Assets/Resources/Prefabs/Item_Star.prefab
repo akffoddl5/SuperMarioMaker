@@ -320,7 +320,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   rb: {fileID: 0}
-  prefabPath: 
   moveSpeed: 4
   jumpPower: 10
   groundCheck: {fileID: 965912917208868674}
