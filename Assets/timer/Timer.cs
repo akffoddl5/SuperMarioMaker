@@ -9,7 +9,8 @@ public class Timer : MonoBehaviour
 {
     public float timeSet = 100;//세팅할 시간임
     public int min = 0;
-    public int sec = 0;
+    public float sec = 0;
+   public float sec2 = 0;
     int _S = 0;
     int _M = 0;
    
@@ -19,10 +20,12 @@ public class Timer : MonoBehaviour
 
 
 
+
     void Start()
     {//시간 세팅(초기화해줌)
         timetextM=GameObject.Find("Min").GetComponent<Text>();
         timetextS=GameObject.Find("Sec").GetComponent<Text>();
+      
         if (timeSet / 60 > 0)
         {
             if (timeSet > 60)
@@ -45,7 +48,8 @@ public class Timer : MonoBehaviour
    void Update()
     {//두자리로해줌
         timetextM.text = string.Format("{0:d2}",min);
-        timetextS.text = string.Format("{0:d2}",sec);
+       // timetextS.text = string.Format("{0:d2}",sec);
+        timetextS.text = string.Format("{0:00.00}",sec);
         
     }
     void FixedUpdate()
@@ -65,14 +69,20 @@ public class Timer : MonoBehaviour
             {
                 min = 0;
             }
+            //if (timeSet % 60 < 60)
+            //{
+
+            //    sec = (int)timeSet % 60;
+
+            //}
+
             if (timeSet % 60 < 60)
             {
-
                 sec = (int)timeSet % 60;
+              sec2=timeSet%60- (int)timeSet % 60;
 
+                sec = sec + sec2;
             }
-
-
 
 
 
