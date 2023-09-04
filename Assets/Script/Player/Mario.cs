@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Cinemachine;
 using System;
+using Photon.Realtime;
 
 public class Mario : MonoBehaviour
 {
@@ -12,10 +13,10 @@ public class Mario : MonoBehaviour
 	// marioMode_0: smallMario, marioMode_1: bigMario, marioMode_2: fireMario
 	[Header("Camera")]
 	public GameObject virtual_camera;
-	
-	
-    [Header("Move Info")]
-    public float moveSpeed = 5;
+
+
+	[Header("Move Info")]
+	public float moveSpeed = 5;
 	public float runSpeed = 6;
 	public float jumpPower;
 	public float lastXSpeed;
@@ -32,12 +33,13 @@ public class Mario : MonoBehaviour
 	public LayerMask whatIsPlayer;
 	public Transform obj_bulletGeneratorA;
 	public Transform obj_bulletGeneratorB;
-	
 
-    [Header("Audio source")]
-    public AudioSource jump_audioSource;
+
+	[Header("Audio source")]
+	public AudioSource jump_audioSource;
 	public AudioClip[] clips;
 
+	public GameObject endingEffect;
 
 	public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
 	public bool isStarMario = false;
@@ -67,13 +69,13 @@ public class Mario : MonoBehaviour
 	[HideInInspector] public PhysicsMaterial2D PM;
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public SpriteRenderer spriteRenderer;
-	
+
 
 	//StateMachine
 	public Mario_stateMachine stateMachine;
- 
-    public Mario_idle idleState;
-    public Mario_run runState;
+
+	public Mario_idle idleState;
+	public Mario_run runState;
 	public Mario_jump jumpState;
 	public Mario_slide slideState;
 	public Mario_walk walkState;
@@ -85,31 +87,32 @@ public class Mario : MonoBehaviour
 	public Mario_SmallBig smallBig;
 	public Mario_smallFire smallFire;
 	public Mario_bigFire bigFire;
+	public Mario_win winState;
 
 	public PhotonView PV;
 
 
-    private void Awake()
+	private void Awake()
 	{
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+		PhotonNetwork.SendRate = 60;
+		PhotonNetwork.SerializationRate = 30;
 
-        PV = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody2D>();
+		PV = GetComponent<PhotonView>();
+		rb = GetComponent<Rigidbody2D>();
 		//collider = GetComponent<CapsuleCollider2D>();
 		//PM = rb.GetComponent<PhysicsMaterial2D>();
 		//collider.sharedMaterial = PM;
 		PM = new PhysicsMaterial2D();
 		collider.sharedMaterial = PM;
-        collider_big.sharedMaterial = PM;
-        //PM = collider.GetComponent<PhysicsMaterial2D>();
+		collider_big.sharedMaterial = PM;
+		//PM = collider.GetComponent<PhysicsMaterial2D>();
 
-        anim = GetComponent<Animator>();
+		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
-        stateMachine = new Mario_stateMachine();
+		stateMachine = new Mario_stateMachine();
 
-        idleState = new Mario_idle(this, stateMachine, "Idle");
+		idleState = new Mario_idle(this, stateMachine, "Idle");
 		walkState = new Mario_walk(this, stateMachine, "Walk");
 		runState = new Mario_run(this, stateMachine, "Run");
 		jumpState = new Mario_jump(this, stateMachine, "Jump");
@@ -117,12 +120,12 @@ public class Mario : MonoBehaviour
 		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
 		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
 		dieState = new Mario_die(this, stateMachine, "Die");
-        stampState = new Mario_stamp(this, stateMachine, "Jump");
+		stampState = new Mario_stamp(this, stateMachine, "Jump");
 		bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
 		smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
 		smallFire = new Mario_smallFire(this, stateMachine, "SmallToFire");
 		bigFire = new Mario_bigFire(this, stateMachine, "BigToFire");
-
+		winState = new Mario_win(this, stateMachine, "Win");
 
 	}
 
@@ -135,17 +138,17 @@ public class Mario : MonoBehaviour
 	private void Start()
 	{
 		//if(!GetComponent<PhotonView>().IsMine) return ;
-        stateMachine.InitState(idleState);
+		stateMachine.InitState(idleState);
 
-        if (GameObject.Find("Virtual Camera") != null && GetComponent<PhotonView>().IsMine)
-        {
-            virtual_camera = GameObject.Find("Virtual Camera");
+		if (GameObject.Find("Virtual Camera") != null && GetComponent<PhotonView>().IsMine)
+		{
+			virtual_camera = GameObject.Find("Virtual Camera");
 			virtual_camera.GetComponent<CinemachineVirtualCamera>().Follow = gameObject.transform;
-        }
-    }
+		}
+	}
 
 	void Update()
-    {
+	{
 		//if (!GetComponent<PhotonView>().IsMine) return;
 		//Debug.Log(GetComponent<PhotonView>().IsMine);
 		stateMachine.currentState.Update();
@@ -164,7 +167,6 @@ public class Mario : MonoBehaviour
 			if (starModeColor != null) StopCoroutine(starModeColor);
 			spriteRenderer.color = Color.white;
 		}
-
 	}
 
 	//// 부활 만들기
@@ -211,7 +213,7 @@ public class Mario : MonoBehaviour
 				return;
 			}
 		}
-		
+
 		//밑에 적이 있음 == 죽으면 안 됨
 		if (IsEnemyDetected() != null)
 		{
@@ -239,6 +241,7 @@ public class Mario : MonoBehaviour
 			stateMachine.ChangeState(dieState);
 		}
 
+
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -251,7 +254,7 @@ public class Mario : MonoBehaviour
 				// star
 				isStarMario = true;
 				starTimer = starTime; // starTime init
-				Debug.Log("star 먹음!!!!!!!!!!!!!: " + isStarMario);
+									  //Debug.Log("star 먹음!!!!!!!!!!!!!: " + isStarMario);
 			}
 			else if (collision.GetComponent<Item_mushroom>() != null)
 			{
@@ -262,7 +265,7 @@ public class Mario : MonoBehaviour
 					stateMachine.ChangeState(smallBig);
 					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
 				}
-				
+
 			}
 			else if (collision.gameObject.GetComponent<Item_flower>() != null)
 			{
@@ -271,16 +274,61 @@ public class Mario : MonoBehaviour
 				{
 					marioMode = 2;
 					stateMachine.ChangeState(smallFire);
-				} else if (marioMode == 1)
+				}
+				else if (marioMode == 1)
 				{
-                    marioMode = 2;
-                    stateMachine.ChangeState(bigFire);
-                }
-            }
+					marioMode = 2;
+					stateMachine.ChangeState(bigFire);
+				}
+			}
 			Destroy(collision.gameObject);
+		}
+
+		if (collision.GetComponent<Flag>() != null)
+		{
+			stateMachine.ChangeState(winState);
+
+			// 모든 마리오의 rb를 꺼서 움직이지 못하게 하자
+			// 다음 스테이지 갈 거면 GameEnd()에 bool 인자 주면 됨
+			int winnerPlayerId = PV.ViewID; // 1001, 2001, 3001, ...
+			Debug.Log("winnerPlayerId" + winnerPlayerId);
+			PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
 		}
 	}
 
+	[PunRPC]
+	public void GameEnd(int _winnerPlayerId)
+	{
+		Debug.Log("RPC!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		// 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
+		//rb.Sleep();
+
+		// 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
+
+		//Cinemachine 카메라 이동
+		if (GameObject.Find("Virtual Camera") != null)
+		{
+			virtual_camera = GameObject.Find("Virtual Camera");
+			Destroy(virtual_camera);
+
+			//virtual_camera.GetComponent<CinemachineVirtualCamera>().Follow = gameObject.transform;
+		}
+
+		// winner의 ViewID와 자신의 ViewID가 다르다면 winner가 아님
+		if (_winnerPlayerId != PV.ViewID)
+		{
+			Debug.Log("flag1111111111111111111111");
+			// _winnerPlayerId를 사용하여 해당 플레이어의 위치를 가져옴
+			PhotonView winnerMario = PhotonView.Find(_winnerPlayerId);
+			if (winnerMario != null)
+			{
+
+				Debug.Log("flag222222222222222222222222222");
+				Camera.main.transform.position = winnerMario.transform.position;
+				Instantiate(endingEffect, transform.position, Quaternion.identity);
+			}
+		}
+	}
 
 	//public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
 	public bool IsGroundDetected()
@@ -298,13 +346,13 @@ public class Mario : MonoBehaviour
 		//	}
 		//}
 
-				//Debug.Log("그라운드 false");
+		//Debug.Log("그라운드 false");
 
 		return false;
 	}
 	public GameObject IsPlayerDetected()
 	{
-        Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position, LayerMask.GetMask("Player"));
+		Collider2D[] cols = Physics2D.OverlapAreaAll(obj_isPlayerA.position, obj_isPlayerB.position, LayerMask.GetMask("Player"));
 
 		for (int i = 0; i < cols.Length; i++)
 		{
@@ -324,7 +372,7 @@ public class Mario : MonoBehaviour
 		{
 			if (cols[i].gameObject != this.gameObject && cols[i].gameObject.CompareTag("Enemy"))
 			{
-				if(cols[i].gameObject.GetComponent<Enemy>() != null && PV.IsMine)
+				if (cols[i].gameObject.GetComponent<Enemy>() != null && PV.IsMine)
 					cols[i].gameObject.GetComponent<Enemy>().Die();
 				return cols[i].gameObject;
 			}
@@ -334,20 +382,20 @@ public class Mario : MonoBehaviour
 
 	public bool IsWallDetected()
 	{
-        Vector3 positionA;
-        Vector3 positionB;
-		
+		Vector3 positionA;
+		Vector3 positionB;
+
 		if (!stateMachine.currentState.isFlip)
-        {
+		{
 			positionA = obj_isWallA.localPosition;
 			positionB = obj_isWallB.localPosition;
 		}
-        else
-        {
+		else
+		{
 			positionA = new Vector3(-obj_isWallA.localPosition.x, obj_isWallB.localPosition.y, obj_isWallA.localPosition.z);
 			positionB = new Vector3(-obj_isWallB.localPosition.x, obj_isWallA.localPosition.y, obj_isWallB.localPosition.z);
-        }
-		
+		}
+
 		Debug.DrawLine(transform.position + positionA, transform.position + positionB, Color.cyan);
 		Collider2D[] cols = Physics2D.OverlapAreaAll(transform.position + positionA, transform.position + positionB);
 		for (int i = 0; i < cols.Length; i++)

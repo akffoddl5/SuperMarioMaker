@@ -48,7 +48,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         current_max_player = 1;
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
-
+        Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
+        GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         StartCoroutine(ILobby_Refresh());
     }
 

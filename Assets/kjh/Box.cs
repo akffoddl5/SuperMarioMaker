@@ -12,11 +12,17 @@ public class Box : MonoBehaviour
     Animator anim;
     public float upForce = 3f;
     public float resetTimer = 0.2f;
-    public List<GameObject> init_item_list = new List<GameObject>();
-    public Queue<GameObject> items = new Queue<GameObject>();
+    public List<int> init_item_list = new List<int>();
+    public Queue<int> items = new Queue<int>();
     public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
     public float collision_cool_max;
     public float collision_cool;
+
+    public GameObject _mushroom;
+    public GameObject _star;
+    public GameObject _flower;
+    public GameObject _coin;
+    public List<GameObject> item_list = new List<GameObject>();
 
     List<int> init_item_num_list = new List<int>();
 
@@ -26,12 +32,18 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anim= GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
         posy = transform.position.y;
-        for (int i = 0; i < init_item_list.Count; i++)
+        for (int i = 0; i < init_item_num_list.Count; i++)
         {
-            items.Enqueue(init_item_list[i]);
+            items.Enqueue(init_item_num_list[i]);
         }
+
+        item_list.Add(_mushroom);
+        item_list.Add(_star);
+        item_list.Add(_flower);
+        item_list.Add(_coin);
+
 
         collision_cool_max = 10 * Time.deltaTime;
     }
@@ -42,7 +54,7 @@ public class Box : MonoBehaviour
         collision_cool -= Time.deltaTime;
     }
 
-    public void Add_Item(GameObject obj)
+    public void Add_Item(int obj)
     {
         items.Enqueue(obj);
     }
@@ -59,14 +71,17 @@ public class Box : MonoBehaviour
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
-             //anim.SetBool("Move", true);
+            //anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
 
             if (items.Count > 0)
             {
-                GameObject tmp = items.Dequeue();
+                int tmp1 = items.Dequeue();
+                GameObject tmp;
+                tmp = item_list[tmp1];
+
                 Debug.Log((tmp.GetComponent<Item>().Get_Prefab_Path() + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
@@ -85,8 +100,8 @@ public class Box : MonoBehaviour
                     }
                 }
             }
-                
-            
+
+
             //  Invoke("defort",0.3f);
         }
     }
