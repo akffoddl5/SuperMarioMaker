@@ -133,7 +133,7 @@ Transform:
   m_Children:
   - {fileID: 470927295801285085}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -348,7 +348,7 @@ MonoBehaviour:
   - {fileID: 8116241220452144449}
   - {fileID: -9020336049205713306}
   - {fileID: -5350794749424982148}
-  sceneViewId: 9
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &-9020336049205713306

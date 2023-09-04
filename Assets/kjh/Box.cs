@@ -32,7 +32,7 @@ public class Box : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anim= GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
         posy = transform.position.y;
         for (int i = 0; i < init_item_num_list.Count; i++)
         {
@@ -71,7 +71,7 @@ public class Box : MonoBehaviour
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
-             //anim.SetBool("Move", true);
+            //anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
@@ -100,8 +100,8 @@ public class Box : MonoBehaviour
                     }
                 }
             }
-                
-            
+
+
             //  Invoke("defort",0.3f);
         }
     }
