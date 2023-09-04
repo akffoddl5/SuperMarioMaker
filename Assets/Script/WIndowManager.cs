@@ -54,6 +54,8 @@ public class WIndowManager : MonoBehaviour
         Debug.Log(Application.dataPath);
 
 
+        RenderTexture rt;
+        
         //pc
 
         //Application.dataPath는 해당 프로젝트 Assets 폴더.
