@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum MARIO_SOUND
 {
-    INGAME_BGM,
-    LOBBY_BGM,
-    COIN,
+    INGAME_BGM,//
+    LOBBY_BGM,//
+    COIN,//
     SELECT,
     JUMP,
     KILL_ENEMY,
@@ -18,6 +18,10 @@ public enum MARIO_SOUND
     SPRING_JUMP,
     STAGE_CLEAR,
     STOMP,
+    STONE,//
+    CASTLE,
+    ONBUTTEM,
+    OUTBUTTEM,
 }
 
 public class AudioManager : MonoBehaviour
@@ -30,6 +34,12 @@ public class AudioManager : MonoBehaviour
 
     public void PlayerOneShot(MARIO_SOUND _clip, bool _loop, int _audio_idx)
     {
+
+
+        //   AudioManager.instance.PlayerOneShot(MARIO_SOUND.OUTBUTTEM, false, 0);
+
+
+
         audios[_audio_idx].clip = clip_dictionary[_clip];
         audios[_audio_idx].loop = _loop;
         audios[_audio_idx].Play();
@@ -70,6 +80,10 @@ public class AudioManager : MonoBehaviour
         clip_dictionary[MARIO_SOUND.SPRING_JUMP] = clips[13];
         clip_dictionary[MARIO_SOUND.STAGE_CLEAR] = clips[14];
         clip_dictionary[MARIO_SOUND.STOMP] = clips[15];
+        clip_dictionary[MARIO_SOUND.STONE] = clips[16];
+        clip_dictionary[MARIO_SOUND.CASTLE] = clips[17];
+        clip_dictionary[MARIO_SOUND.ONBUTTEM] = clips[18];
+        clip_dictionary[MARIO_SOUND.OUTBUTTEM] = clips[19];
     }     
 
 

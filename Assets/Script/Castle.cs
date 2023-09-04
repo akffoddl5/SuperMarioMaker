@@ -32,6 +32,7 @@ public class Castle : MonoBehaviour
 
 	IEnumerator CastleFlagUp()
 	{
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.CASTLE, false, 1);
 		//Debug.Log("CastleFlagUp() µé¾î¿È!!");
 		while (Vector2.Distance(transform.position, pos2) > 1)
 		{
@@ -42,5 +43,5 @@ public class Castle : MonoBehaviour
 		}
 
 		yield return null;
-	}
+    }
 }

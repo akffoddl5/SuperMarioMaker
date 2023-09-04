@@ -198,7 +198,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Btn 방 만들기 클릭
 	public void Room_Plus_Click()
     {
-        AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
         //var a = GameObject.Find("Lobby_Layer");
         //a.transform.Translate(new Vector3(-100, 0, 0));
         //StartCoroutine(CorLerp(a, a.transform.position, new Vector3(-2000, a.transform.position.y, a.transform.position.z)));
@@ -211,13 +210,14 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 		//a.transform.localPosition = new Vector3(0, 1000, 0);
 		StartCoroutine(CorLerp(a,new Vector3(0,1000,0), new Vector3(0,-100,0)));
+        
         Debug.Log("room plus click");
     }
 
 	// Btn 방 만들기 레이어 왼쪽 위 창닫기 버튼(x)
 	public void Room_Close_Click()
     {
-        AudioManager.instance.PlayerOneShot(MARIO_SOUND.SELECT, false, 2);
+       
         var a = GameObject.Find("Room_Make_Layer");
         StartCoroutine(CorLerp(a, a.GetComponent<RectTransform>().localPosition, new Vector3(0, 1300, 0)));
 
@@ -294,6 +294,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             //yield return new WaitForSeconds(0.5f);
             yield return new WaitForSeconds(0.02f);
         }
+       
         yield break;
     }
 

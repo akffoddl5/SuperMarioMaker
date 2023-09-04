@@ -37,6 +37,7 @@ public class Title : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         // 좌클릭이 되면 로그인 화면 띄우기
         if (Input.GetMouseButtonDown(0) && !isLogin)
         {
@@ -66,9 +67,9 @@ public class Title : MonoBehaviour
     {
 		//로그인 패널 끄기
 		obj_logInPanel.SetActive(false);
-
-		//마리오 서 있는 이미지 켜기, 점프 이미지 끄기
-		obj_marioIdle.SetActive(true);
+       // AudioManager.instance.PlayerOneShot(MARIO_SOUND.OUTBUTTEM, false, 0);
+        //마리오 서 있는 이미지 켜기, 점프 이미지 끄기
+        obj_marioIdle.SetActive(true);
 		obj_marioJump.SetActive(false);
 
 	}
@@ -76,9 +77,9 @@ public class Title : MonoBehaviour
     {
 		// 로그인이 되면 로그인 패널을 끄고
 		obj_logInPanel.SetActive(false);
-
-		// 마리오 서있는 이미지 끄고, 점프 이미지 키고
-		obj_marioIdle.SetActive(false);
+       // AudioManager.instance.PlayerOneShot(MARIO_SOUND.OUTBUTTEM, false, 0);
+        // 마리오 서있는 이미지 끄고, 점프 이미지 키고
+        obj_marioIdle.SetActive(false);
 		obj_marioJump.SetActive(true);
 	}
 
