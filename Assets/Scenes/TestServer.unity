@@ -610,6 +610,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 43836736770535040, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
+      propertyPath: SR
+      value: 
+      objectReference: {fileID: 1955344052}
+    - target: {fileID: 43836736770535040, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
+      propertyPath: empty_SR
+      value: 
+      objectReference: {fileID: 221504214, guid: f55839c378776e14aa86f1edcb581cf7, type: 3}
     - target: {fileID: 1359018251196162783, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -658,8 +666,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 7112425598944523452, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 4782066904932712702, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
@@ -1379,6 +1389,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1955344052 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8871718359716673875, guid: 84fe1616d82c3634a92618a852a2bc49, type: 3}
+  m_PrefabInstance: {fileID: 1396753827}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6009276308126651579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1444,3 +1459,64 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 789d4ddf2a07ce848af838d2aa947965, type: 3}
+--- !u!1001 &6172374919934675761
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1576432123596945487, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_Name
+      value: Nintendo Switch - Super Mario Maker 2 - Objects SMB1_303
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515635230570733549, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f61d69feba5b5e43b1a25bef5302692, type: 3}
