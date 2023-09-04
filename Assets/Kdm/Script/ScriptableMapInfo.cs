@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Level Obj", menuName = "ScriptableObject/ScriptObj")]
 
 //스크립트 오브젝트화
-public class ScriptableMapInfo : ScriptableObject
+[System.Serializable]
+public class ScriptableMapInfo
 {
     public int levelIndex;
     public int backgroundNum;

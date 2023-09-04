@@ -9,8 +9,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-using static ScriptableMapInfo;
-using static UnityEditor.PlayerSettings;
+//using static ScriptableMapInfo;
+//using static UnityEditor.PlayerSettings;
 
 public class TilemapManager// : MonoBehaviour
 {
@@ -24,7 +24,28 @@ public class TilemapManager// : MonoBehaviour
     public Vector3 _playerStartPos;
     public int _mapScaleNum;
 
-    List<CreateObjectInfo> _createObjectInfoList;
+    public static void SaveLevelFile(ScriptableLevel level)
+    {
+        
+        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
+        AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{level.name}.asset");
+        //asset 저장 확정
+        AssetDatabase.SaveAssets();
+        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
+        AssetDatabase.Refresh();
+    }
+
+    public static void SaveObjFile(ScriptableMapInfo obj)
+    {
+        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
+        AssetDatabase.CreateAsset(obj, $"Assets/Resources/Levels/{obj.name}.asset");
+        //asset 저장 확정
+        AssetDatabase.SaveAssets();
+        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
+        AssetDatabase.Refresh();
+    }
+
+    //List<CreateObjectInfo> _createObjectInfoList;
 
     //맵 저장하는 메서드
     public void SaveMap(ScriptableMapInfo _mapInfo)
@@ -68,7 +89,7 @@ public class TilemapManager// : MonoBehaviour
         //    }
         //}
 
-        ScriptabledObjectUtility.SaveObjFile(newObj);
+        SaveObjFile(newObj);
 
 
         //스크립트 오브젝트화 한 ScriptableLevel을 newLevel에 대입시킴
@@ -84,7 +105,7 @@ public class TilemapManager// : MonoBehaviour
         //json화 수정 필요함
         var json = JsonUtility.ToJson(newLevel);
         //에셋에 저장
-        ScriptabledObjectUtility.SaveLevelFile(newLevel);
+        SaveLevelFile(newLevel);
 
         ////foreach를 사용하기 위해 IEnumerable 사용, 결과를 반환
         //IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
@@ -215,31 +236,8 @@ public class TilemapManager// : MonoBehaviour
 
 }
 
-#if UNITY_EDITOR
 
-public static class ScriptabledObjectUtility
-{
-    public static void SaveLevelFile(ScriptableLevel level)
-    {
-        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
-        AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{level.name}.asset");
-        //asset 저장 확정
-        AssetDatabase.SaveAssets();
-        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
-        AssetDatabase.Refresh();
-    }
-
-    public static void SaveObjFile(ScriptableMapInfo obj)
-    {
-        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
-        AssetDatabase.CreateAsset(obj, $"Assets/Resources/Levels/{obj.name}.asset");
-        //asset 저장 확정
-        AssetDatabase.SaveAssets();
-        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
-        AssetDatabase.Refresh();
-    }
-}
-#endif
+    
 
 //level 구조체 시작
 public struct Level

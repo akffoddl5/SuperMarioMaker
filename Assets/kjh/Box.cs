@@ -18,6 +18,8 @@ public class Box : MonoBehaviour
     public float collision_cool_max;
     public float collision_cool;
 
+    List<int> init_item_num_list = new List<int>();
+
     public SpriteRenderer SR;
     public Sprite empty_SR;
 
