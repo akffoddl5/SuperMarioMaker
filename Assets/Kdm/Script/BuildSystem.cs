@@ -827,7 +827,7 @@ public class BuildSystem : MonoBehaviour
         Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
 
 
-        File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", renderTexture.);
+        //File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", renderTexture.);
 
         Debug.Log("shot end");
     }
