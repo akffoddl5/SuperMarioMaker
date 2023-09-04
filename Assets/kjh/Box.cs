@@ -18,6 +18,10 @@ public class Box : MonoBehaviour
     public float collision_cool_max;
     public float collision_cool;
 
+    List<int> init_item_num_list = new List<int>();
+
+    public SpriteRenderer SR;
+    public Sprite empty_SR;
 
     // Start is called before the first frame update
     void Start()
@@ -43,13 +47,19 @@ public class Box : MonoBehaviour
         items.Enqueue(obj);
     }
 
+    public void Add_Item_Num(List<int> objNumList)
+    {
+        Debug.Log("Add_Item_Num");
+        init_item_num_list = objNumList;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && collision_cool < 0)
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
-             anim.SetBool("Move", true);
+             //anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
@@ -60,18 +70,20 @@ public class Box : MonoBehaviour
                 Debug.Log((tmp.GetComponent<Item>().Get_Prefab_Path() + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
-            }
-            else
-            {
-                if (stateNum == 0)
-                {
-                    //부셔지기
-                }
-                else
-                {
-                    //나무로 바뀌기
-                }
 
+                if (items.Count <= 0)
+                {
+                    if (stateNum == 0)
+                    {
+                        //부셔지기
+                    }
+                    else
+                    {
+                        //나무로 바뀌기
+                        anim.Play("");
+                        SR.sprite = empty_SR;
+                    }
+                }
             }
                 
             
@@ -81,12 +93,12 @@ public class Box : MonoBehaviour
     IEnumerator IJump(GameObject obj)
     {
         yield return new WaitForSeconds(resetTimer);
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero; 
-        transform.position=new Vector2(transform.position.x,posy);
-       //anim.SetBool("Move", false);
+        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        transform.position = new Vector2(transform.position.x, posy);
+        //anim.SetBool("Move", false);
     }
 
 }
 
 
-    
+

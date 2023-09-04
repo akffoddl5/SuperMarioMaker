@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Level Obj", menuName = "ScriptableObject/ScriptObj")]
 
 //스크립트 오브젝트화
-public class ScriptableMapInfo : ScriptableObject
+[System.Serializable]
+public class ScriptableMapInfo
 {
     public int levelIndex;
     public int backgroundNum;
@@ -16,7 +16,7 @@ public class ScriptableMapInfo : ScriptableObject
     public Vector3 playerStartPos;
     public int mapScaleNum;
 
-    public List<CreateObjectInfo> createObjectInfoList;
+    public List<CreateObjectInfo> createObjectInfoList = new List<CreateObjectInfo>();
 
     [Serializable]
     public class CreateObjectInfo
@@ -27,14 +27,16 @@ public class ScriptableMapInfo : ScriptableObject
         public Vector3 pipeLinkPos;
         public List<int> brickListInfo;
 
-        //public CreateObjectInfo(string _objectName, Vector3 _createPos,
-        //    Vector3 _pipeLinkPos, int _dirInfo = 0, List<int> _brickListInfo = null)
-        //{
-        //    objectName = _objectName;
-        //    createPos = _createPos;
-        //    pipeLinkPos = _pipeLinkPos;
-        //    dirInfo = _dirInfo;
-        //    brickListInfo = _brickListInfo;
-        //}
+        public CreateObjectInfo() { }
+
+        public CreateObjectInfo(string _objectName, Vector3 _createPos,
+            Vector3 _pipeLinkPos, int _dirInfo = 0, List<int> _brickListInfo = null)
+        {
+            objectName = _objectName;
+            createPos = _createPos;
+            pipeLinkPos = _pipeLinkPos;
+            dirInfo = _dirInfo;
+            brickListInfo = _brickListInfo;
+        }
     }
 }

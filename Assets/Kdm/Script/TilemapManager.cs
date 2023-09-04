@@ -9,14 +9,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-using static ScriptableMapInfo;
-using static UnityEditor.PlayerSettings;
+//using static ScriptableMapInfo;
+//using static UnityEditor.PlayerSettings;
 
 public class TilemapManager// : MonoBehaviour
 {
-    //inspector 노출
+    ////inspector 노출
     [SerializeField] private Tilemap _gridMap, _tempMap, _setTilemap;
-    [SerializeField] public int _levelIndex;
+    [SerializeField] public int _levelIndex = 0;
 
     public int _backgroundNum;
     public float _timerCount;
@@ -24,22 +24,43 @@ public class TilemapManager// : MonoBehaviour
     public Vector3 _playerStartPos;
     public int _mapScaleNum;
 
-    List<CreateObjectInfo> _createObjectInfoList;
+    public static void SaveLevelFile(ScriptableLevel level)
+    {
+        
+        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
+        AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{level.name}.asset");
+        //asset 저장 확정
+        AssetDatabase.SaveAssets();
+        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
+        AssetDatabase.Refresh();
+    }
+
+    public static void SaveObjFile(ScriptableMapInfo obj)
+    {
+        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
+        AssetDatabase.CreateAsset(obj, $"Assets/Resources/Levels/{obj.name}.asset");
+        //asset 저장 확정
+        AssetDatabase.SaveAssets();
+        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
+        AssetDatabase.Refresh();
+    }
+
+    //List<CreateObjectInfo> _createObjectInfoList;
 
     //맵 저장하는 메서드
-    public void SaveMap()
+    public void SaveMap(ScriptableMapInfo _mapInfo)
     {
         var newObj = ScriptableObject.CreateInstance<ScriptableMapInfo>();
 
-        newObj.name = $"Level Obj {_levelIndex}";
+        newObj.name = $"Level Obj {_mapInfo.levelIndex}";
 
         //값 긁어오는거 필요
-        newObj.levelIndex = _levelIndex;
-        newObj.backgroundNum = _backgroundNum;
-        newObj.timerCount = _timerCount;
-        newObj.playerLifePoint = _playerLifePoint;
-        newObj.playerStartPos = _playerStartPos;
-        newObj.mapScaleNum = _mapScaleNum;
+        newObj.levelIndex = _mapInfo.levelIndex;
+        newObj.backgroundNum = _mapInfo.backgroundNum;
+        newObj.timerCount = _mapInfo.timerCount;
+        newObj.playerLifePoint = _mapInfo.playerLifePoint;
+        newObj.playerStartPos = _mapInfo.playerStartPos;
+        newObj.mapScaleNum = _mapInfo.mapScaleNum;
 
         //foreach (var obj in _createObjectInfoList)
         //{
@@ -49,7 +70,7 @@ public class TilemapManager// : MonoBehaviour
         //    };
         //}
 
-        newObj.createObjectInfoList = _createObjectInfoList;
+        newObj.createObjectInfoList = _mapInfo.createObjectInfoList;
 
 
 
@@ -68,14 +89,14 @@ public class TilemapManager// : MonoBehaviour
         //    }
         //}
 
-        ScriptabledObjectUtility.SaveObjFile(newObj);
+        SaveObjFile(newObj);
 
 
         //스크립트 오브젝트화 한 ScriptableLevel을 newLevel에 대입시킴
         var newLevel = ScriptableObject.CreateInstance<ScriptableLevel>();
 
-        newLevel.levelIndex = _levelIndex;
-        newLevel.name = $"Level {_levelIndex}";
+        newLevel.levelIndex = _mapInfo.levelIndex;
+        newLevel.name = $"Level {_mapInfo.levelIndex}";
 
         ////GetTilesFromMap에서 적용한 리스트에 영향을 주지 않고 타일값만 가져오기
         //newLevel.GroundTiles = GetTilesFromMap(_gridMap).ToList();
@@ -84,7 +105,7 @@ public class TilemapManager// : MonoBehaviour
         //json화 수정 필요함
         var json = JsonUtility.ToJson(newLevel);
         //에셋에 저장
-        ScriptabledObjectUtility.SaveLevelFile(newLevel);
+        SaveLevelFile(newLevel);
 
         ////foreach를 사용하기 위해 IEnumerable 사용, 결과를 반환
         //IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
@@ -127,108 +148,96 @@ public class TilemapManager// : MonoBehaviour
     //    }
     //}
 
-    public void LoadMap()
+    public void LoadMap(int _levelIndex, out ScriptableMapInfo _scriptableMapInfo)
     {
         //Resources 폴더에서 스크립터블 오브젝트인 ScriptableLevel에
         //Level *.asset 파일을 level에 덮어씌움
-        var level = Resources.Load<ScriptableLevel>($"Levels/Level {_levelIndex}");
+        //var level = Resources.Load<ScriptableLevel>($"Levels/Level {_levelIndex}");
         var obj = Resources.Load<ScriptableMapInfo>($"Levels/Level Obj {_levelIndex}");
 
+        _scriptableMapInfo = obj;
 
         //만약 파일이 없었을 경우
-        if (level == null || obj == null)
+        if (obj == null)// || level == null)
         {
             //디버그 로그를 띄운 뒤 함수 종료
             Debug.LogError($"Level {_levelIndex} does now exist.");
             return;
         }
 
-        //불러오기 전 맵 정리
-        //ClearMap();
+        
 
-        CreateObjectInfo createObjectInfo = new CreateObjectInfo();
+        ////불러오기 전 맵 정리
+        ////ClearMap();
 
-        foreach (var savedObj in obj.createObjectInfoList)
-        {
-            switch (savedObj)
-            {
+        //CreateObjectInfo createObjectInfo = new CreateObjectInfo();
 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        //Vector3 playerStartPos = obj.playerStartPos;
 
-        }
+        //Debug.Log(playerStartPos);
 
-        //땅 타일, 한개씩 반복작업 용 foreach
-        foreach (var savedTile in level.GroundTiles)
-        {
-            //switch에 따라 처리 바꾸기, level에 있는 enum 참고
-            switch (savedTile.Tile.Type)
-            {
-                case TileType.Field:
-                case TileType.Brick:
-                case TileType.Ice:
-                case TileType.Grid:
-                case TileType.Castle:
-                    //_groundMap에 타일들 처리해주기
-                    SetTile(_gridMap, savedTile);
-                    break;
-                default:
-                    //만약 처리 중 값이 상정범위 내를 넘어갔을 경우 에러 발생
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        //foreach (var savedObj in obj.createObjectInfoList)
+        //{
+        //    switch (savedObj)
+        //    {
 
-        //유닛타일, 위 땅타일하고 똑같음
-        foreach (var savedTile in level.UnitTiles)
-        {
-            switch (savedTile.Tile.Type)
-            {
-                case TileType.Field:
-                case TileType.Brick:
-                case TileType.Ice:
-                case TileType.Grid:
-                case TileType.Castle:
-                    SetTile(_tempMap, savedTile);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
 
-        void SetTile(Tilemap map, SavedTile tile)
-        {
-            //타일을 포지션 및 타일 번호에 따라서 쭉 깔아주는 메서드
-            map.SetTile(tile.Position, tile.Tile);
-        }
+        //}
+
+
+
+        ////땅 타일, 한개씩 반복작업 용 foreach
+        //foreach (var savedTile in level.GroundTiles)
+        //{
+        //    //switch에 따라 처리 바꾸기, level에 있는 enum 참고
+        //    switch (savedTile.Tile.Type)
+        //    {
+        //        case TileType.Field:
+        //        case TileType.Brick:
+        //        case TileType.Ice:
+        //        case TileType.Grid:
+        //        case TileType.Castle:
+        //            //_groundMap에 타일들 처리해주기
+        //            SetTile(_gridMap, savedTile);
+        //            break;
+        //        default:
+        //            //만약 처리 중 값이 상정범위 내를 넘어갔을 경우 에러 발생
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+        //}
+
+        ////유닛타일, 위 땅타일하고 똑같음
+        //foreach (var savedTile in level.UnitTiles)
+        //{
+        //    switch (savedTile.Tile.Type)
+        //    {
+        //        case TileType.Field:
+        //        case TileType.Brick:
+        //        case TileType.Ice:
+        //        case TileType.Grid:
+        //        case TileType.Castle:
+        //            SetTile(_tempMap, savedTile);
+        //            break;
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+        //}
+
+        //void SetTile(Tilemap map, SavedTile tile)
+        //{
+        //    //타일을 포지션 및 타일 번호에 따라서 쭉 깔아주는 메서드
+        //    map.SetTile(tile.Position, tile.Tile);
+        //}
+
     }
+
 }
 
-#if UNITY_EDITOR
 
-public static class ScriptabledObjectUtility
-{
-    public static void SaveLevelFile(ScriptableLevel level)
-    {
-        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
-        AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{level.name}.asset");
-        //asset 저장 확정
-        AssetDatabase.SaveAssets();
-        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
-        AssetDatabase.Refresh();
-    }
-
-    public static void SaveObjFile(ScriptableMapInfo obj)
-    {
-        //newlevel을 asset으로 저장하기, 파일명은 수정가능, 리소스는 필수임
-        AssetDatabase.CreateAsset(obj, $"Assets/Resources/Levels/{obj.name}.asset");
-        //asset 저장 확정
-        AssetDatabase.SaveAssets();
-        //Unity Project를 최신 상태로 갱신 즉 프로젝트 전체의 파일 구성을 체크
-        AssetDatabase.Refresh();
-    }
-}
-#endif
+    
 
 //level 구조체 시작
 public struct Level

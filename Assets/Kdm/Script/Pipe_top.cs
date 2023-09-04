@@ -9,8 +9,11 @@ public class Pipe_top : MonoBehaviour
     LineRenderer lineRenderer;
     public Transform MyTransform;
     public Transform myTransform { get { return MyTransform; } }
-    public Transform linkObjectTransform { get; set; }
+    public Vector3 linkObjectPos { get; set; } = new Vector3(0, 0, -100);
+    public GameObject linkObject;
     public bool lineActive { get; set; } = false;
+    public int dirInfo = 0;
+
 
     [SerializeField] float lineWidth = 0.15f;
 
@@ -33,10 +36,10 @@ public class Pipe_top : MonoBehaviour
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (linkObjectTransform == null)
+            if (linkObjectPos == new Vector3(0, 0, -100))
                 lineRenderer.SetPosition(1, mousePos);
             else
-                lineRenderer.SetPosition(1, linkObjectTransform.position);
+                lineRenderer.SetPosition(1, linkObjectPos);
         }
 
 

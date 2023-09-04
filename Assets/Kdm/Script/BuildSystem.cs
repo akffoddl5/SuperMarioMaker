@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static ScriptableMapInfo;
 
 public class BuildSystem : MonoBehaviour
 {
@@ -120,6 +121,14 @@ public class BuildSystem : MonoBehaviour
 
     public bool isPlay { get; set; } = false;
 
+    [SerializeField] Sprite[] backgroundSprite;
+    [SerializeField] Sprite[] backgroundSkySprite;
+    [SerializeField] SpriteRenderer[] background_ground;
+    [SerializeField] SpriteRenderer[] background_sky;
+
+    ScriptableMapInfo mapInfo;
+
+
 
 
     private void Awake()
@@ -188,10 +197,10 @@ public class BuildSystem : MonoBehaviour
             moveY = -1;
 
         ////카메라 이동
+        virtualCamera.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
+            moveY * cameraSpeed * Time.deltaTime, 0);
         //Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
         //    moveY * cameraSpeed * Time.deltaTime, 0);
-        Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
-            moveY * cameraSpeed * Time.deltaTime, 0);
 
     }
 
@@ -521,7 +530,8 @@ public class BuildSystem : MonoBehaviour
         //현재 타일 설정
         if (_tileName == "Mario")
         {
-            currentTile[0] = marioTile;
+            currentTile = new Tile[1] { marioTile };
+            //currentTile[0] = marioTile;
             currentTileName = _tileName;
             currentTileObjectPrefab = new GameObject[1] { PlayerPrefab };
         }
@@ -639,7 +649,7 @@ public class BuildSystem : MonoBehaviour
         isPlay = true;
         PastTempTileClear();
 
-        for(int i = 0; i < objectList.Count; i++)
+        for (int i = 0; i < objectList.Count; i++)
         {
             ((GameObject)objectList[i][7]).SetActive(true);
         }
@@ -655,7 +665,7 @@ public class BuildSystem : MonoBehaviour
 
         for (int i = 0; i < objectList.Count; i++)
         {
-            if((string)objectList[i][0] == "Mario")
+            if ((string)objectList[i][0] == "Mario")
             {
                 ((GameObject)objectList[i][7]).transform.position = playerStartPos;
             }
@@ -675,9 +685,106 @@ public class BuildSystem : MonoBehaviour
 
     public void SaveMap()
     {
-        tilemapManager._levelIndex = 0;
-        tilemapManager._timerCount = 888;
-        tilemapManager._playerStartPos = new Vector3(7.77f, 7.77f, 7.77f);
-        tilemapManager.SaveMap();
+        mapInfo = new ScriptableMapInfo();
+
+        mapInfo.levelIndex = 0;
+        mapInfo.backgroundNum = backgroundNum;
+        mapInfo.timerCount = 500;
+        mapInfo.playerLifePoint = 1;
+        mapInfo.playerStartPos = playerStartPos;
+        mapInfo.mapScaleNum = 1;
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            if ((string)objectList[i][0] != "Mario")
+                mapInfo.createObjectInfoList.Add(new CreateObjectInfo((string)objectList[i][0], (Vector3)objectList[i][1], (Vector3)objectList[i][2], (int)objectList[i][3], (List<int>)objectList[i][4]));
+        }
+        tilemapManager.SaveMap(mapInfo);
+    }
+
+    public void LoadMap()
+    {
+        //tilemapManager.LoadMap();
+    }
+
+    public void MakeMap()
+    {
+        tilemapManager.LoadMap(0,out mapInfo);
+
+        //배경 설정
+        for (int i = 0; i < background_ground.Length; i++)
+        {
+            background_ground[i].sprite = backgroundSprite[mapInfo.backgroundNum];
+        }
+        for (int i = 0; i < background_sky.Length; i++)
+        {
+            background_sky[i].sprite = backgroundSkySprite[mapInfo.backgroundNum];
+        }
+
+        //타이머 설정
+
+        //플레이어 시작위치 설정
+
+        //맵 크기 설정
+
+        //new Vector3(0, 0, -100);
+        //오브젝트 생성
+        List<CreateObjectInfo> creatObjList = mapInfo.createObjectInfoList;
+        for (int i = 0; i < creatObjList.Count; i++)
+        {
+            if (creatObjList[i].objectName == "Pipe")
+            {
+                if (creatObjList[i].pipeLinkPos != new Vector3(0, 0, -100))
+                {
+                    GameObject createPipe = Instantiate(tiles[tilesDictionary["Pipe"]].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
+                    createPipe.GetComponent<Pipe_top>().linkObjectPos = creatObjList[i].pipeLinkPos;
+
+                    createPipe.GetComponent<Pipe_top>().dirInfo = creatObjList[i].dirInfo;
+
+                    createPipe.GetComponent<Pipe_top>().lineActive = true;
+                }
+                else
+                {
+                    Instantiate(tiles[tilesDictionary["Pipe"]].objectPrefab[1], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
+                }
+            }
+            else if (creatObjList[i].objectName == "Brick" || creatObjList[i].objectName == "QuestionBrick0" || creatObjList[i].objectName == "QuestionBrick1")
+            {
+                Instantiate(tiles[tilesDictionary[creatObjList[i].objectName]].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90))).GetComponent<Box>().Add_Item_Num(creatObjList[i].brickListInfo);
+            }
+            else
+            {
+                Instantiate(tiles[tilesDictionary[creatObjList[i].objectName]].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
+
+                //for (int j = 0; j < tiles.Length; j++)
+                //{
+                //    if (creatObjList[i].objectName == tiles[j].tileName)
+                //    {
+                //        Instantiate(tiles[j].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
+
+                //        break;
+                //    }
+                //}
+            }
+        }
+    }
+
+
+    public void BackgroundSet(int _backgroundNum)
+    {
+        backgroundNum = _backgroundNum;
+
+        for (int i = 0; i < background_ground.Length; i++)
+        {
+            background_ground[i].sprite = backgroundSprite[backgroundNum];
+        }
+        for (int i = 0; i < background_sky.Length; i++)
+        {
+            background_sky[i].sprite = backgroundSkySprite[backgroundNum];
+        }
+    }
+
+    public void TimerSet(float _timerCount)
+    {
+        timerCount = _timerCount;
     }
 }
