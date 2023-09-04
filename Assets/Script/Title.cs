@@ -48,6 +48,7 @@ public class Title : MonoBehaviour
 
     public void LogIn()
     {
+        GameObject.Find("Log").GetComponent<Text>().text += "flag4";
         // 파이어베이스에서 사용자인증해서 성공하면
         // 로그인 성공
         isLogin = true;
@@ -61,6 +62,7 @@ public class Title : MonoBehaviour
 
         // 마리오 점프 이미지가 또용하고 올라가는 것처럼 보이게
         marioJump = StartCoroutine(JumpMario());
+        GameObject.Find("Log").GetComponent<Text>().text += "Loging exit";
 	}
 
     void ShowBeforeLogin()

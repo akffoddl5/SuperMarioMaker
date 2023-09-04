@@ -304,6 +304,7 @@ MonoBehaviour:
   obj_bulletGeneratorB: {fileID: 8459602313537133484}
   jump_audioSource: {fileID: 0}
   clips: []
+  endingEffect: {fileID: 0}
   marioMode: 0
   isStarMario: 0
   rb: {fileID: 0}
