@@ -18,6 +18,9 @@ public class Box : MonoBehaviour
     public float collision_cool_max;
     public float collision_cool;
 
+    public SpriteRenderer SR;
+    public Sprite empty_SR;
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +52,7 @@ public class Box : MonoBehaviour
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
-             anim.SetBool("Move", true);
+             //anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
@@ -60,18 +63,20 @@ public class Box : MonoBehaviour
                 Debug.Log((tmp.GetComponent<Item>().Get_Prefab_Path() + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
-            }
-            else
-            {
-                if (stateNum == 0)
-                {
-                    //부셔지기
-                }
-                else
-                {
-                    //나무로 바뀌기
-                }
 
+                if (items.Count <= 0)
+                {
+                    if (stateNum == 0)
+                    {
+                        //부셔지기
+                    }
+                    else
+                    {
+                        //나무로 바뀌기
+                        anim.Play("");
+                        SR.sprite = empty_SR;
+                    }
+                }
             }
                 
             
