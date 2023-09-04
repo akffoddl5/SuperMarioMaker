@@ -12,13 +12,18 @@ public class Box : MonoBehaviour
     Animator anim;
     public float upForce = 3f;
     public float resetTimer = 0.2f;
-    public List<GameObject> init_item_list = new List<GameObject>();
-    public Queue<GameObject> items = new Queue<GameObject>();
+    public Queue<int> items = new Queue<int>();
     public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
     public float collision_cool_max;
     public float collision_cool;
 
-    List<int> init_item_num_list = new List<int>();
+    public GameObject _mushroom;
+    public GameObject _star;
+    public GameObject _flower;
+    public GameObject _coin;
+    List<GameObject> item_list = new List<GameObject>();
+
+    public List<int> init_item_num_list = new List<int>();
 
     public SpriteRenderer SR;
     public Sprite empty_SR;
@@ -28,10 +33,16 @@ public class Box : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         posy = transform.position.y;
-        for (int i = 0; i < init_item_list.Count; i++)
+        for (int i = 0; i < init_item_num_list.Count; i++)
         {
-            items.Enqueue(init_item_list[i]);
+            items.Enqueue(init_item_num_list[i]);
         }
+
+        item_list.Add(_mushroom);
+        item_list.Add(_star);
+        item_list.Add(_flower);
+        item_list.Add(_coin);
+
 
         collision_cool_max = 10 * Time.deltaTime;
     }
@@ -42,7 +53,7 @@ public class Box : MonoBehaviour
         collision_cool -= Time.deltaTime;
     }
 
-    public void Add_Item(GameObject obj)
+    public void Add_Item(int obj)
     {
         items.Enqueue(obj);
     }
@@ -66,7 +77,10 @@ public class Box : MonoBehaviour
 
             if (items.Count > 0)
             {
-                GameObject tmp = items.Dequeue();
+                int tmp1 = items.Dequeue();
+                GameObject tmp;
+                tmp = item_list[tmp1];
+
                 Debug.Log((tmp.GetComponent<Item>().Get_Prefab_Path() + " 스폰되야함" + tmp.name + " " + tmp.GetComponent<Item>().isSpawn));
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
