@@ -257,7 +257,18 @@ public class Stone : MonoBehaviour
             var mario = collision.gameObject.GetComponent<Mario>();
             // star Mode라면 죽지 않도록
             if (mario.isStarMario) return;
-            mario.stateMachine.ChangeState(mario.dieState);
+
+
+            //mario.stateMachine.ChangeState(mario.dieState);
+
+            if (mario.marioMode > 0)
+            {
+                mario.stateMachine.ChangeState(mario.bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
+            else
+            {
+                mario.stateMachine.ChangeState(mario.dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
         }
     }
 

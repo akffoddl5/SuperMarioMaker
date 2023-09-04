@@ -8,11 +8,14 @@ public class Mario_bigFire : Mario_state
     {
     }
 
+    Vector3 pos;
+
     public override void Enter()
     {
         base.Enter();
         stateTimer = 50 * Time.deltaTime;
         mario.collider_big.enabled = false;
+        pos = mario.transform.position;
         mario.GetComponent<Rigidbody2D>().Sleep();
     }
 
@@ -26,6 +29,7 @@ public class Mario_bigFire : Mario_state
     public override void Update()
     {
         base.Update();
+        mario.transform.position = pos;
         if (stateTimer <= 0) stateMachine.ChangeState(mario.idleState);
     }
 }

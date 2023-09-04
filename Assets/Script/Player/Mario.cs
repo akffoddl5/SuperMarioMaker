@@ -195,6 +195,7 @@ public class Mario : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		//Debug.Log("enter");
 		// starMode kill enemy script
 		if (collision.gameObject.CompareTag("Enemy"))
 		{
@@ -228,17 +229,34 @@ public class Mario : MonoBehaviour
 				collision.gameObject.GetComponent<Enemy_shell>().fsecMove = true;
 				return;
 			}
-			else stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+			else
+			{
+				if (marioMode > 0)
+				{
+					stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+				}
+				else
+				{
+					stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+				}
+
+			}
 		}
 		else if (collision.gameObject.GetComponent<Goomba>() != null)
 		{
 			// isFlat Goomba No die
 			if (collision.gameObject.GetComponent<Goomba>().isFlat) return;
 		}
-
-		if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
+		else if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
 		{
-			stateMachine.ChangeState(dieState);
+			if (marioMode > 0)
+			{
+				stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+			}
+			else
+			{
+				stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+			}
 		}
 
 

@@ -39,6 +39,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	private void Awake()
     {
+        
+
         PhotonNetwork.JoinLobby();
 
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();

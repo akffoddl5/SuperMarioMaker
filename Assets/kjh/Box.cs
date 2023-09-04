@@ -12,7 +12,6 @@ public class Box : MonoBehaviour
     Animator anim;
     public float upForce = 3f;
     public float resetTimer = 0.2f;
-    public List<int> init_item_list = new List<int>();
     public Queue<int> items = new Queue<int>();
     public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
     public float collision_cool_max;
@@ -22,9 +21,9 @@ public class Box : MonoBehaviour
     public GameObject _star;
     public GameObject _flower;
     public GameObject _coin;
-    public List<GameObject> item_list = new List<GameObject>();
+    List<GameObject> item_list = new List<GameObject>();
 
-    List<int> init_item_num_list = new List<int>();
+    public List<int> init_item_num_list = new List<int>();
 
     public SpriteRenderer SR;
     public Sprite empty_SR;
