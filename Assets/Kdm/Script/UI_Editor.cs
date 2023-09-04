@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Burst.CompilerServices;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 //using static UI_Editor;
 
@@ -66,6 +68,8 @@ public class UI_Editor : MonoBehaviour
     Vector3 rightPanelPos;
     Vector3 stopButtonPos;
 
+    int backgroundNum = 0;
+
 
     private void Awake()
     {
@@ -94,7 +98,7 @@ public class UI_Editor : MonoBehaviour
             BrickSetPanel_Off();
         }
         FunctionEditMode_On();
-        //Debug.Log(currentSetBrick);
+        //Debug.Log(functionEditMode);
     }
 
     private void FunctionEditMode_On()
@@ -107,6 +111,7 @@ public class UI_Editor : MonoBehaviour
             {
                 //클릭한 대상 확인
                 GameObject tempObject = RaycastHitObject();
+                Debug.Log(tempObject);
                 if (tempObject != null)
                 {
                     PipeLink(tempObject);
@@ -188,11 +193,11 @@ public class UI_Editor : MonoBehaviour
             else if (pipeLinkPosIndex == 1)
             {
                 buildSystem.PipeLinkPos_ObjectListInput(pipeLinkObject[0], pipeLinkObject[1]);
-
-                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform;
-                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectTransform =
-                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform;
+                //Debug.Log("파이프 연결");
+                pipeLinkObject[0].GetComponent<Pipe_top>().linkObjectPos =
+                    pipeLinkObject[1].GetComponent<Pipe_top>().myTransform.position;
+                pipeLinkObject[1].GetComponent<Pipe_top>().linkObjectPos =
+                    pipeLinkObject[0].GetComponent<Pipe_top>().myTransform.position;
 
                 alreadyPipeLinkObject.Add(pipeLinkObject[0]);
                 alreadyPipeLinkObject.Add(pipeLinkObject[1]);
@@ -308,7 +313,7 @@ public class UI_Editor : MonoBehaviour
             //타일 선택 이미지 변경
             tileSetButtonImage[currentOpenButtonPanelNumber].sprite =
                 buildSystem.currentTile[buildSystem.currentTile.Length - 1].sprite;
-        }            
+        }
 
         ButtonPanel_OnOff(currentOpenButtonPanelNumber);
 
@@ -481,6 +486,54 @@ public class UI_Editor : MonoBehaviour
     public void SaveButtonClick()
     {
         buildSystem.SaveMap();
+    }
+
+    public void LoadButtonClick()
+    {
+        buildSystem.LoadMap();
+    }
+
+    public void BackgroundUpBotton()
+    {
+        backgroundNum++;
+        if (backgroundNum >= backgroundSprite.Length)
+        {
+            backgroundNum = 0;
+        }
+
+        backgroundSetImage.sprite = backgroundSprite[backgroundNum];
+
+        buildSystem.BackgroundSet(backgroundNum);
+    }
+
+    public void BackgroundDownBotton()
+    {
+        backgroundNum--;
+        if (backgroundNum < 0)
+        {
+            backgroundNum = 2;
+        }
+
+        backgroundSetImage.sprite = backgroundSprite[backgroundNum];
+
+        buildSystem.BackgroundSet(backgroundNum);
+    }
+
+    public void TimerSliderSet()
+    {
+        buildSystem.TimerSet(timerSlider.value);
+        timerText.text = timerSlider.value.ToString();
+    }
+
+    public void ExitButtonClick()
+    {
+        SceneManager.LoadScene("LobbyScene");
+    }
+
+
+    public void MapMakeButtonClick()
+    {
+        buildSystem.MakeMap();
     }
 
     #endregion

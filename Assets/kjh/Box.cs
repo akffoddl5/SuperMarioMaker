@@ -21,7 +21,6 @@ public class Box : MonoBehaviour
     public SpriteRenderer SR;
     public Sprite empty_SR;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +43,12 @@ public class Box : MonoBehaviour
     public void Add_Item(GameObject obj)
     {
         items.Enqueue(obj);
+    }
+
+    public void Add_Item_Num(List<int> objNumList)
+    {
+        Debug.Log("Add_Item_Num");
+        init_item_num_list = objNumList;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -86,12 +91,12 @@ public class Box : MonoBehaviour
     IEnumerator IJump(GameObject obj)
     {
         yield return new WaitForSeconds(resetTimer);
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero; 
-        transform.position=new Vector2(transform.position.x,posy);
-       //anim.SetBool("Move", false);
+        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        transform.position = new Vector2(transform.position.x, posy);
+        //anim.SetBool("Move", false);
     }
 
 }
 
 
-    
+

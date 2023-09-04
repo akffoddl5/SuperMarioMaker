@@ -14,8 +14,163 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 0
   backgroundNum: 0
-  timerCount: 888
-  playerLifePoint: 0
-  playerStartPos: {x: 7.77, y: 7.77, z: 7.77}
-  mapScaleNum: 0
-  createObjectInfoList: []
+  timerCount: 500
+  playerLifePoint: 1
+  playerStartPos: {x: -8.5, y: -3.5, z: 0}
+  mapScaleNum: 1
+  createObjectInfoList:
+  - objectName: GroundTile
+    createPos: {x: -6.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -5.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -4.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -3.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -2.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -1.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -0.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 0.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 1.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 2.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 3.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 4.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 5.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 6.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: 7.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: Pipe
+    createPos: {x: -4.5, y: -4.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0.5, y: -5.5, z: 0}
+    brickListInfo: 
+  - objectName: Pipe
+    createPos: {x: -4.5, y: -5.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: Pipe
+    createPos: {x: 0.5, y: -5.5, z: 0}
+    dirInfo: 3
+    pipeLinkPos: {x: -4.5, y: -4.5, z: 0}
+    brickListInfo: 
+  - objectName: Pipe
+    createPos: {x: 1.5, y: -5.5, z: 0}
+    dirInfo: 3
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: HardBrick
+    createPos: {x: 2.5, y: -4.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: HardBrick
+    createPos: {x: 2.5, y: -5.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: flag
+    createPos: {x: 7.5, y: 1.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: Brick
+    createPos: {x: 0.5, y: -2.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 0000000000000000
+  - objectName: QuestionBrick0
+    createPos: {x: 1.5, y: -2.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 00000000010000000200000003000000
+  - objectName: Coin
+    createPos: {x: 0.5, y: -0.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: Coin
+    createPos: {x: 1.5, y: -0.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: Coin
+    createPos: {x: 2.5, y: -0.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -7.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -8.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -9.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
+  - objectName: GroundTile
+    createPos: {x: -10.5, y: -6.5, z: 0}
+    dirInfo: 0
+    pipeLinkPos: {x: 0, y: 0, z: -100}
+    brickListInfo: 
