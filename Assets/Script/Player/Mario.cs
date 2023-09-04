@@ -287,6 +287,7 @@ public class Mario : MonoBehaviour
 		if (collision.GetComponent<Flag>() != null)
 		{
 			stateMachine.ChangeState(winState);
+			
 
 			// 모든 마리오의 rb를 꺼서 움직이지 못하게 하자
 			// 다음 스테이지 갈 거면 GameEnd()에 bool 인자 주면 됨
@@ -297,36 +298,40 @@ public class Mario : MonoBehaviour
 	}
 
 	[PunRPC]
-	public void GameEnd(int _winnerPlayerId)
+	public void GameEnd(string _winnerNickName)
 	{
 		Debug.Log("RPC!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		// 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
 		//rb.Sleep();
+		rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
 		// 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
-
 		//Cinemachine 카메라 이동
 		if (GameObject.Find("Virtual Camera") != null)
 		{
 			virtual_camera = GameObject.Find("Virtual Camera");
-			Destroy(virtual_camera);
+			//Destroy(virtual_camera);
+			PhotonNetwork.Destroy(virtual_camera);
 
 			//virtual_camera.GetComponent<CinemachineVirtualCamera>().Follow = gameObject.transform;
 		}
 
-		// winner의 ViewID와 자신의 ViewID가 다르다면 winner가 아님
-		if (_winnerPlayerId != PV.ViewID)
-		{
-			Debug.Log("flag1111111111111111111111");
-			// _winnerPlayerId를 사용하여 해당 플레이어의 위치를 가져옴
-			PhotonView winnerMario = PhotonView.Find(_winnerPlayerId);
-			if (winnerMario != null)
-			{
+		PhotonView[] allGameObjects = GameObject.FindObjectsOfType<PhotonView>();
+		Vector2 winnerPos = Vector2.zero;
 
-				Debug.Log("flag222222222222222222222222222");
-				Camera.main.transform.position = winnerMario.transform.position;
-				Instantiate(endingEffect, transform.position, Quaternion.identity);
-			}
+		for (int i = 0; i < allGameObjects.Length; i++)
+		{
+			if (_winnerNickName == allGameObjects[i].name) winnerPos = allGameObjects[i].gameObject.transform.position;
+			else return;
+		}
+		StartCoroutine(MoveCamera(winnerPos));
+	}
+	IEnumerator MoveCamera(Vector2 _winnerPos)
+	{
+		while (Vector2.Distance(Camera.main.transform.position, _winnerPos) >= 0.1f)
+		{
+			Camera.main.transform.position = Vector2.MoveTowards(Camera.main.transform.position, _winnerPos, 0.5f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
