@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -527,7 +528,9 @@ public class UI_Editor : MonoBehaviour
 
     public void ExitButtonClick()
     {
+        //PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("LobbyScene");
+        
     }
 
 
