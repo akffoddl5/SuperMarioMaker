@@ -197,10 +197,10 @@ public class BuildSystem : MonoBehaviour
             moveY = -1;
 
         ////카메라 이동
-        //virtualCamera.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
-        //    moveY * cameraSpeed * Time.deltaTime, 0);
-        Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
+        virtualCamera.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
             moveY * cameraSpeed * Time.deltaTime, 0);
+        //Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
+        //    moveY * cameraSpeed * Time.deltaTime, 0);
 
     }
 
@@ -737,6 +737,8 @@ public class BuildSystem : MonoBehaviour
                 {
                     GameObject createPipe = Instantiate(tiles[tilesDictionary["Pipe"]].objectPrefab[0], creatObjList[i].createPos, Quaternion.Euler(0, 0, creatObjList[i].dirInfo * (-90)));
                     createPipe.GetComponent<Pipe_top>().linkObjectPos = creatObjList[i].pipeLinkPos;
+
+                    createPipe.GetComponent<Pipe_top>().dirInfo = creatObjList[i].dirInfo;
 
                     createPipe.GetComponent<Pipe_top>().lineActive = true;
                 }

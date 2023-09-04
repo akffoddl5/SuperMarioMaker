@@ -12,6 +12,8 @@ public class Pipe_top : MonoBehaviour
     public Vector3 linkObjectPos { get; set; } = new Vector3(0, 0, -100);
     public GameObject linkObject;
     public bool lineActive { get; set; } = false;
+    public int dirInfo = 0;
+
 
     [SerializeField] float lineWidth = 0.15f;
 
