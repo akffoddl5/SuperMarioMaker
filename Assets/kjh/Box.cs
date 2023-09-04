@@ -15,10 +15,13 @@ public class Box : MonoBehaviour
     public List<GameObject> init_item_list = new List<GameObject>();
     public Queue<GameObject> items = new Queue<GameObject>();
     public int stateNum = 0; //(기본 블럭 : 0, 물음표 : 1)
+
+    public List<int> init_item_num_list = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
-        anim= GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
         posy = transform.position.y;
         for (int i = 0; i < init_item_list.Count; i++)
         {
@@ -29,7 +32,7 @@ public class Box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Add_Item(GameObject obj)
@@ -37,12 +40,18 @@ public class Box : MonoBehaviour
         items.Enqueue(obj);
     }
 
+    public void Add_Item_Num(List<int> objNumList)
+    {
+        Debug.Log("Add_Item_Num");
+        init_item_num_list = objNumList;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             if (collision.otherCollider.gameObject.name == "boxmove") return;
-             anim.SetBool("Move", true);
+            anim.SetBool("Move", true);
             //gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up*upForce);
             transform.Translate(new Vector2(0, 0.1f));
             StartCoroutine(IJump((collision.gameObject)));
@@ -60,12 +69,12 @@ public class Box : MonoBehaviour
     IEnumerator IJump(GameObject obj)
     {
         yield return new WaitForSeconds(resetTimer);
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero; 
-        transform.position=new Vector2(transform.position.x,posy);
-       //anim.SetBool("Move", false);
+        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        transform.position = new Vector2(transform.position.x, posy);
+        //anim.SetBool("Move", false);
     }
 
 }
 
 
-    
+
