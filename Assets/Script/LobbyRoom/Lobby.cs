@@ -12,6 +12,7 @@ using UnityEditor;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
+    
     [Header("로비 INFO 관련 변수")]
     [SerializeField] private Text lobby_info;
     [SerializeField] private int lobby_player_count = -1;
@@ -38,14 +39,12 @@ public class Lobby : MonoBehaviourPunCallbacks
 	// Room에 있는 함수를 실행하기 위한 이벤트 함수
 	//public UnityEvent RoomUISync;
 	public PhotonView PV;
+    Coroutine cor_refresh;
 
 	private void Awake()
     {
-        
-
-        PhotonNetwork.JoinLobby();
-
-		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
+        Debug.Log("flag1");
+        lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         Lobby_Player_Count();
 
 		// Room_Make_Layer info init
@@ -55,6 +54,28 @@ public class Lobby : MonoBehaviourPunCallbacks
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
         Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
+
+        Debug.Log("flag2");
+
+        if (cor_refresh == null)
+        {
+            cor_refresh = StartCoroutine(ILobby_Refresh());
+        }
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            return;
+        }
+        else if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+            return;
+        }
+        PhotonNetwork.JoinLobby();
+
+        
+
 
 		StartCoroutine(ILobby_Refresh());
     }
@@ -91,6 +112,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsConnected)
         {
+            GetComponent<CanvasGroup>().alpha = 0;
+            GetComponent<CanvasGroup>().interactable = false;
             SceneManager.LoadScene(0);
         }
 	}
@@ -111,7 +134,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-
+        //Debug.Log("flag66");
+       
     }
 
 	public override void OnCreateRoomFailed(short returnCode, string message)
@@ -187,8 +211,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
 			// +interactive(roomState)
-            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
-			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
+            //a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
+			//a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
             // false면 interactable true여야 함
             
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
@@ -392,12 +416,14 @@ public class Lobby : MonoBehaviourPunCallbacks
 		base.OnLeftRoom();
         // 룸 오른쪽으로 보내
 		GameObject room = GameObject.Find("Room_Layer");
-		StartCoroutine(CorLerp(room, room.GetComponent<RectTransform>().localPosition,
+        Vector3 tmp = new Vector3(-1960, 0, 0);
+        Vector3 tmp2 = new Vector3(-28, 44, 0);
+		StartCoroutine(CorLerp(room, tmp2,
 			room.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
 
 		// 로비도 데려와야 해
 		GameObject lobby = GameObject.Find("Lobby_Layer");
-		StartCoroutine(CorLerp(lobby, lobby.GetComponent<RectTransform>().localPosition,
+		StartCoroutine(CorLerp(lobby, tmp,
 			lobby.GetComponent<RectTransform>().localPosition + new Vector3(2000, 0, 0)));
 
 		// 룸을 나가면 마스터로 가니까 로비로 다시 들어오게 해야 함
