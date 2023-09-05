@@ -29,7 +29,11 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-    public string mapMakeSceneName;
+	public string mapMakeSceneName;
+    [Header("Room_map Select 관련 변수")]
+    public int maxMapNum;
+    public int currentMapNum;
+
 
 	string characterPrefab;
     float instMarioX = -6;
@@ -46,13 +50,20 @@ public class Lobby : MonoBehaviourPunCallbacks
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         Lobby_Player_Count();
 
-        max_Player = 4;
+		// Room_Make_Layer info init
+		max_Player = 4;
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         current_max_player = 1;
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
         Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
-        StartCoroutine(ILobby_Refresh());
+
+
+        // map Select info init
+        // maxMapNum = 저장된 map의 갯수
+        currentMapNum =1
+        GameObject.Find("Scroll_MapSelect").GetComponent<Scrollbar>().value = 0;
+		StartCoroutine(ILobby_Refresh());
     }
 
     private void Start()
@@ -283,6 +294,16 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
 
     }
+
+    // Btn MapSelect LeftArrow
+
+    // Btn MapSelect RightArrow
+
+
+
+
+
+
 
 	// UI러프로 움직이기
 	IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
