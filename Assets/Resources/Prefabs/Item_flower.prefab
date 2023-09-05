@@ -186,7 +186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 0
   rb: {fileID: 3176573072591969022}
-  prefabPath: 
 --- !u!114 &1555701019986719674
 MonoBehaviour:
   m_ObjectHideFlags: 0

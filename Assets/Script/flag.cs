@@ -37,7 +37,7 @@ public class Flag : MonoBehaviour
         }
 
 		// When the while() statement is exited, execute.
-		finishEffect.GetComponent<FinishSoloStage>().isFinishGame = true;
+		//finishEffect.GetComponent<FinishSoloStage>().isFinishGame = true;
 		yield return null;
     }
 }

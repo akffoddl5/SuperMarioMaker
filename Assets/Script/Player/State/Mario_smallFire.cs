@@ -8,6 +8,8 @@ public class Mario_smallFire : Mario_state
     {
     }
 
+    Vector3 pos;
+
     public override void Enter()
     {
         base.Enter();
@@ -15,6 +17,7 @@ public class Mario_smallFire : Mario_state
         mario.collider.enabled = false;
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
+        pos = mario.transform.position;
         mario.GetComponent<Rigidbody2D>().Sleep();
         Debug.Log("small fire enter");
     }
@@ -30,6 +33,7 @@ public class Mario_smallFire : Mario_state
     public override void Update()
     {
         base.Update();
+        mario.transform.position = pos;
         if (stateTimer <= 0) stateMachine.ChangeState(mario.idleState);
     }
 }

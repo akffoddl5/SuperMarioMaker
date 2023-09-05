@@ -15,11 +15,13 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 	//[SerializeField] TMP_Text m_textConnectLog;
 	//[SerializeField] TMP_Text m_textPlayerList;
 
+	GameObject title_obj;
 	Title title;
 
 	void Start()
 	{
 		// StartScene의 Canvas에 붙어있는 Title 스크립트
+		title_obj = GameObject.Find("Canvas");
 		title = GameObject.Find("Canvas").GetComponent<Title>();
 
 		Screen.SetResolution(960, 600, false);
@@ -74,11 +76,14 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 
 	public void Connect()
 	{
+		GameObject.Find("Log").GetComponent<Text>().text += "flag3" + (title == null) + title_obj.name;
 		title.LogIn();
+		
 		// 해당 게임버전으로 photon 클라우드로 연결
 		
 		PhotonNetwork.ConnectUsingSettings();
 		
+
 	}
 
 	void updatePlayer()

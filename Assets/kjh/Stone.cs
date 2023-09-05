@@ -1,3 +1,4 @@
+using Cinemachine;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class Stone : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
 
-    
+    public CinemachineVirtualCamera cam;
 
 
     GameObject groundObject;
@@ -63,13 +64,16 @@ public class Stone : MonoBehaviour
             
         
             if (dropCoroutine == null)
-            {
-                anim.SetBool("Move", true);
+            { move = true;
+                anim.SetBool("Move", move);
+              
                 dropCoroutine = StartCoroutine(Drop());
 
                 
             }
         }
+
+          
 
         //if (cols.Length == 0)
         //{
@@ -141,10 +145,12 @@ public class Stone : MonoBehaviour
     {
         // 타이머[2초] 기다림
         yield return new WaitForSeconds(2.5f);
-        anim.SetBool("Move", false);
+        move = false;
+        anim.SetBool("Move", move);
 
         var groundDist = 100f;
         // 반복문
+       
          while(!IsGroundDetected_Short())
          { // 계속내려감 [땅이 닿을때까지]
             transform.Translate(Vector2.down * speed * Time.deltaTime);
@@ -154,7 +160,7 @@ public class Stone : MonoBehaviour
             // Debug.Log(" 거리 ::" +  groundDist);
             yield return new WaitForEndOfFrame();
         }
-           
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.STONE , false, 2);
 
          // 땅에닿고난 이후에 1초 기다림
         yield return new WaitForSeconds(1f);
@@ -169,7 +175,7 @@ public class Stone : MonoBehaviour
 // gameObject.GetComponent<SpriteRenderer>().sprite = spr;
             yield return new WaitForEndOfFrame();
         }
-
+       
         yield return null;
 
         dropCoroutine = null;
@@ -251,7 +257,18 @@ public class Stone : MonoBehaviour
             var mario = collision.gameObject.GetComponent<Mario>();
             // star Mode라면 죽지 않도록
             if (mario.isStarMario) return;
-            mario.stateMachine.ChangeState(mario.dieState);
+
+
+            //mario.stateMachine.ChangeState(mario.dieState);
+
+            if (mario.marioMode > 0)
+            {
+                mario.stateMachine.ChangeState(mario.bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
+            else
+            {
+                mario.stateMachine.ChangeState(mario.dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
         }
     }
 
