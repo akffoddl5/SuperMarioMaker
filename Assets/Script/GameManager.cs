@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 		// 씬에 싱글톤 오브젝트가 된 다른 GameManager 오브젝트가 있다면
 		if (instance != this)
 		{
+			
 			// 자신을 파괴
 			Destroy(gameObject);
 		}
