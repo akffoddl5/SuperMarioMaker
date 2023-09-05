@@ -303,6 +303,10 @@ public class Mario : MonoBehaviour
 			}
 			Destroy(collision.gameObject);
 		}
+		else if (collision.CompareTag("DeadZone"))
+		{
+			stateMachine.ChangeState(dieState);
+        }
 
 		if (collision.GetComponent<Flag>() != null)
 		{
