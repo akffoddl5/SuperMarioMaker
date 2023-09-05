@@ -30,9 +30,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     private Text make_room_title;
 
 	public string mapMakeSceneName;
-    [Header("Room_map Select 관련 변수")]
-    public int maxMapNum;
-    public int currentMapNum;
+    
 
 
 	string characterPrefab;
@@ -58,11 +56,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
 
-
-        // map Select info init
-        // maxMapNum = 저장된 map의 갯수
-        currentMapNum = 1;
-        GameObject.Find("Scroll_MapSelect").GetComponent<Scrollbar>().value = 0;
 		StartCoroutine(ILobby_Refresh());
     }
 
@@ -295,16 +288,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     }
 
-    // Btn MapSelect LeftArrow
-
-    // Btn MapSelect RightArrow
-
-
-
-
-
-
-
 	// UI러프로 움직이기
 	IEnumerator CorLerp(GameObject gameObject, Vector3 start_pos, Vector3 des_pos)
     {
@@ -341,9 +324,10 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
         yield break;;
     }
+    
 
 
-    public override void OnFriendListUpdate(List<FriendInfo> friendList)
+	public override void OnFriendListUpdate(List<FriendInfo> friendList)
     {
         base.OnFriendListUpdate(friendList);
     }
@@ -401,7 +385,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 		//RoomUISync.Invoke();
 	}
-
+    
 
 	public override void OnLeftRoom()
 	{

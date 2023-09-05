@@ -315,7 +315,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   spriteRenderer: {fileID: 0}
   PV: {fileID: 0}
-  soloStage: {fileID: 403042935881962000, guid: dfacc4ba452f8bb4baf4424ab289ac97, type: 3}
 --- !u!114 &8116241220452144449
 MonoBehaviour:
   m_ObjectHideFlags: 0
