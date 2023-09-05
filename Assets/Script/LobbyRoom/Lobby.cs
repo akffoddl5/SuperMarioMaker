@@ -61,7 +61,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         // map Select info init
         // maxMapNum = 저장된 map의 갯수
-        currentMapNum =1
+        currentMapNum = 1;
         GameObject.Find("Scroll_MapSelect").GetComponent<Scrollbar>().value = 0;
 		StartCoroutine(ILobby_Refresh());
     }
