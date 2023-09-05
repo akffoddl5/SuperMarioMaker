@@ -7,6 +7,7 @@ using Cinemachine;
 using System;
 using Photon.Realtime;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class Mario : MonoBehaviour
 {
@@ -91,7 +92,7 @@ public class Mario : MonoBehaviour
 	public Mario_win winState;
 
     public PhotonView PV;
-
+	public GameObject soloStage;
 
     private void Awake()
     {
@@ -303,8 +304,12 @@ public class Mario : MonoBehaviour
 			}
 			Destroy(collision.gameObject);
 		}
+		else if (collision.CompareTag("DeadZone"))
+		{
+			stateMachine.ChangeState(dieState);
+        }
 
-		if (collision.GetComponent<Flag>() != null)
+		if (collision.GetComponent<Flag>() != null && PV.IsMine)
 		{
 			stateMachine.ChangeState(winState);
 			//string winnerMario = PhotonNetwork.NickName;
@@ -346,71 +351,32 @@ public class Mario : MonoBehaviour
 			Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
 			if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
 			{
-				Debug.Log("if문 실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				Vector2 marioPos = allMario[i].gameObject.transform.position;
 				winnerPos = new Vector3 (marioPos.x, marioPos.y, -1) ;
-				Debug.Log("if문 winnerPos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ winnerPos);
 			}
 		}
-		/*
-		//Mario[] allMario = GameObject.FindObjectsOfType<Mario>();
-		//for(int i = 0; i < allMario.Length; i++)
-		//{
-		//	Debug.Log("rbSleep 반복문 들어옴???: " + allMario[i]);
-		//	allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
-		//	allMario[i].rb.Sleep();
-		//}
-
-		////Cinemachine 카메라 이동
-		//if (GameObject.Find("Virtual Camera") != null)
-		//{
-		//	virtual_camera = GameObject.Find("Virtual Camera");
-		//	Destroy(virtual_camera);
-		//}
-
-		//// 1등을 찾아서 1등의 위치를 winnerPos로 지정해줌
-		//PhotonView[] allGameObjects = GameObject.FindObjectsOfType<PhotonView>();
-		//Vector2 winnerPos = new Vector2(200, 200);
-
-		//for (int i = 0; i < allGameObjects.Length; i++)
-		//{
-		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 _winnerId: " + _winnerId);
-		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 allGameObjects[i].ViewID: " + allGameObjects[i].ViewID);
-		//	if (_winnerId == allGameObjects[i].ViewID) winnerPos = allGameObjects[i].gameObject.transform.position;
-		//	else return;
-
-		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 winnerPos: " + winnerPos);
-		//} 
-		 */
-
-
-		//Player[] playerArray = PhotonNetwork.PlayerList;
-		//for (int i = 0; i < playerArray.Length; i++)
-		//{
-		//	var id = (playerArray[i].ActorNumber * 1000) + 1;
-		//	var player = PhotonView.Find(id); // player의 포톤뷰를 가져옴
-
-		//	if (playerArray[i].NickName == _winnerNickName)
-		//	{
-
-		//	}
-		//}
-
-		Debug.Log("winnerPos 설정 끝");
+		
 		// 1등의 위치로 카메라 이동시켜주기
 		StartCoroutine(MoveCamera(winnerPos));
 	}
+
+    
 	IEnumerator MoveCamera(Vector3 _winnerPos)
 	{
 		Debug.Log("MoveCamera 코루틴 실행!!!!!!!");
 		yield return new WaitForSeconds(0.5f);
-		while (Vector2.Distance(Camera.main.transform.position, _winnerPos) >= 0.01f)
+		while (Vector2.Distance(Camera.main.transform.position, _winnerPos) >= 1f)
 		{
-			Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, _winnerPos, 0.1f);
-			yield return new WaitForSeconds(0.05f);
+			Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _winnerPos, 0.35f);
+			yield return null;
 		}
-		Debug.Log("카메라 움직임 끝???????????????????????");
-	}
+
+        if (PV.IsMine)
+		Instantiate(soloStage, _winnerPos, Quaternion.identity);
+
+
+
+    }
 
     //public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
     public bool IsGroundDetected()
