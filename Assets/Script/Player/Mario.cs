@@ -106,8 +106,8 @@ public class Mario : MonoBehaviour
 
     private void Awake()
     {
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        //PhotonNetwork.SendRate = 60;
+        //PhotonNetwork.SerializationRate = 30;
 
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
@@ -186,6 +186,23 @@ public class Mario : MonoBehaviour
             spriteRenderer.color = Color.white;
         }
 
+        
+
+    }
+
+    [PunRPC]
+    public void SetCollider(int _val)
+    {
+        if (_val != 0)
+        {
+            collider.enabled = false;
+            collider_big.enabled = true;
+        }
+        else
+        {
+            collider.enabled = true;
+            collider_big.enabled = false;
+        }
     }
 
     //// 부활 만들기
@@ -271,19 +288,21 @@ public class Mario : MonoBehaviour
 
             }
         }
-        else if (collision.gameObject.GetComponent<Goomba>() != null)
+        else if (collision.gameObject.GetComponent<Goomba>() != null && collision.gameObject.GetComponent<Goomba>().isFlat)
         {
             // isFlat Goomba No die
-            if (collision.gameObject.GetComponent<Goomba>().isFlat) return;
         }
         else if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
         {
+            Debug.Log("flag2");
             if (marioMode > 0)
             {
+            Debug.Log("flag3");
                 stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
             }
             else
             {
+            Debug.Log("flag4");
                 stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
             }
         }
@@ -293,7 +312,7 @@ public class Mario : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Item
-        if (collision.CompareTag("Item"))
+        if (collision.CompareTag("Item") && PV.IsMine)
         {
 
             if (collision.GetComponent<Item_Star>() != null)

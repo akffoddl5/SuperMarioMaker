@@ -160,6 +160,7 @@ MonoBehaviour:
   rb: {fileID: 6703873939076255258}
   koopa: {fileID: 4781645093070952391, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
   fsecMove: 0
+  pickedState: 0
   PV: {fileID: 0}
 --- !u!50 &6703873939076255258
 Rigidbody2D:

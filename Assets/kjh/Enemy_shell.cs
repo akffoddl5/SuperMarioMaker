@@ -68,7 +68,7 @@ public class Enemy_shell : MonoBehaviour
                 pastPickedState = false;
             }
         }
-        Debug.Log("???");
+        //Debug.Log("???");
 
         if (timer > 0) return;
         if (fsecMove == true) Move(fsecMove);

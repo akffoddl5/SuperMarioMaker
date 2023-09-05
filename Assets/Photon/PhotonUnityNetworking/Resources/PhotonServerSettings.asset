@@ -60,6 +60,7 @@ MonoBehaviour:
   - Btn_MapSelect_LeftArrow
   - Btn_MapSelect_RightArrow
   - DestroySelf_RPC
+  - SetCollider
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
