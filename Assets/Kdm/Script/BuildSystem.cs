@@ -694,7 +694,8 @@ public class BuildSystem : MonoBehaviour
         mapInfo = new ScriptableMapInfo();
 
         mapInfo.name = PhotonNetwork.NickName;
-        mapInfo.levelIndex = WIndowManager.instance.mapNum;
+        //mapInfo.levelIndex = WIndowManager.instance.mapNum;
+        mapInfo.levelIndex = 0;
         mapInfo.backgroundNum = backgroundNum;
         mapInfo.timerCount = 500;
         mapInfo.playerLifePoint = 1;
