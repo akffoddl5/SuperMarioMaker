@@ -29,7 +29,9 @@ public class Lobby : MonoBehaviourPunCallbacks
     public int current_max_player;
     private Text make_room_title;
 
-    public string mapMakeSceneName;
+	public string mapMakeSceneName;
+    
+
 
 	string characterPrefab;
     float instMarioX = -6;
@@ -46,13 +48,15 @@ public class Lobby : MonoBehaviourPunCallbacks
 		lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         Lobby_Player_Count();
 
-        max_Player = 4;
+		// Room_Make_Layer info init
+		max_Player = 4;
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
         current_max_player = 1;
         make_room_title = GameObject.Find("Make_Room_Title").GetComponent<Text>();
         Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
-        StartCoroutine(ILobby_Refresh());
+
+		StartCoroutine(ILobby_Refresh());
     }
 
     private void Start()
@@ -320,9 +324,10 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
         yield break;;
     }
+    
 
 
-    public override void OnFriendListUpdate(List<FriendInfo> friendList)
+	public override void OnFriendListUpdate(List<FriendInfo> friendList)
     {
         base.OnFriendListUpdate(friendList);
     }
@@ -380,7 +385,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 		PV.RPC("RoomUISync", RpcTarget.AllBuffered);
 		//RoomUISync.Invoke();
 	}
-
+    
 
 	public override void OnLeftRoom()
 	{
