@@ -91,8 +91,14 @@ public class Mario : MonoBehaviour
 	public Mario_bigFire bigFire;
 	public Mario_win winState;
 
+	public Mario_Shell_idle mario_Shell_Idle;
+	public Mario_Shell_jump mario_Shell_Jump;
+	public Mario_Shell_run mario_Shell_Run;
+	public Mario_Shell_stamp mario_Shell_Stamp;
+	public Mario_Shell_walk mario_Shell_Walk;
+	public Mario_Shell_Slide mario_Shell_Slide;
+
     public PhotonView PV;
-	public GameObject soloStage;
 
     private void Awake()
     {
@@ -129,7 +135,13 @@ public class Mario : MonoBehaviour
 		bigFire = new Mario_bigFire(this, stateMachine, "BigToFire");
 		winState = new Mario_win(this, stateMachine, "Win");
 
-	}
+		mario_Shell_Idle = new Mario_Shell_idle(this, stateMachine, "Idle");
+        mario_Shell_Jump = new Mario_Shell_jump(this, stateMachine, "Shell_Jump");
+        mario_Shell_Run = new Mario_Shell_run(this, stateMachine, "Run");
+        mario_Shell_Stamp = new Mario_Shell_stamp(this, stateMachine, "Shell_Jump");
+        mario_Shell_Walk = new Mario_Shell_walk(this, stateMachine, "Walk");
+		mario_Shell_Slide = new Mario_Shell_Slide(this, stateMachine, "Slide");
+    }
 
     [PunRPC]
     public void Flip(bool a)
@@ -344,10 +356,9 @@ public class Mario : MonoBehaviour
 		for (int i = 0; i < allMario.Length; i++)
 		{
 			Debug.Log("allMario[i]: " + allMario[i]);
-			allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
-			allMario[i].rb.Sleep();
-
-
+			
+            allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
+			
 			Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
 			if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
 			{
@@ -370,9 +381,6 @@ public class Mario : MonoBehaviour
 			Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _winnerPos, 0.35f);
 			yield return null;
 		}
-
-        if (PV.IsMine)
-		Instantiate(soloStage, _winnerPos, Quaternion.identity);
 
 
 

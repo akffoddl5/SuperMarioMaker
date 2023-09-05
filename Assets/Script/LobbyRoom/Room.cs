@@ -22,6 +22,11 @@ public class Room : MonoBehaviourPunCallbacks
 	public Text[] txt_NickName; // NickName in CharacterBox
 	public Image[] img_ready; // img_Ready in CharacterBox
 
+	[Header("Room_map Select 관련 변수")]
+	public int maxMapNum;
+	public int currentMapNum;
+	private Coroutine set_map_img;
+
 	Player[] playerlist;
 
 	int localPlayerIdx;
@@ -33,7 +38,11 @@ public class Room : MonoBehaviourPunCallbacks
 
 	private void Start()
 	{
-		
+		// map Select info init
+		// maxMapNum = 저장된 map의 갯수
+		maxMapNum = 2;
+		currentMapNum = 1;
+		GameObject.Find("Scroll_MapSelect").GetComponent<Scrollbar>().value = 0;
 	}
 
 	private void Update()
@@ -146,6 +155,65 @@ public class Room : MonoBehaviourPunCallbacks
 	}
 
 	#region Btn
+	// Btn MapSelect LeftArrow
+	public void Btn_MapSelect_left_RPC()
+	{
+		if (PhotonNetwork.IsMasterClient)
+		{
+			photonView.RPC("Btn_MapSelect_LeftArrow", RpcTarget.All);
+		}
+	}
+	// Btn MapSelect RightArrow
+	public void Btn_MapSelect_right_RPC()
+	{
+		if (PhotonNetwork.IsMasterClient)
+		{
+			photonView.RPC("Btn_MapSelect_RightArrow", RpcTarget.All);
+		}
+	}
+
+	[PunRPC]
+	void Btn_MapSelect_LeftArrow()
+	{
+		if (currentMapNum - 1 <= maxMapNum && currentMapNum - 1 > 0)
+		{
+			if (set_map_img != null)
+				StopCoroutine(set_map_img);
+			currentMapNum--;
+			set_map_img = StartCoroutine(Cor_Scroll_MapSelect());
+
+		}
+	}
+
+	[PunRPC]
+	void Btn_MapSelect_RightArrow()
+	{
+		if (currentMapNum + 1 <= maxMapNum)
+		{
+			if (set_map_img != null)
+				StopCoroutine(set_map_img);
+			currentMapNum++;
+			set_map_img = StartCoroutine(Cor_Scroll_MapSelect());
+		}
+	}
+	IEnumerator Cor_Scroll_MapSelect()
+	{
+		var a = GameObject.Find("Scroll_MapSelect").GetComponent<Scrollbar>();
+		float current_value = a.value;
+		float des_value = 1.0f / (maxMapNum - 1) * (currentMapNum - 1);
+
+		//Debug.Log(current_value + " " + des_value + " " + max_Player + "  " );
+		while (true)
+		{
+			a.value = (a.value + des_value) / 2;
+			if (Mathf.Abs(des_value - a.value) < 0.001f)
+			{
+				break;
+			}
+			yield return null;
+		}
+		yield break; ;
+	}
 
 	// Btn Ready
 	public void OnClick_Ready()

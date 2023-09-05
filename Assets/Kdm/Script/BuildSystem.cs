@@ -450,6 +450,9 @@ public class BuildSystem : MonoBehaviour
                         createObj.SetActive(false);
                     }
 
+                    if (currentTileName == "Pipe")
+                        createObj.GetComponent<Pipe_top>().dirInfo = dirInfo;
+
                     //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
                     //오브젝트 삭제할때도 써먹음
                     //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
@@ -656,6 +659,9 @@ public class BuildSystem : MonoBehaviour
         for (int i = 0; i < objectList.Count; i++)
         {
             ((GameObject)objectList[i][7]).SetActive(true);
+
+            if (((GameObject)objectList[i][7]).GetComponent<Box>() != null)
+                ((GameObject)objectList[i][7]).GetComponent<Box>().Add_Item_Num((List<int>)objectList[i][4]);
         }
 
         SetTilemapRenderer.enabled = false;
@@ -799,7 +805,7 @@ public class BuildSystem : MonoBehaviour
         timerCount = _timerCount;
     }
 
-    
+
     IEnumerator TakeScreenShot()
     {
         Debug.Log("shot");
