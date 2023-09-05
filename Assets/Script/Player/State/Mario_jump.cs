@@ -27,6 +27,8 @@ public class Mario_jump : Mario_state
 		mario.rb.velocity = new Vector2(mario.rb.velocity.x, 0.001f);
 		mario.rb.velocity = new Vector2(mario.rb.velocity.y, 0.001f);
 		mario.rb.AddForce(new Vector2(0, mario.jumpPower), ForceMode2D.Impulse);
+
+		stateTimer2 = 0.5f; // fireTimer
 		//last_velocity_y = mario.rb.velocity.y;
 	}
 
@@ -53,10 +55,11 @@ public class Mario_jump : Mario_state
             mario.collider_big.sharedMaterial = mario.PM;
         }
 
-        //FIre
-        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
-        {
-            if (isFlip)
+		//FIre
+		if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2) && stateTimer2 <= 0f)
+		{
+			stateTimer2 = 0.5f; // fireTimer
+			if (isFlip)
             {
                 var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
                 a.GetComponent<Fire_Bullet>().faceDir = -1;

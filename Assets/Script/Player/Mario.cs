@@ -46,8 +46,10 @@ public class Mario : MonoBehaviour
     public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
     public bool isStarMario = false;
 
-    //Star Mode
-    bool starCoroutineTrigger = true;
+    //public int maxBullet = 2;
+
+	//Star Mode
+	bool starCoroutineTrigger = true;
     float starTime = 5f;
     float starTimer = 0;
     Coroutine starModeColor;
@@ -301,7 +303,7 @@ public class Mario : MonoBehaviour
 					stateMachine.ChangeState(bigFire);
 				}
 			}
-			Destroy(collision.gameObject);
+			PhotonNetwork.Destroy(collision.gameObject);
 		}
 		else if (collision.CompareTag("DeadZone"))
 		{
