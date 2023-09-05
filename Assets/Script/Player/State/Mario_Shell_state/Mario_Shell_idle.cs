@@ -15,6 +15,8 @@ public class Mario_Shell_idle : Mario_Shell_State
 		mario.anim.SetBool("Jump", false);
 		mario.anim.SetBool("Shell_Jump", false);
 		mario.rb.velocity = Vector2.zero;
+
+
 	}
 
 	public override void Exit()
