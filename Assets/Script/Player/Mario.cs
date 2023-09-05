@@ -6,6 +6,7 @@ using UnityEngine;
 using Cinemachine;
 using System;
 using Photon.Realtime;
+using UnityEditor;
 
 public class Mario : MonoBehaviour
 {
@@ -305,52 +306,109 @@ public class Mario : MonoBehaviour
 		if (collision.GetComponent<Flag>() != null)
 		{
 			stateMachine.ChangeState(winState);
-			
+			//string winnerMario = PhotonNetwork.NickName;
 
 			// 모든 마리오의 rb를 꺼서 움직이지 못하게 하자
 			// 다음 스테이지 갈 거면 GameEnd()에 bool 인자 주면 됨
 			int winnerPlayerId = PV.ViewID; // 1001, 2001, 3001, ...
-			Debug.Log("winnerPlayerId" + winnerPlayerId);
+			// Debug.Log("winnerPlayerId" + winnerPlayerId);
 			PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
 		}
 	}
 
 	[PunRPC]
-	public void GameEnd(string _winnerNickName)
+	public void GameEnd(int _winnerId)
 	{
-		Debug.Log("RPC!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		// 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
 		//rb.Sleep();
-		rb.constraints = RigidbodyConstraints2D.FreezeAll;
+		//rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-		// 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
 		//Cinemachine 카메라 이동
 		if (GameObject.Find("Virtual Camera") != null)
 		{
 			virtual_camera = GameObject.Find("Virtual Camera");
-			//Destroy(virtual_camera);
-			PhotonNetwork.Destroy(virtual_camera);
-
-			//virtual_camera.GetComponent<CinemachineVirtualCamera>().Follow = gameObject.transform;
+			Destroy(virtual_camera);
 		}
 
-		PhotonView[] allGameObjects = GameObject.FindObjectsOfType<PhotonView>();
-		Vector2 winnerPos = Vector2.zero;
+		// 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
+		Mario[] allMario = GameObject.FindObjectsOfType<Mario>();
+		Debug.Log("allMario.Length" + allMario.Length); // 2나옴
+		Vector3 winnerPos = new Vector3(200, 200, -1);
 
-		for (int i = 0; i < allGameObjects.Length; i++)
+		for (int i = 0; i < allMario.Length; i++)
 		{
-			if (_winnerNickName == allGameObjects[i].name) winnerPos = allGameObjects[i].gameObject.transform.position;
-			else return;
+			Debug.Log("allMario[i]: " + allMario[i]);
+			allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
+			allMario[i].rb.Sleep();
+
+
+			Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
+			if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
+			{
+				Debug.Log("if문 실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				Vector2 marioPos = allMario[i].gameObject.transform.position;
+				winnerPos = new Vector3 (marioPos.x, marioPos.y, -1) ;
+				Debug.Log("if문 winnerPos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ winnerPos);
+			}
 		}
+		/*
+		//Mario[] allMario = GameObject.FindObjectsOfType<Mario>();
+		//for(int i = 0; i < allMario.Length; i++)
+		//{
+		//	Debug.Log("rbSleep 반복문 들어옴???: " + allMario[i]);
+		//	allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
+		//	allMario[i].rb.Sleep();
+		//}
+
+		////Cinemachine 카메라 이동
+		//if (GameObject.Find("Virtual Camera") != null)
+		//{
+		//	virtual_camera = GameObject.Find("Virtual Camera");
+		//	Destroy(virtual_camera);
+		//}
+
+		//// 1등을 찾아서 1등의 위치를 winnerPos로 지정해줌
+		//PhotonView[] allGameObjects = GameObject.FindObjectsOfType<PhotonView>();
+		//Vector2 winnerPos = new Vector2(200, 200);
+
+		//for (int i = 0; i < allGameObjects.Length; i++)
+		//{
+		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 _winnerId: " + _winnerId);
+		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 allGameObjects[i].ViewID: " + allGameObjects[i].ViewID);
+		//	if (_winnerId == allGameObjects[i].ViewID) winnerPos = allGameObjects[i].gameObject.transform.position;
+		//	else return;
+
+		//	Debug.Log(allGameObjects[i].name + "의 winnerPos 반복문 winnerPos: " + winnerPos);
+		//} 
+		 */
+
+
+		//Player[] playerArray = PhotonNetwork.PlayerList;
+		//for (int i = 0; i < playerArray.Length; i++)
+		//{
+		//	var id = (playerArray[i].ActorNumber * 1000) + 1;
+		//	var player = PhotonView.Find(id); // player의 포톤뷰를 가져옴
+
+		//	if (playerArray[i].NickName == _winnerNickName)
+		//	{
+
+		//	}
+		//}
+
+		Debug.Log("winnerPos 설정 끝");
+		// 1등의 위치로 카메라 이동시켜주기
 		StartCoroutine(MoveCamera(winnerPos));
 	}
-	IEnumerator MoveCamera(Vector2 _winnerPos)
+	IEnumerator MoveCamera(Vector3 _winnerPos)
 	{
-		while (Vector2.Distance(Camera.main.transform.position, _winnerPos) >= 0.1f)
+		Debug.Log("MoveCamera 코루틴 실행!!!!!!!");
+		yield return new WaitForSeconds(0.5f);
+		while (Vector2.Distance(Camera.main.transform.position, _winnerPos) >= 0.01f)
 		{
-			Camera.main.transform.position = Vector2.MoveTowards(Camera.main.transform.position, _winnerPos, 0.5f);
-			yield return new WaitForSeconds(0.1f);
+			Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, _winnerPos, 0.1f);
+			yield return new WaitForSeconds(0.05f);
 		}
+		Debug.Log("카메라 움직임 끝???????????????????????");
 	}
 
 	//public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
