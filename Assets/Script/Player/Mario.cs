@@ -316,8 +316,11 @@ public class Mario : MonoBehaviour
 					stateMachine.ChangeState(bigFire);
 				}
 			}
-			PhotonNetwork.Destroy(collision.gameObject);
+
+            Destroy(collision.gameObject);
+
 		}
+
 		else if (collision.CompareTag("DeadZone"))
 		{
 			stateMachine.ChangeState(dieState);
@@ -383,9 +386,6 @@ public class Mario : MonoBehaviour
 			Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _winnerPos, 0.35f);
 			yield return null;
 		}
-
-
-
     }
 
     //public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);

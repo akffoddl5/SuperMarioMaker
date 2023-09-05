@@ -39,7 +39,6 @@ public class Fire_Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         // ¶¥¿¡ ´êÀ¸¸é Æ¢°Ô ¸¸µê 
         if (collision.gameObject.tag == "Ground" && GroundDetected())
         {
@@ -59,15 +58,27 @@ public class Fire_Bullet : MonoBehaviour
                 collision.gameObject.GetComponent<Enemy>().FilpOverDie();
             }
 
-			// ÃÑ¾Ë »èÁ¦
-			PhotonNetwork.Destroy(gameObject);
+            if (GetComponent<PhotonView>().IsMine)
+            {
+                GetComponent<PhotonView>().RPC("DestroySelf_RPC", RpcTarget.All);
+			}
 		}
         else
         {
-            //Debug.Log(collision.gameObject.tag + " " + GroundDetected());
-            PhotonNetwork.Destroy(gameObject);
+			if (GetComponent<PhotonView>().IsMine)
+			{
+                GetComponent<PhotonView>().RPC("DestroySelf_RPC", RpcTarget.All);
+			}
+			//Debug.Log(collision.gameObject.tag + " " + GroundDetected());
         }
     }
+
+    [PunRPC]
+    void DestroySelf_RPC()
+    {
+        // ÃÑ¾Ë ÀÚ±âÀÚ½Å »èÁ¦
+		Destroy(gameObject);
+	}
 
     private void OnDrawGizmos()
     {

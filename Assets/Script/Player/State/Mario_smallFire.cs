@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,16 +19,16 @@ public class Mario_smallFire : Mario_state
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
         pos = mario.transform.position;
-        mario.GetComponent<Rigidbody2D>().Sleep();
-        Debug.Log("small fire enter");
+        //mario.GetComponent<Rigidbody2D>().Sleep();
+        Debug.Log(PhotonNetwork.NickName + "small fire enter");
     }
 
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("small fire exit");
+        Debug.Log(PhotonNetwork.NickName + "small fire exit");
         mario.collider_big.enabled = true;
-        mario.GetComponent<Rigidbody2D>().WakeUp();
+        //mario.GetComponent<Rigidbody2D>().WakeUp();
     }
 
     public override void Update()

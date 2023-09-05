@@ -37,8 +37,8 @@ public class Lobby_Room_Btn : MonoBehaviourPunCallbacks
         room_name_text.text = my_room_info.Name;                                                       //방 제목 설정
         room_player_num_text.text = my_room_info.PlayerCount + " / " + my_room_info.MaxPlayers;   // 방 인원 현황 설정
         room_master_name_text.text = room_master_name;                                            //방장 이름 설정
-        //Debug.Log(room_master_name + " " + room_master_name.ToCharArray()[0]);
-        if(room_master_name != "" )
+		//Debug.Log(room_master_name + " " + room_master_name.ToCharArray()[0]);
+		if (room_master_name != "" )
         room_master_flag.GetComponent<Image>().sprite = CheckCountry(room_master_name.ToCharArray()[0]);  //방장 국가 설정
 	}
 
