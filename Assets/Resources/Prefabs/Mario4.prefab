@@ -133,7 +133,7 @@ Transform:
   m_Children:
   - {fileID: 1965131456876380735}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2064168958901361286
 SpriteRenderer:
@@ -304,6 +304,7 @@ MonoBehaviour:
   obj_bulletGeneratorB: {fileID: 8459602313537133484}
   jump_audioSource: {fileID: 0}
   clips: []
+  endingEffect: {fileID: 0}
   marioMode: 0
   isStarMario: 0
   rb: {fileID: 0}
@@ -405,6 +406,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: BigToFire
+  - Type: 4
+    SynchronizeType: 1
+    Name: Win
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

@@ -57,6 +57,9 @@ MonoBehaviour:
   - RPC_LoadNextStage
   - RPC_LoadGameStage
   - GameEnd
+  - Btn_MapSelect_LeftArrow
+  - Btn_MapSelect_RightArrow
+  - DestroySelf_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

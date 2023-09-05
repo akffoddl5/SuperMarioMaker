@@ -9,13 +9,14 @@ using UnityEngine;
 [System.Serializable]
 public class ScriptableMapInfo
 {
+    public string name;
     public int levelIndex;
     public int backgroundNum;
     public float timerCount;
     public int playerLifePoint;
     public Vector3 playerStartPos;
     public int mapScaleNum;
-    //public string name;
+    
     public List<CreateObjectInfo> createObjectInfoList = new List<CreateObjectInfo>();
 
     [System.Serializable]

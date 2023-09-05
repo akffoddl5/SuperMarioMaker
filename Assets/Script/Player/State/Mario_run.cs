@@ -23,7 +23,7 @@ public class Mario_run : Mario_state
 
 		// 원래 마리오가 점프 하다가 달릴 때 속도가 유지됐던 거 같다
 		//mario.rb.velocity = new Vector2(mario.rb.velocity.x, mario.rb.velocity.y);
-		stateTimer = 0.2f;
+		stateTimer2 = 0.5f; // fireTimer
 	}
 
 	public void Run_Speed_Increase()
@@ -65,10 +65,11 @@ public class Mario_run : Mario_state
 			
 		}
 
-        //FIre
-        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
-        {
-            if (isFlip)
+		//FIre
+		if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2) && stateTimer2 <= 0f)
+		{
+			stateTimer2 = 0.5f; // fireTimer
+			if (isFlip)
             {
                 var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
                 a.GetComponent<Fire_Bullet>().faceDir = -1;

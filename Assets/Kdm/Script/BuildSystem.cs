@@ -129,6 +129,7 @@ public class BuildSystem : MonoBehaviour
 
     ScriptableMapInfo mapInfo;
 
+    public RenderTexture DrawTexture;
 
 
 
@@ -159,6 +160,7 @@ public class BuildSystem : MonoBehaviour
         currentTile[0] = null;
 
         WIndowManager.instance.mapNum++;
+
     }
 
     // Update is called once per frame
@@ -448,6 +450,9 @@ public class BuildSystem : MonoBehaviour
                         createObj.SetActive(false);
                     }
 
+                    if (currentTileName == "Pipe")
+                        createObj.GetComponent<Pipe_top>().dirInfo = dirInfo;
+
                     //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
                     //오브젝트 삭제할때도 써먹음
                     //objectList.Add(new List<object> { currentTileName, createPos, tilemapMousePosition,
@@ -654,11 +659,14 @@ public class BuildSystem : MonoBehaviour
         for (int i = 0; i < objectList.Count; i++)
         {
             ((GameObject)objectList[i][7]).SetActive(true);
+
+            if (((GameObject)objectList[i][7]).GetComponent<Box>() != null)
+                ((GameObject)objectList[i][7]).GetComponent<Box>().Add_Item_Num((List<int>)objectList[i][4]);
         }
 
         SetTilemapRenderer.enabled = false;
 
-        virtualCamera.SetActive(true);
+        //virtualCamera.SetActive(true);
     }
 
     public void StopButtonOn()
@@ -681,14 +689,18 @@ public class BuildSystem : MonoBehaviour
 
         SetTilemapRenderer.enabled = true;
 
-        virtualCamera.SetActive(false);
+        //virtualCamera.SetActive(false);
     }
 
 
     public void SaveMap()
     {
+        StartCoroutine(TakeScreenShot());
+
         mapInfo = new ScriptableMapInfo();
 
+        mapInfo.name = PhotonNetwork.NickName;
+        //mapInfo.levelIndex = WIndowManager.instance.mapNum;
         mapInfo.levelIndex = 0;
         mapInfo.backgroundNum = backgroundNum;
         mapInfo.timerCount = 500;
@@ -708,9 +720,10 @@ public class BuildSystem : MonoBehaviour
         //tilemapManager.LoadMap();
     }
 
-    public void MakeMap()
+    public void MakeMap(string _name, int _levelIndex)
     {
-        tilemapManager.LoadMap(0, out mapInfo);
+        //tilemapManager.LoadMap(WIndowManager.instance.mapNum, out mapInfo);
+        tilemapManager.LoadMap(_name, _levelIndex, out mapInfo);
 
         //배경 설정
         for (int i = 0; i < background_ground.Length; i++)
@@ -792,23 +805,23 @@ public class BuildSystem : MonoBehaviour
         timerCount = _timerCount;
     }
 
-    [SerializeField] Texture renderTexture;
-    public RenderTexture DrawTexture;
+
     IEnumerator TakeScreenShot()
     {
         Debug.Log("shot");
         yield return new WaitForEndOfFrame();
         string screenShotName = DateTime.Now.ToString("yyyyMMddHHmmss");
 
-        var width = Screen.width;
-        var height = Screen.height;
+        //var width = Screen.width;
+        //var height = Screen.height;
 
         RenderTexture.active = DrawTexture;
         var texture2D = new Texture2D(DrawTexture.width, DrawTexture.height);
         texture2D.ReadPixels(new Rect(0, 0, DrawTexture.width, DrawTexture.height), 0, 0);
         texture2D.Apply();
         var data = texture2D.EncodeToPNG();
-        File.WriteAllBytes("C:/Example/Image.png", data);
+        Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
+        File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", data);
         //var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
         //var tex = renderTexture.EncodeToPNG
 
@@ -824,7 +837,7 @@ public class BuildSystem : MonoBehaviour
 
         //해당 경로에 NewDirectory라는 이름을 가진 폴더 생성
 
-        Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
+        //Directory.CreateDirectory(Application.dataPath + "/../ScreenShot");
 
 
         //File.WriteAllBytes($"{Application.dataPath}/../ScreenShot/{screenShotName}.png", renderTexture.);

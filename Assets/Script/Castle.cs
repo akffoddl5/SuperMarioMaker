@@ -14,7 +14,7 @@ public class Castle : MonoBehaviour
     void Start()
     {
 		flag = GameObject.Find("flag_finish");
-		Debug.Log(flag);
+		//Debug.Log(flag);
 
         pos = transform.position;
         pos2 = new Vector2(pos.x, pos.y + 2.2f);
