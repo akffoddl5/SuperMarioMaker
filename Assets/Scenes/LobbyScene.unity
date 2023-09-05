@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Room_Maker_Player_Select_Plus
         m_Mode: 1
@@ -4326,6 +4326,8 @@ GameObject:
   - component: {fileID: 902745505}
   - component: {fileID: 902745504}
   - component: {fileID: 902745503}
+  - component: {fileID: 902745507}
+  - component: {fileID: 902745508}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4419,6 +4421,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &902745507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902745502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c1fd15ba850a7498228255c7f68229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobby_info: {fileID: 0}
+  lobby_player_count: -1
+  lobby_player_count_tmp: 0
+  room_btn: {fileID: 4494359991809635826, guid: 802d0bb02d782e04081df81b23bb1ea1, type: 3}
+  Room_List_Content: {fileID: 824120152}
+  current_max_player: 0
+  mapMakeSceneName: KdmScene
+  PV: {fileID: 679208842}
+--- !u!225 &902745508
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902745502}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &905108966
 GameObject:
   m_ObjectHideFlags: 0
@@ -4937,7 +4971,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Room_Close_Click
         m_Mode: 1
@@ -7648,7 +7682,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Room_Plus_Click
         m_Mode: 1
@@ -8222,7 +8256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Map_Make_Click
         m_Mode: 1
@@ -8436,7 +8470,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Room_Maker_Player_Select_Minus
         m_Mode: 1
@@ -9414,7 +9448,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2098388745}
-  - component: {fileID: 2098388744}
   m_Layer: 0
   m_Name: Lobby
   m_TagString: Untagged
@@ -9422,26 +9455,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2098388744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098388743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93c1fd15ba850a7498228255c7f68229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobby_info: {fileID: 0}
-  lobby_player_count: -1
-  lobby_player_count_tmp: 0
-  room_btn: {fileID: 4494359991809635826, guid: 802d0bb02d782e04081df81b23bb1ea1, type: 3}
-  Room_List_Content: {fileID: 824120152}
-  current_max_player: 0
-  mapMakeSceneName: KdmScene
-  PV: {fileID: 679208842}
 --- !u!4 &2098388745
 Transform:
   m_ObjectHideFlags: 0
@@ -9541,7 +9554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098388744}
+      - m_Target: {fileID: 902745507}
         m_TargetAssemblyTypeName: Lobby, Assembly-CSharp
         m_MethodName: Try_Room_Make
         m_Mode: 1

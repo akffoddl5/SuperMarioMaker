@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
 
 public class EditorPhoton : MonoBehaviourPunCallbacks
 {
@@ -31,7 +32,14 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        PhotonNetwork.JoinLobby();
+        if (UI_Editor.instance.isQuit)
+        {
+            SceneManager.LoadScene("LobbyScene");
+        }
+        else
+        {
+            PhotonNetwork.JoinLobby();
+        }
     }
 
     public override void OnJoinedLobby()
@@ -50,7 +58,7 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
         options.MaxPlayers = _max_player;
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
-        options.CustomRoomProperties = new Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title }, { "room_state", "red" } };
+        options.CustomRoomProperties = new Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title }, { "room_state", true } };
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
         options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state" };
@@ -79,5 +87,12 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log("Room Join" + PhotonNetwork.CurrentRoom.Name);
         PhotonNetwork.LocalPlayer.NickName = "test";
+    }
+
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        Debug.Log("left lobby");
+        SceneManager.LoadScene("LobbyScene");
     }
 }
