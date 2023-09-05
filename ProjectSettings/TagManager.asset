@@ -10,6 +10,7 @@ TagManager:
   - Enemy_Shell
   - Ground
   - Item
+  - DeadZone
   layers:
   - Default
   - TransparentFX

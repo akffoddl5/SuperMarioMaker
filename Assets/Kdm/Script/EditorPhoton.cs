@@ -24,6 +24,8 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
         }
         //
         JoinRoom();
+
+        
     }
 
     public override void OnConnectedToMaster()
@@ -76,5 +78,6 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("Room Join" + PhotonNetwork.CurrentRoom.Name);
+        PhotonNetwork.LocalPlayer.NickName = "test";
     }
 }

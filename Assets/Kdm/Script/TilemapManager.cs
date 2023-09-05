@@ -95,7 +95,7 @@ public class TilemapManager// : MonoBehaviour
     {
         //ScriptableMapInfo saveData = new ScriptableMapInfo();
 
-        string path = Path.Combine(Application.dataPath, $"MapData {_mapInfo.levelIndex}.json");
+        string path = Path.Combine(Application.dataPath, $"MapData_{_mapInfo.name}_{_mapInfo.levelIndex}.json");
 
 
         var newObj = new ScriptableMapInfo();
@@ -103,6 +103,7 @@ public class TilemapManager// : MonoBehaviour
         //newObj.name = $"Level Obj {_mapInfo.levelIndex}";
 
         //값 긁어오는거 필요
+        newObj.name = _mapInfo.name;
         newObj.levelIndex = _mapInfo.levelIndex;
         newObj.backgroundNum = _mapInfo.backgroundNum;
         newObj.timerCount = _mapInfo.timerCount;
@@ -139,7 +140,7 @@ public class TilemapManager// : MonoBehaviour
     //    }
     //}
 
-    public void LoadMap(int _levelIndex, out ScriptableMapInfo _scriptableMapInfo)
+    public void LoadMap(string _name, int _levelIndex, out ScriptableMapInfo _scriptableMapInfo)
     {
         //Resources 폴더에서 스크립터블 오브젝트인 ScriptableLevel에
         //Level *.asset 파일을 level에 덮어씌움
@@ -150,7 +151,7 @@ public class TilemapManager// : MonoBehaviour
 
         //ScriptableMapInfo saveData = new ScriptableMapInfo();
 
-        string path = Path.Combine(Application.dataPath, $"MapData {_levelIndex}.json");
+        string path = Path.Combine(Application.dataPath, $"MapData_{_name}_{_levelIndex}.json");
         if (!File.Exists(path))
         {
             //SaveData();
@@ -168,7 +169,7 @@ public class TilemapManager// : MonoBehaviour
 
         //    }
         //}
-        
+
         //_scriptableMapInfo = obj;
 
         ////만약 파일이 없었을 경우

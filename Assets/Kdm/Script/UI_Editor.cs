@@ -127,6 +127,7 @@ public class UI_Editor : MonoBehaviour
             {
                 //클릭한 대상 확인
                 GameObject tempObject = RaycastHitObject();
+                Debug.Log(tempObject);
                 if (tempObject != null)
                 {
                     BrickSet(tempObject);
@@ -530,13 +531,13 @@ public class UI_Editor : MonoBehaviour
     {
         //PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("LobbyScene");
-        
+
     }
 
 
-    public void MapMakeButtonClick()
+    public void MapMakeButtonClick(string _name)
     {
-        buildSystem.MakeMap();
+        buildSystem.MakeMap(_name, 0);
     }
 
     #endregion
