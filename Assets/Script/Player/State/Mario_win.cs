@@ -33,6 +33,7 @@ public class Mario_win : Mario_state
 		base.Update();
 		if (mario.IsGroundDetected())
 		{
+			mario.collider.enabled = true;
 
 			return;
 		}

@@ -92,7 +92,6 @@ public class Mario : MonoBehaviour
 	public Mario_win winState;
 
     public PhotonView PV;
-	public GameObject soloStage;
 
     private void Awake()
     {
@@ -344,10 +343,9 @@ public class Mario : MonoBehaviour
 		for (int i = 0; i < allMario.Length; i++)
 		{
 			Debug.Log("allMario[i]: " + allMario[i]);
-			allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
-			allMario[i].rb.Sleep();
-
-
+			
+            allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
+			
 			Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
 			if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
 			{
@@ -370,9 +368,6 @@ public class Mario : MonoBehaviour
 			Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _winnerPos, 0.35f);
 			yield return null;
 		}
-
-        if (PV.IsMine)
-		Instantiate(soloStage, _winnerPos, Quaternion.identity);
 
 
 
