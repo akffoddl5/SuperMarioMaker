@@ -23,9 +23,6 @@ public class Mario_state
 
 	public PhotonView PV;
 
-    
-	
-
     public Mario_state(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) 
 	{
 		mario = _mario;

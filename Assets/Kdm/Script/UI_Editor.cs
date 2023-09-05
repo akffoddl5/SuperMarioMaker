@@ -71,6 +71,8 @@ public class UI_Editor : MonoBehaviour
 
     int backgroundNum = 0;
 
+    public bool isQuit = false;
+
 
     private void Awake()
     {
@@ -529,8 +531,9 @@ public class UI_Editor : MonoBehaviour
 
     public void ExitButtonClick()
     {
-        //PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("LobbyScene");
+        isQuit = true;
+        PhotonNetwork.LeaveRoom();
+        
 
     }
 

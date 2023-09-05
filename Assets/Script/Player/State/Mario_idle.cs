@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Mario_idle : Mario_state
@@ -14,6 +15,7 @@ public class Mario_idle : Mario_state
 		base.Enter();
 		mario.anim.SetBool("Jump", false);
 		mario.rb.velocity = Vector2.zero;
+		stateTimer2 = 0.5f; // fireTimer
 	}
 
 	public override void Exit()
@@ -24,7 +26,7 @@ public class Mario_idle : Mario_state
 	public override void Update()
 	{
 		base.Update();
-
+		
 		if (xInput != 0)
 		{
 			stateMachine.ChangeState(mario.walkState);
@@ -41,19 +43,21 @@ public class Mario_idle : Mario_state
 			stateMachine.ChangeState(mario.sitDown);
 		}
 
+
         //FIre
-        if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2 || 1==1))
+        if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2) && stateTimer2 <= 0f)
         {
-            if (isFlip)
-            {
-                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
-                a.GetComponent<Fire_Bullet>().faceDir = -1;
-            }
-            else
-            {
-                var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
-                a.GetComponent<Fire_Bullet>().faceDir = 1;
-            }
+			stateTimer2 = 0.5f; // fireTimer
+			if (isFlip)
+			{
+				var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
+				a.GetComponent<Fire_Bullet>().faceDir = -1;
+			}
+			else
+			{
+				var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorB.position, Quaternion.identity);
+				a.GetComponent<Fire_Bullet>().faceDir = 1;
+			}
         }
 
         if (mario.rb.velocity.y <= 0 && mario.IsPlayerDetected())

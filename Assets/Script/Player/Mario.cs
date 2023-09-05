@@ -46,8 +46,10 @@ public class Mario : MonoBehaviour
     public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
     public bool isStarMario = false;
 
-    //Star Mode
-    bool starCoroutineTrigger = true;
+    //public int maxBullet = 2;
+
+	//Star Mode
+	bool starCoroutineTrigger = true;
     float starTime = 5f;
     float starTimer = 0;
     Coroutine starModeColor;
@@ -311,26 +313,26 @@ public class Mario : MonoBehaviour
                     //collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
                 }
 
-            }
-            else if (collision.gameObject.GetComponent<Item_flower>() != null)
-            {
-                Debug.Log("flower !!" + marioMode);
-                if (marioMode == 0)
-                {
-                    marioMode = 2;
-                    stateMachine.ChangeState(smallFire);
-                }
-                else if (marioMode == 1)
-                {
-                    marioMode = 2;
-                    stateMachine.ChangeState(bigFire);
-                }
-            }
-            Destroy(collision.gameObject);
-        }
-        else if (collision.CompareTag("DeadZone"))
-        {
-            stateMachine.ChangeState(dieState);
+			}
+			else if (collision.gameObject.GetComponent<Item_flower>() != null)
+			{
+				Debug.Log("flower !!" + marioMode);
+				if (marioMode == 0)
+				{
+					marioMode = 2;
+					stateMachine.ChangeState(smallFire);
+				}
+				else if (marioMode == 1)
+				{
+					marioMode = 2;
+					stateMachine.ChangeState(bigFire);
+				}
+			}
+			PhotonNetwork.Destroy(collision.gameObject);
+		}
+		else if (collision.CompareTag("DeadZone"))
+		{
+			stateMachine.ChangeState(dieState);
         }
 
         if (collision.GetComponent<Flag>() != null && PV.IsMine)

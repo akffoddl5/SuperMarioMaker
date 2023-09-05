@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
 
 public class EditorPhoton : MonoBehaviourPunCallbacks
 {
@@ -31,7 +32,14 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        PhotonNetwork.JoinLobby();
+        if (UI_Editor.instance.isQuit)
+        {
+            SceneManager.LoadScene("LobbyScene");
+        }
+        else
+        {
+            PhotonNetwork.JoinLobby();
+        }
     }
 
     public override void OnJoinedLobby()
@@ -79,5 +87,12 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log("Room Join" + PhotonNetwork.CurrentRoom.Name);
         PhotonNetwork.LocalPlayer.NickName = "test";
+    }
+
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        Debug.Log("left lobby");
+        SceneManager.LoadScene("LobbyScene");
     }
 }
