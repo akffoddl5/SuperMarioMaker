@@ -309,7 +309,7 @@ public class Mario : MonoBehaviour
 			stateMachine.ChangeState(dieState);
         }
 
-		if (collision.GetComponent<Flag>() != null)
+		if (collision.GetComponent<Flag>() != null && PV.IsMine)
 		{
 			stateMachine.ChangeState(winState);
 			//string winnerMario = PhotonNetwork.NickName;
@@ -359,6 +359,8 @@ public class Mario : MonoBehaviour
 		// 1등의 위치로 카메라 이동시켜주기
 		StartCoroutine(MoveCamera(winnerPos));
 	}
+
+    
 	IEnumerator MoveCamera(Vector3 _winnerPos)
 	{
 		Debug.Log("MoveCamera 코루틴 실행!!!!!!!");
@@ -369,7 +371,7 @@ public class Mario : MonoBehaviour
 			yield return null;
 		}
 
-		
+        if (PV.IsMine)
 		Instantiate(soloStage, _winnerPos, Quaternion.identity);
 
 
