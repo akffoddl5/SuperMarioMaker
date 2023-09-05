@@ -13,8 +13,143 @@
         {
             "objectName": "GroundTile",
             "createPos": {
+                "x": -17.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -16.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -15.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -14.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -13.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -12.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -11.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -10.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -9.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
                 "x": -8.5,
-                "y": -6.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -29,7 +164,7 @@
             "objectName": "GroundTile",
             "createPos": {
                 "x": -7.5,
-                "y": -6.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -44,7 +179,7 @@
             "objectName": "GroundTile",
             "createPos": {
                 "x": -6.5,
-                "y": -6.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -59,7 +194,22 @@
             "objectName": "GroundTile",
             "createPos": {
                 "x": -5.5,
-                "y": -6.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -4.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -74,7 +224,22 @@
             "objectName": "GroundTile",
             "createPos": {
                 "x": -3.5,
-                "y": -6.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -2.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -89,7 +254,22 @@
             "objectName": "GroundTile",
             "createPos": {
                 "x": -1.5,
-                "y": -6.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -0.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -193,7 +373,7 @@
         {
             "objectName": "GroundTile",
             "createPos": {
-                "x": -2.5,
+                "x": 5.5,
                 "y": -6.5,
                 "z": 0.0
             },
@@ -208,7 +388,7 @@
         {
             "objectName": "GroundTile",
             "createPos": {
-                "x": -4.5,
+                "x": 6.5,
                 "y": -6.5,
                 "z": 0.0
             },
@@ -221,7 +401,382 @@
             "brickListInfo": []
         },
         {
-            "objectName": "Pipe",
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 7.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 7.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 6.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 5.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 4.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 3.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 2.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 1.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 0.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 8.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 10.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 12.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 13.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 11.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 9.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 8.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 9.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": 10.5,
+                "y": -7.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -13.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -12.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -11.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -10.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -9.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -8.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -7.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
             "createPos": {
                 "x": -6.5,
                 "y": -4.5,
@@ -229,7 +784,22 @@
             },
             "dirInfo": 0,
             "pipeLinkPos": {
-                "x": 0.5,
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": 5.5,
+                "y": -4.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 13.5,
                 "y": -3.5,
                 "z": 0.0
             },
@@ -238,7 +808,7 @@
         {
             "objectName": "Pipe",
             "createPos": {
-                "x": -6.5,
+                "x": 5.5,
                 "y": -5.5,
                 "z": 0.0
             },
@@ -251,15 +821,73 @@
             "brickListInfo": []
         },
         {
+            "objectName": "Brick",
+            "createPos": {
+                "x": -12.5,
+                "y": -1.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": [
+                1
+            ]
+        },
+        {
+            "objectName": "QuestionBrick0",
+            "createPos": {
+                "x": -9.5,
+                "y": -1.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": [
+                3,
+                3,
+                3,
+                3,
+                0
+            ]
+        },
+        {
+            "objectName": "IceBrick",
+            "createPos": {
+                "x": -6.5,
+                "y": -1.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": [
+                3,
+                3,
+                3,
+                2
+            ]
+        },
+        {
             "objectName": "Pipe",
             "createPos": {
-                "x": 0.5,
+                "x": 13.5,
                 "y": -3.5,
                 "z": 0.0
             },
-            "dirInfo": 2,
+            "dirInfo": 3,
             "pipeLinkPos": {
-                "x": -6.5,
+                "x": 5.5,
                 "y": -4.5,
                 "z": 0.0
             },
@@ -268,25 +896,40 @@
         {
             "objectName": "Pipe",
             "createPos": {
-                "x": 0.5,
+                "x": 14.5,
+                "y": -3.5,
+                "z": 0.0
+            },
+            "dirInfo": 3,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": 15.5,
+                "y": -3.5,
+                "z": 0.0
+            },
+            "dirInfo": 3,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "HardBrick",
+            "createPos": {
+                "x": 16.5,
                 "y": -2.5,
                 "z": 0.0
             },
-            "dirInfo": 2,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "HardBrick",
-            "createPos": {
-                "x": -5.5,
-                "y": -1.5,
-                "z": 0.0
-            },
             "dirInfo": 0,
             "pipeLinkPos": {
                 "x": 0.0,
@@ -298,78 +941,7 @@
         {
             "objectName": "HardBrick",
             "createPos": {
-                "x": -0.5,
-                "y": -1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "HardBrick",
-            "createPos": {
-                "x": 0.5,
-                "y": -1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "QuestionBrick0",
-            "createPos": {
-                "x": -2.5,
-                "y": -0.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": [
-                3,
-                3,
-                3
-            ]
-        },
-        {
-            "objectName": "Brick",
-            "createPos": {
-                "x": 0.5,
-                "y": -0.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ]
-        },
-        {
-            "objectName": "IceBrick",
-            "createPos": {
-                "x": 3.5,
+                "x": 16.5,
                 "y": -3.5,
                 "z": 0.0
             },
@@ -382,100 +954,10 @@
             "brickListInfo": []
         },
         {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -0.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -1.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
+            "objectName": "Boo",
             "createPos": {
                 "x": -2.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -4.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -6.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -7.5,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "dirInfo": 0,
-            "pipeLinkPos": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": -100.0
-            },
-            "brickListInfo": []
-        },
-        {
-            "objectName": "Coin",
-            "createPos": {
-                "x": -14.5,
-                "y": 1.5,
+                "y": -0.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -490,6 +972,36 @@
             "objectName": "Boo",
             "createPos": {
                 "x": 2.5,
+                "y": -0.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Boo",
+            "createPos": {
+                "x": 7.5,
+                "y": -0.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Boo",
+            "createPos": {
+                "x": 0.5,
                 "y": 0.5,
                 "z": 0.0
             },
@@ -502,10 +1014,10 @@
             "brickListInfo": []
         },
         {
-            "objectName": "Turtle",
+            "objectName": "Boo",
             "createPos": {
-                "x": -0.5,
-                "y": -5.5,
+                "x": 5.5,
+                "y": 0.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -517,10 +1029,10 @@
             "brickListInfo": []
         },
         {
-            "objectName": "QuestionBrick0",
+            "objectName": "GroundTile",
             "createPos": {
-                "x": -8.5,
-                "y": -0.5,
+                "x": -18.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -529,17 +1041,13 @@
                 "y": 0.0,
                 "z": -100.0
             },
-            "brickListInfo": [
-                2,
-                3,
-                0
-            ]
+            "brickListInfo": []
         },
         {
-            "objectName": "IceBrick",
+            "objectName": "GroundTile",
             "createPos": {
-                "x": -3.5,
-                "y": -2.5,
+                "x": -19.5,
+                "y": -7.5,
                 "z": 0.0
             },
             "dirInfo": 0,
@@ -548,11 +1056,97 @@
                 "y": 0.0,
                 "z": -100.0
             },
-            "brickListInfo": [
-                1,
-                0,
-                2
-            ]
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -22.5,
+                "y": -8.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -20.5,
+                "y": -8.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -18.5,
+                "y": -8.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -13.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -12.5,
+                "y": -6.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "GroundTile",
+            "createPos": {
+                "x": -12.5,
+                "y": -5.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
         }
     ]
 }
