@@ -93,7 +93,7 @@ public class Mario_state
 			{
 				isFlip = false;
 				PV.RPC("Flip", RpcTarget.All, false);
-			}
+            }
 		}
 		else if (xInput < 0)
 		{
@@ -102,7 +102,7 @@ public class Mario_state
 			{
 				isFlip = true;
 				PV.RPC("Flip", RpcTarget.All, true);
-			}
+            }
 		}
 	}
 }

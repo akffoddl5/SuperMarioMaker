@@ -114,7 +114,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: fa82b9fce9c77314a82868b7e673b105, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -160,6 +160,7 @@ MonoBehaviour:
   rb: {fileID: 6703873939076255258}
   koopa: {fileID: 4781645093070952391, guid: cd941cac8a4831b4f82b92d4b9b60c18, type: 3}
   fsecMove: 0
+  pickedState: 0
   PV: {fileID: 0}
 --- !u!50 &6703873939076255258
 Rigidbody2D:

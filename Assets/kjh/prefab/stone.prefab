@@ -133,7 +133,7 @@ Transform:
   - {fileID: 3793121940608581685}
   - {fileID: 8292281296252686410}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &503721571563727326
 MonoBehaviour:
@@ -150,13 +150,14 @@ MonoBehaviour:
   speed: 10
   groundCheck: {fileID: 8292281296252686410}
   groundCheckDistance: 20
-  groundCheckDistance_short: 0.7
+  groundCheckDistance_short: 0.79
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  cam: {fileID: 0}
 --- !u!50 &8648679494891500970
 Rigidbody2D:
   serializedVersion: 4
@@ -330,7 +331,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 277066630, guid: 46cd791168919f94482a9269c49950bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

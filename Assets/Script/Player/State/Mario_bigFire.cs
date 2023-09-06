@@ -16,14 +16,12 @@ public class Mario_bigFire : Mario_state
         stateTimer = 50 * Time.deltaTime;
         mario.collider_big.enabled = false;
         pos = mario.transform.position;
-        mario.GetComponent<Rigidbody2D>().Sleep();
     }
 
     public override void Exit()
     {
         base.Exit();
         mario.collider_big.enabled = true;
-        mario.GetComponent<Rigidbody2D>().WakeUp();
     }
 
     public override void Update()

@@ -19,6 +19,7 @@ public class Mario_smallFire : Mario_state
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
         pos = mario.transform.position;
+        
         //mario.GetComponent<Rigidbody2D>().Sleep();
         Debug.Log(PhotonNetwork.NickName + "small fire enter");
     }
@@ -28,6 +29,7 @@ public class Mario_smallFire : Mario_state
         base.Exit();
         Debug.Log(PhotonNetwork.NickName + "small fire exit");
         mario.collider_big.enabled = true;
+        mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 1);
         //mario.GetComponent<Rigidbody2D>().WakeUp();
     }
 

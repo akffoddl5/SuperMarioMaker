@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class Mario_SmallBig : Mario_state
     {
         base.Exit();
         mario.collider_big.enabled = true;
-        mario.GetComponent<Rigidbody2D>().WakeUp();
+        mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 1);
     }
 
     public override void Update()
