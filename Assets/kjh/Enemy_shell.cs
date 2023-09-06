@@ -51,8 +51,6 @@ public class Enemy_shell : MonoBehaviour
     void Update()
     {
         timer -= Time.deltaTime;
-
-        
     }
 
     private void FixedUpdate()

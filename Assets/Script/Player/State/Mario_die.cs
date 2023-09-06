@@ -12,15 +12,19 @@ public class Mario_die : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
+		Debug.Log(PV.name + " DieState 들어옴");
 		mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
+		Debug.Log(PV.name + " DieState AddForce 끝");
 
 		// collider 끄기 => 리스폰 돼야 하니까 리스폰 되면 다시 켜줘야 함
 		mario.GetComponent<CapsuleCollider2D>().enabled = false;
+		Debug.Log(PV.name + " DieState Collider2D 끝");
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+		Debug.Log(PV.name + " DieState 나감");
 	}
 
 	public override void Update()
@@ -28,5 +32,10 @@ public class Mario_die : Mario_state
 		base.Update();
 
 	}
+
+	//void MarioJumpDie()
+	//{
+
+	//}
 
 }

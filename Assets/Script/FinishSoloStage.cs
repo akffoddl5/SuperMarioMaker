@@ -11,6 +11,7 @@ public class FinishSoloStage : MonoBehaviour
 	Vector2 finishScale = new Vector2(3, 3);
 	Vector2 finishPosition; // 1µîÀÇ position
 
+	public GameObject obj_winTextCanvas;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -35,7 +36,8 @@ public class FinishSoloStage : MonoBehaviour
 			transform.localScale = tmp;
 			//Debug.Log("IEnumerator FinishGame_EF() µé¾î¿È!!!" + transform.localScale);
 			yield return new WaitForSeconds(0.01f);
-
 		}
+		// PlayerName win
+		Instantiate(obj_winTextCanvas, transform.position, Quaternion.identity);
 	}
 }
