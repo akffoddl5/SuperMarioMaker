@@ -16,7 +16,7 @@ public class Mario_jump : Mario_state
 
 	public override void Enter()
 	{
-        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
+        
 		if (!PV.IsMine)
 		{
 			return;
