@@ -12,6 +12,7 @@ public class Mario_walk : Mario_state
 	public override void Enter()
 	{
 		base.Enter();
+		stateTimer2 = 0.5f; // fireTimer
 	}
 
 	public override void Exit()
@@ -45,9 +46,9 @@ public class Mario_walk : Mario_state
 		}
 
 		//FIre
-        if (Input.GetKeyDown(KeyCode.X) && mario.marioMode == 2)
-        {
-            
+		if (Input.GetKeyDown(KeyCode.X) && PV.IsMine && (mario.marioMode == 2) && stateTimer2 <= 0f)
+		{
+			stateTimer2 = 0.5f; // fireTimer
 			if (isFlip) {
                 var a = PhotonNetwork.Instantiate("Prefabs/Fire_Bullet", mario.obj_bulletGeneratorA.position, Quaternion.identity);
                 a.GetComponent<Fire_Bullet>().faceDir = -1;

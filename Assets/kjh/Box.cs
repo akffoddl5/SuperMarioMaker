@@ -28,6 +28,8 @@ public class Box : MonoBehaviour
     public SpriteRenderer SR;
     public Sprite empty_SR;
 
+    public GameObject brokenBrick;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,7 @@ public class Box : MonoBehaviour
         for (int i = 0; i < init_item_num_list.Count; i++)
         {
             items.Enqueue(init_item_num_list[i]);
+
         }
 
         item_list.Add(_mushroom);
@@ -51,6 +54,7 @@ public class Box : MonoBehaviour
     void Update()
     {
         collision_cool -= Time.deltaTime;
+        //Debug.Log(items.Count);
     }
 
     public void Add_Item(int obj)
@@ -85,21 +89,23 @@ public class Box : MonoBehaviour
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
 
-                if (items.Count <= 0)
+                
+            }
+            else if (items.Count <= 0)
+            {
+                if (stateNum == 0)
                 {
-                    if (stateNum == 0)
-                    {
-                        //ºÎ¼ÅÁö±â
-                    }
-                    else
-                    {
-                        //³ª¹«·Î ¹Ù²î±â
-                        anim.Play("");
-                        SR.sprite = empty_SR;
-                    }
+                    //ºÎ¼ÅÁö±â
+                    Destroy(Instantiate(brokenBrick, transform.position, Quaternion.identity), 0.5f);
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    //³ª¹«·Î ¹Ù²î±â
+                    anim.Play("");
+                    SR.sprite = empty_SR;
                 }
             }
-
 
             //  Invoke("defort",0.3f);
         }

@@ -41,7 +41,7 @@ public class Mario : MonoBehaviour
     public AudioSource jump_audioSource;
     public AudioClip[] clips;
 
-	public GameObject endingEffect;
+    public GameObject endingEffect;
 
     public int marioMode = 0;   // 0: 일반 마리오, 1 : 빅마리오, 2: 꽃 마리오
     public bool isStarMario = false;
@@ -75,37 +75,39 @@ public class Mario : MonoBehaviour
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
 
-	//StateMachine
-	public Mario_stateMachine stateMachine;
+    //StateMachine
+    public Mario_stateMachine stateMachine;
 
-	public Mario_idle idleState;
-	public Mario_run runState;
-	public Mario_jump jumpState;
-	public Mario_slide slideState;
-	public Mario_walk walkState;
-	public Mario_kicked kickedState;
-	public Mario_sitDown sitDown;
-	public Mario_die dieState;
-	public Mario_stamp stampState;
-	public Mario_BigSmall bigSmall;
-	public Mario_SmallBig smallBig;
-	public Mario_smallFire smallFire;
-	public Mario_bigFire bigFire;
-	public Mario_win winState;
+    public Mario_idle idleState;
+    public Mario_run runState;
+    public Mario_jump jumpState;
+    public Mario_slide slideState;
+    public Mario_walk walkState;
+    public Mario_kicked kickedState;
+    public Mario_sitDown sitDown;
+    public Mario_die dieState;
+    public Mario_stamp stampState;
+    public Mario_BigSmall bigSmall;
+    public Mario_SmallBig smallBig;
+    public Mario_smallFire smallFire;
+    public Mario_bigFire bigFire;
+    public Mario_win winState;
 
-	public Mario_Shell_idle mario_Shell_Idle;
-	public Mario_Shell_jump mario_Shell_Jump;
-	public Mario_Shell_run mario_Shell_Run;
-	public Mario_Shell_stamp mario_Shell_Stamp;
-	public Mario_Shell_walk mario_Shell_Walk;
-	public Mario_Shell_Slide mario_Shell_Slide;
+    public Mario_Shell_idle mario_Shell_Idle;
+    public Mario_Shell_jump mario_Shell_Jump;
+    public Mario_Shell_run mario_Shell_Run;
+    public Mario_Shell_stamp mario_Shell_Stamp;
+    public Mario_Shell_walk mario_Shell_Walk;
+    public Mario_Shell_Slide mario_Shell_Slide;
 
     public PhotonView PV;
 
+    public GameObject pickedShell;
+
     private void Awake()
     {
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        //PhotonNetwork.SendRate = 60;
+        //PhotonNetwork.SerializationRate = 30;
 
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody2D>();
@@ -120,29 +122,29 @@ public class Mario : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-		stateMachine = new Mario_stateMachine();
+        stateMachine = new Mario_stateMachine();
 
-		idleState = new Mario_idle(this, stateMachine, "Idle");
-		walkState = new Mario_walk(this, stateMachine, "Walk");
-		runState = new Mario_run(this, stateMachine, "Run");
-		jumpState = new Mario_jump(this, stateMachine, "Jump");
-		slideState = new Mario_slide(this, stateMachine, "Slide");
-		kickedState = new Mario_kicked(this, stateMachine, "Kicked");
-		sitDown = new Mario_sitDown(this, stateMachine, "Sit");
-		dieState = new Mario_die(this, stateMachine, "Die");
-		stampState = new Mario_stamp(this, stateMachine, "Jump");
-		bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
-		smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
-		smallFire = new Mario_smallFire(this, stateMachine, "SmallToFire");
-		bigFire = new Mario_bigFire(this, stateMachine, "BigToFire");
-		winState = new Mario_win(this, stateMachine, "Win");
+        idleState = new Mario_idle(this, stateMachine, "Idle");
+        walkState = new Mario_walk(this, stateMachine, "Walk");
+        runState = new Mario_run(this, stateMachine, "Run");
+        jumpState = new Mario_jump(this, stateMachine, "Jump");
+        slideState = new Mario_slide(this, stateMachine, "Slide");
+        kickedState = new Mario_kicked(this, stateMachine, "Kicked");
+        sitDown = new Mario_sitDown(this, stateMachine, "Sit");
+        dieState = new Mario_die(this, stateMachine, "Die");
+        stampState = new Mario_stamp(this, stateMachine, "Jump");
+        bigSmall = new Mario_BigSmall(this, stateMachine, "BigToSmall");
+        smallBig = new Mario_SmallBig(this, stateMachine, "SmallToBig");
+        smallFire = new Mario_smallFire(this, stateMachine, "SmallToFire");
+        bigFire = new Mario_bigFire(this, stateMachine, "BigToFire");
+        winState = new Mario_win(this, stateMachine, "Win");
 
-		mario_Shell_Idle = new Mario_Shell_idle(this, stateMachine, "Idle");
+        mario_Shell_Idle = new Mario_Shell_idle(this, stateMachine, "Idle");
         mario_Shell_Jump = new Mario_Shell_jump(this, stateMachine, "Shell_Jump");
         mario_Shell_Run = new Mario_Shell_run(this, stateMachine, "Run");
         mario_Shell_Stamp = new Mario_Shell_stamp(this, stateMachine, "Shell_Jump");
         mario_Shell_Walk = new Mario_Shell_walk(this, stateMachine, "Walk");
-		mario_Shell_Slide = new Mario_Shell_Slide(this, stateMachine, "Slide");
+        mario_Shell_Slide = new Mario_Shell_Slide(this, stateMachine, "Slide");
     }
 
     [PunRPC]
@@ -184,6 +186,23 @@ public class Mario : MonoBehaviour
             spriteRenderer.color = Color.white;
         }
 
+        
+
+    }
+
+    [PunRPC]
+    public void SetCollider(int _val)
+    {
+        if (_val != 0)
+        {
+            collider.enabled = false;
+            collider_big.enabled = true;
+        }
+        else
+        {
+            collider.enabled = true;
+            collider_big.enabled = false;
+        }
     }
 
     //// 부활 만들기
@@ -210,96 +229,111 @@ public class Mario : MonoBehaviour
         }
     }
 
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		//Debug.Log("enter");
-		// starMode kill enemy script
-		if (collision.gameObject.CompareTag("Enemy"))
-		{
-			if (isStarMario)
-			{
-				if (collision.gameObject.GetComponent<Enemy>() != null)
-				{
-					collision.gameObject.GetComponent<Enemy>().FilpOverDie();
-				}
-				else if (collision.gameObject.GetComponent<Enemy_shell>() != null
-					&& collision.gameObject.GetComponent<Enemy_shell>().fsecMove == true)
-				{
-					// kill moving enemy_shell
-					collision.gameObject.GetComponent<Enemy_shell>().FilpOverDie();
-				}
-				return;
-			}
-		}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log("enter");
+        // starMode kill enemy script
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isStarMario)
+            {
+                if (collision.gameObject.GetComponent<Enemy>() != null)
+                {
+                    collision.gameObject.GetComponent<Enemy>().FilpOverDie();
+                }
+                else if (collision.gameObject.GetComponent<Enemy_shell>() != null
+                    && collision.gameObject.GetComponent<Enemy_shell>().fsecMove == true)
+                {
+                    // kill moving enemy_shell
+                    collision.gameObject.GetComponent<Enemy_shell>().FilpOverDie();
+                }
+                return;
+            }
+        }
 
-		//밑에 적이 있음 == 죽으면 안 됨
-		if (IsEnemyDetected() != null)
-		{
-			return;
-		}
-		else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
-		{
-			//Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
-			// 멈춰있는 거북이 등딱지에 맞으면 삶
-			if (collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)
-			{
-				collision.gameObject.GetComponent<Enemy_shell>().fsecMove = true;
-				return;
-			}
-			else
-			{
-				if (marioMode > 0)
-				{
-					stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
-				}
-				else
-				{
-					stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
-				}
+        //밑에 적이 있음 == 죽으면 안 됨
+        if (IsEnemyDetected() != null)
+        {
+            return;
+        }
+        else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+        {
+            //Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
+            // 멈춰있는 거북이 등딱지에 맞으면 삶
+            if (collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)
+            {
+                //Debug.Log("등딱지 닿음");
+                if (Input.GetKey(KeyCode.C))
+                {
+                    //Debug.Log("C 누르고 있음");
+                    pickedShell = collision.gameObject;
+                    pickedShell.GetComponent<Enemy_shell>().pickedState = true;
+                    pickedShell.GetComponent<Enemy_shell>().pickedPlayer = gameObject;
+                    pickedShell.GetComponent<Collider2D>().isTrigger = true;
+                    pickedShell.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    pickedShell.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                    stateMachine.ChangeState(mario_Shell_Idle);
+                }
+                else
+                    collision.gameObject.GetComponent<Enemy_shell>().fsecMove = true;
+                return;
+            }
+            else
+            {
+                if (marioMode > 0)
+                {
+                    stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+                }
+                else
+                {
+                    stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+                }
 
-			}
-		}
-		else if (collision.gameObject.GetComponent<Goomba>() != null)
-		{
-			// isFlat Goomba No die
-			if (collision.gameObject.GetComponent<Goomba>().isFlat) return;
-		}
-		else if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
-		{
-			if (marioMode > 0)
-			{
-				stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
-			}
-			else
-			{
-				stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
-			}
-		}
+            }
+        }
+        else if (collision.gameObject.GetComponent<Goomba>() != null && collision.gameObject.GetComponent<Goomba>().isFlat)
+        {
+            // isFlat Goomba No die
+        }
+        else if (collision.gameObject.CompareTag("Enemy") && IsEnemyDetected() == null)
+        {
+            Debug.Log("flag2");
+            if (marioMode > 0)
+            {
+            Debug.Log("flag3");
+                stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
+            else
+            {
+            Debug.Log("flag4");
+                stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
+            }
+        }
 
 
-	}
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		//Item
-		if (collision.CompareTag("Item"))
-		{
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Item
+        if (collision.CompareTag("Item") && PV.IsMine)
+        {
 
-			if (collision.GetComponent<Item_Star>() != null)
-			{
-				// star
-				isStarMario = true;
-				starTimer = starTime; // starTime init
-									  //Debug.Log("star 먹음!!!!!!!!!!!!!: " + isStarMario);
-			}
-			else if (collision.GetComponent<Item_mushroom>() != null)
-			{
-				// mushroom
-				if (marioMode == 0)
-				{
-					marioMode = 1;
-					stateMachine.ChangeState(smallBig);
-					//collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
-				}
+            if (collision.GetComponent<Item_Star>() != null)
+            {
+                // star
+                isStarMario = true;
+                starTimer = starTime; // starTime init
+                                      //Debug.Log("star 먹음!!!!!!!!!!!!!: " + isStarMario);
+            }
+            else if (collision.GetComponent<Item_mushroom>() != null)
+            {
+                // mushroom
+                if (marioMode == 0)
+                {
+                    marioMode = 1;
+                    stateMachine.ChangeState(smallBig);
+                    //collision.gameObject.GetComponent<Rigidbody2D>().Sleep();
+                }
 
 			}
 			else if (collision.gameObject.GetComponent<Item_flower>() != null)
@@ -316,62 +350,66 @@ public class Mario : MonoBehaviour
 					stateMachine.ChangeState(bigFire);
 				}
 			}
-			PhotonNetwork.Destroy(collision.gameObject);
+
+            Destroy(collision.gameObject);
+
 		}
+
 		else if (collision.CompareTag("DeadZone"))
 		{
+            Debug.Log("죽어");
 			stateMachine.ChangeState(dieState);
         }
 
-		if (collision.GetComponent<Flag>() != null && PV.IsMine)
-		{
-			stateMachine.ChangeState(winState);
-			//string winnerMario = PhotonNetwork.NickName;
+        if (collision.GetComponent<Flag>() != null && PV.IsMine)
+        {
+            stateMachine.ChangeState(winState);
+            //string winnerMario = PhotonNetwork.NickName;
 
-			// 모든 마리오의 rb를 꺼서 움직이지 못하게 하자
-			// 다음 스테이지 갈 거면 GameEnd()에 bool 인자 주면 됨
-			int winnerPlayerId = PV.ViewID; // 1001, 2001, 3001, ...
-			// Debug.Log("winnerPlayerId" + winnerPlayerId);
-			PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
-		}
-	}
+            // 모든 마리오의 rb를 꺼서 움직이지 못하게 하자
+            // 다음 스테이지 갈 거면 GameEnd()에 bool 인자 주면 됨
+            int winnerPlayerId = PV.ViewID; // 1001, 2001, 3001, ...
+                                            // Debug.Log("winnerPlayerId" + winnerPlayerId);
+            PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
+        }
+    }
 
-	[PunRPC]
-	public void GameEnd(int _winnerId)
-	{
-		// 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
-		//rb.Sleep();
-		//rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    [PunRPC]
+    public void GameEnd(int _winnerId)
+    {
+        // 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
+        //rb.Sleep();
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-		//Cinemachine 카메라 이동
-		if (GameObject.Find("Virtual Camera") != null)
-		{
-			virtual_camera = GameObject.Find("Virtual Camera");
-			Destroy(virtual_camera);
-		}
+        //Cinemachine 카메라 이동
+        if (GameObject.Find("Virtual Camera") != null)
+        {
+            virtual_camera = GameObject.Find("Virtual Camera");
+            Destroy(virtual_camera);
+        }
 
-		// 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
-		Mario[] allMario = GameObject.FindObjectsOfType<Mario>();
-		Debug.Log("allMario.Length" + allMario.Length); // 2나옴
-		Vector3 winnerPos = new Vector3(200, 200, -1);
+        // 모든 플레이어 가져와서 다 Sleep 시켜줘야 함
+        Mario[] allMario = GameObject.FindObjectsOfType<Mario>();
+        Debug.Log("allMario.Length" + allMario.Length); // 2나옴
+        Vector3 winnerPos = new Vector3(200, 200, -1);
 
-		for (int i = 0; i < allMario.Length; i++)
-		{
-			Debug.Log("allMario[i]: " + allMario[i]);
-			
+        for (int i = 0; i < allMario.Length; i++)
+        {
+            Debug.Log("allMario[i]: " + allMario[i]);
+
             allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
-			
-			Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
-			if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
-			{
-				Vector2 marioPos = allMario[i].gameObject.transform.position;
-				winnerPos = new Vector3 (marioPos.x, marioPos.y, -1) ;
-			}
-		}
-		
-		// 1등의 위치로 카메라 이동시켜주기
-		StartCoroutine(MoveCamera(winnerPos));
-	}
+
+            Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
+            if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
+            {
+                Vector2 marioPos = allMario[i].gameObject.transform.position;
+                winnerPos = new Vector3(marioPos.x, marioPos.y, -1);
+            }
+        }
+
+        // 1등의 위치로 카메라 이동시켜주기
+        StartCoroutine(MoveCamera(winnerPos));
+    }
 
     
 	IEnumerator MoveCamera(Vector3 _winnerPos)
@@ -383,9 +421,6 @@ public class Mario : MonoBehaviour
 			Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, _winnerPos, 0.35f);
 			yield return null;
 		}
-
-
-
     }
 
     //public bool IsGroundDetected() => Physics2D.Raycast(obj_isGround.position, Vector2.down, groundCheckDist, whatIsGround);
