@@ -30,11 +30,6 @@ public class Pipe_top : MonoBehaviour
     //이어진 파이프 vector2값
     public Vector2 connectPipeVec;
 
-    public GameObject connectPipe;
-
-    int pipeOriDir;
-    int pipeConDir;
-
     private void Awake()
     {
         if (Player != null)
@@ -57,6 +52,7 @@ public class Pipe_top : MonoBehaviour
         lineRenderer.endWidth = lineWidth;
         lineRenderer.SetPosition(0, myTransform.position);
         lineRenderer.SetPosition(1, myTransform.position);
+
     }
 
     // Update is called once per frame
@@ -71,23 +67,15 @@ public class Pipe_top : MonoBehaviour
             if (linkObjectPos == new Vector3(0, 0, -100))
             {
                 lineRenderer.SetPosition(1, mousePos);
+
+                connectPipeVec = lineRenderer.GetPosition(1);
+                oriPipeVec = lineRenderer.GetPosition(0);
             }
             else
             {
                 lineRenderer.SetPosition(1, linkObjectPos);
             }
-
-            connectPipeVec = lineRenderer.GetPosition(1);
-            oriPipeVec = lineRenderer.GetPosition(0);
-
-            pipeOriDir = this.gameObject.GetComponent<Pipe_top>().dirInfo;
-
-            Debug.Log(oriPipeVec);
-            Debug.Log(connectPipeVec);
-            Debug.Log(pipeConDir);
-            Debug.Log(pipeOriDir);
         }
-
 
         //동작 OnOff, 라인렌더러 OffOn
         if (!isActive)
@@ -100,10 +88,17 @@ public class Pipe_top : MonoBehaviour
             lineRenderer.enabled = false;
         }
 
-        //파이프 동작 코드
-        {
+        //Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    connectPipeVec = mouseposition;
+        //}
+
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    oriPipeVec = mouseposition;
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -145,7 +140,6 @@ public class Pipe_top : MonoBehaviour
                     break;
 
                 default: break;
-
             }
         }
     }
@@ -153,21 +147,19 @@ public class Pipe_top : MonoBehaviour
     private void pipeDir(string Dir)
     {
         StartCoroutine($"slow{Dir}");
-    }
 
-    #region slowDir_pipeIn
-
-    IEnumerator slowDown()
-    {
         rb.gravityScale = 0;
         cc.enabled = false;
         sr.sortingOrder = -1;
+    }
 
+    IEnumerator slowDown()
+    {
         for (int i = 0; i < 4; i++)
         {
             rb.velocity = Vector2.zero;
             yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, -0.4f));
+            Player[playerNum].transform.Translate(new Vector2(0, -0.01f));
         }
 
         pipeMovement();
@@ -175,71 +167,36 @@ public class Pipe_top : MonoBehaviour
 
     IEnumerator slowUp()
     {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
         for (int i = 0; i < 4; i++)
         {
             rb.velocity = Vector2.zero;
             yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, 0.4f));
+            Player[playerNum].transform.Translate(new Vector2(0, 0.01f));
         }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
         pipeMovement();
     }
 
     IEnumerator slowLeft()
     {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
         for (int i = 0; i < 4; i++)
         {
             rb.velocity = Vector2.zero;
             yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(-0.4f, 0));
+            Player[playerNum].transform.Translate(new Vector2(-0.01f, 0));
         }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
         pipeMovement();
     }
 
     IEnumerator slowRight()
     {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
         for (int i = 0; i < 4; i++)
         {
             rb.velocity = Vector2.zero;
             yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0.4f, 0));
+            Player[playerNum].transform.Translate(new Vector2(0.01f, 0));
         }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
 
         pipeMovement();
-    }
-    #endregion
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject == Player[playerNum])
-        {
-            pipeConDir = pipeOriDir;
-        }
     }
 
     private void pipeMovement()
@@ -247,67 +204,24 @@ public class Pipe_top : MonoBehaviour
         if (Player[playerNum].transform.position.x - oriPipeVec.x < 1.2f
             && Player[playerNum].transform.position.x - oriPipeVec.x > -1.2f)
         {
+            new WaitForSeconds(0.3f);
             Player[playerNum].transform.position = connectPipeVec;
-            StartCoroutine(pipeOutMovement(pipeConDir));
+
+            rb.gravityScale = 3;
+            cc.enabled = true;
+            sr.sortingOrder = 1;
+
         }
 
         else if (Player[playerNum].transform.position.x - connectPipeVec.x < 1.2f
             && Player[playerNum].transform.position.x - connectPipeVec.x > -1.2f)
         {
+            new WaitForSeconds(0.3f);
             Player[playerNum].transform.position = oriPipeVec;
-            StartCoroutine(pipeOutMovement(pipeOriDir));
+
+            rb.gravityScale = 3;
+            sr.sortingOrder = 1;
+            cc.enabled = true;
         }
-    }
-
-    IEnumerator pipeOutMovement(int InOut)
-    {
-        switch (InOut)
-        {
-            //입구 위
-            case 0:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(0, +0.4f));
-                }
-                break;
-
-            //입구 오른쪽
-            case 1:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(+0.4f, 0));
-                }
-                break;
-
-            //입구 왼쪽
-            case 3:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(-0.4f, 0));
-                }
-                break;
-
-            //입구 아래
-            case 2:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(0, -0.4f));
-                }
-                break;
-
-            default: break;
-        }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
-        yield return new WaitForSeconds(0.5f);
     }
 }
-
-
