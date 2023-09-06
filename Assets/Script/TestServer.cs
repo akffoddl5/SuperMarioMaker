@@ -18,13 +18,9 @@ public class TestServer : MonoBehaviourPunCallbacks
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 20;
 
-
-
-		options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", "test" }, { "room_name", "test" }, { "room_state", "test" } };
+		options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "master_name", "test" }, { "room_name", "test" }, { "room_state", "test" }, { "editor", false } };
 		//options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-		options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state" };
-
-
+		options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state", "editor" };
 
 
 		PhotonNetwork.JoinOrCreateRoom("TESTSERVER1", options, null);

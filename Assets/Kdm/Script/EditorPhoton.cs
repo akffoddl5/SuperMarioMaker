@@ -58,10 +58,10 @@ public class EditorPhoton : MonoBehaviourPunCallbacks
         options.MaxPlayers = _max_player;
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
-        options.CustomRoomProperties = new Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title }, { "room_state", true } };
+        options.CustomRoomProperties = new Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title }, { "room_state", true }, { "editor", true } };
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-        options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state" };
+        options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state", "editor" };
 
 
         bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
