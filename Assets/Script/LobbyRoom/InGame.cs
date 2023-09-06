@@ -5,9 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGame : MonoBehaviourPunCallbacks 
+public class InGame : MonoBehaviourPunCallbacks
 {
-    
+
     object myFrefab;
     private void Awake()
     {
@@ -21,6 +21,13 @@ public class InGame : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate((string)myFrefab, Vector3.zero, Quaternion.identity);
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.INGAME_BGM, true, 0);
 
+        //MakeMap();
     }
 
+    void MakeMap()
+    {
+        string flieName = "name";
+        int fileNum = 0;
+        BuildSystem.instance.MakeMap(flieName, fileNum);
+    }
 }

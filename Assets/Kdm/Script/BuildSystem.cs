@@ -133,6 +133,9 @@ public class BuildSystem : MonoBehaviour
 
     [SerializeField] GameObject[] mapBoundary;
 
+    [SerializeField] Transform cameraLimitPos_start;
+    [SerializeField] Transform[] cameraLimitPos_end;
+
 
     private void Awake()
     {
@@ -209,6 +212,20 @@ public class BuildSystem : MonoBehaviour
         //Camera.main.transform.Translate(moveX * cameraSpeed * Time.deltaTime,
         //    moveY * cameraSpeed * Time.deltaTime, 0);
 
+        //카메라 리미트 지정
+        float posX = virtualCamera.transform.position.x;
+        float posY = virtualCamera.transform.position.y;
+        if (virtualCamera.transform.position.x <= cameraLimitPos_start.position.x+ 11.61f)
+            posX = cameraLimitPos_start.position.x+ 11.61f;
+        else if (virtualCamera.transform.position.x >= cameraLimitPos_end[mapScaleNum].position.x - 11.61f)
+            posX = cameraLimitPos_end[mapScaleNum].position.x - 11.61f;
+
+        if (virtualCamera.transform.position.y <= cameraLimitPos_start.position.y + 6.52f)
+            posY = cameraLimitPos_start.position.y + 6.52f;
+        else if (virtualCamera.transform.position.y >= cameraLimitPos_end[mapScaleNum].position.y - 6.52f)
+            posY = cameraLimitPos_end[mapScaleNum].position.y - 6.52f;
+
+        virtualCamera.transform.position = new Vector3(posX, posY, virtualCamera.transform.position.z);
     }
 
     private void ClickSetTile()
@@ -680,7 +697,12 @@ public class BuildSystem : MonoBehaviour
         {
             if ((string)objectList[i][0] == "Mario")
             {
-                ((GameObject)objectList[i][7]).transform.position = playerStartPos;
+                GameObject player;
+                player = PhotonNetwork.Instantiate("Prefabs/Mario", playerStartPos, Quaternion.identity);
+                player.SetActive(false);
+                Destroy((GameObject)objectList[i][7]);
+                objectList[i][7] = player;
+
             }
 
             if ((string)objectList[i][0] != "Pipe" && (string)objectList[i][0] != "Brick" &&
@@ -759,6 +781,7 @@ public class BuildSystem : MonoBehaviour
                     createPipe.GetComponent<Pipe_top>().dirInfo = creatObjList[i].dirInfo;
 
                     createPipe.GetComponent<Pipe_top>().lineActive = true;
+                    createPipe.GetComponent<Pipe_top>().isActive = true;
                 }
                 else
                 {
