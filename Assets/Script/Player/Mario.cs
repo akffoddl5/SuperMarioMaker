@@ -300,12 +300,13 @@ public class Mario : MonoBehaviour
             Debug.Log("flag2");
             if (marioMode > 0)
             {
-            Debug.Log("flag3");
-                stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
+                Debug.Log("flag3");
+                stateMachine.ChangeState(bigSmall); // 움직이는 거북이 등딱지에 맞으면 small mario됨
             }
             else
             {
-            Debug.Log("flag4");
+                Debug.Log("flag4");
+                //small mario가 맞으면 죽음
                 stateMachine.ChangeState(dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
             }
         }
@@ -351,7 +352,8 @@ public class Mario : MonoBehaviour
 				}
 			}
 
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Item>().Destroy_item();
+            //Destroy(collision.gameObject);
 
 		}
 

@@ -63,6 +63,7 @@ MonoBehaviour:
   - SetCollider
   - Photon_RigidBody_Off
   - Photon_RigidBody_On
+  - RPC_Destroy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

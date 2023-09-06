@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class Mario_bigFire : Mario_state
         base.Enter(); 
         stateTimer = 50 * Time.deltaTime;
         mario.collider_big.enabled = false;
+        mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
         pos = mario.transform.position;
     }
 
@@ -23,6 +25,7 @@ public class Mario_bigFire : Mario_state
     {
         
         base.Exit();
+        mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.collider_big.enabled = true;
     }
 
