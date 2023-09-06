@@ -16,11 +16,13 @@ public class Mario_jump : Mario_state
 
 	public override void Enter()
 	{
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
 		if (!PV.IsMine)
 		{
 			return;
 		}
-		base.Enter();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
+        base.Enter();
 		last_velocity_y = 0;
 		stateTimer = 103 * Time.deltaTime;
 		jumpMoveSpeed = mario.rb.velocity.x;
@@ -74,8 +76,8 @@ public class Mario_jump : Mario_state
         //Debug.Log("jump.." + mario.rb.velocity.y);
         base.Update();
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
-		{
-			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
+        {
+            mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
 			stateTimer = -1;
 		}
 

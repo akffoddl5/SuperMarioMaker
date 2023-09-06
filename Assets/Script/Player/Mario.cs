@@ -352,7 +352,8 @@ public class Mario : MonoBehaviour
 				}
 			}
 
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Item>().Destroy_item();
+            //Destroy(collision.gameObject);
 
 		}
 
@@ -373,6 +374,18 @@ public class Mario : MonoBehaviour
                                             // Debug.Log("winnerPlayerId" + winnerPlayerId);
             PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
         }
+    }
+
+    [PunRPC]
+    public void Photon_RigidBody_Off()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = false;
+    }
+
+    [PunRPC]
+    public void Photon_RigidBody_On()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = true;
     }
 
     [PunRPC]

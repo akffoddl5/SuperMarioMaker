@@ -59,6 +59,7 @@ public class Enemy_Koopa : Enemy
 	public override void FilpOverDie()
 	{
 		base.FilpOverDie();
+
         isDie = true;
 	}
 

@@ -10,6 +10,7 @@ public class WIndowManager : MonoBehaviour
     public static WIndowManager instance;
 
     public int mapNum = 0;
+    public string nickName;
 
 
     private void Awake()

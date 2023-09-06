@@ -11,20 +11,21 @@ public class Mario_die : Mario_state
 
 	public override void Enter()
 	{
-		base.Enter();
-		Debug.Log(PV.name + " DieState µé¾î¿È");
-		mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
-		Debug.Log(PV.name + " DieState AddForce ³¡");
 
-		// collider ²ô±â => ¸®½ºÆù µÅ¾ß ÇÏ´Ï±î ¸®½ºÆù µÇ¸é ´Ù½Ã ÄÑÁà¾ß ÇÔ
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.MARIO_DIE, false, 2);
+        base.Enter();
+		mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
+		Debug.Log(PV.name + " DieState AddForce ï¿½ï¿½");
+
+		// collider ï¿½ï¿½ï¿½ï¿½ => ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¾ï¿½ ï¿½Ï´Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		mario.GetComponent<CapsuleCollider2D>().enabled = false;
-		Debug.Log(PV.name + " DieState Collider2D ³¡");
+		Debug.Log(PV.name + " DieState Collider2D ï¿½ï¿½");
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
-		Debug.Log(PV.name + " DieState ³ª°¨");
+		Debug.Log(PV.name + " DieState ï¿½ï¿½ï¿½ï¿½");
 	}
 
 	public override void Update()

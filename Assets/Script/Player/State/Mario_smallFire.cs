@@ -13,22 +13,25 @@ public class Mario_smallFire : Mario_state
 
     public override void Enter()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_UP, false, 2);
         base.Enter();
         stateTimer = 50 * Time.deltaTime;
         mario.collider.enabled = false;
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
         pos = mario.transform.position;
-        
+        mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
         //mario.GetComponent<Rigidbody2D>().Sleep();
         Debug.Log(PhotonNetwork.NickName + "small fire enter");
     }
 
     public override void Exit()
     {
+      
         base.Exit();
         Debug.Log(PhotonNetwork.NickName + "small fire exit");
         mario.collider_big.enabled = true;
+        mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 1);
         //mario.GetComponent<Rigidbody2D>().WakeUp();
     }

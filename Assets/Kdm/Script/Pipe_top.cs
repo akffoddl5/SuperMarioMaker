@@ -1,5 +1,7 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -10,6 +12,7 @@ public class Pipe_top : MonoBehaviour
     public Transform MyTransform;
     public Transform myTransform { get { return MyTransform; } }
     public Vector3 linkObjectPos { get; set; } = new Vector3(0, 0, -100);
+
     public GameObject linkObject;
     public bool lineActive { get; set; } = false;
 
@@ -21,32 +24,23 @@ public class Pipe_top : MonoBehaviour
     CapsuleCollider2D cc;
     SpriteRenderer sr;
 
-    //전체 플레이어 배열로
-    GameObject[] Player;
+    GameObject Player;
     //플레이어 숫자 변수
     int playerNum;
     //기존 파이프 vector2값
-    public Vector2 oriPipeVec;
+    public Vector3 oriPipeVec;
     //이어진 파이프 vector2값
-    public Vector2 connectPipeVec;
-
-    public GameObject connectPipe;
-
-    int pipeOriDir;
-    int pipeConDir;
+    public Vector3 connectPipeVec;
 
     private void Awake()
     {
-        if (Player != null)
-        {
-            Player = GameObject.FindGameObjectsWithTag("Player");
-            rb = Player[playerNum].GetComponent<Rigidbody2D>();
-            cc = Player[playerNum].GetComponent<CapsuleCollider2D>();
-            sr = Player[playerNum].GetComponent<SpriteRenderer>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        rb = Player.GetComponent<Rigidbody2D>();
+        cc = Player.GetComponent<CapsuleCollider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
-            Player[playerNum].GetComponent<Transform>();
-            Player[playerNum].GetComponent<Animator>();
-        }
+        Player.GetComponent<Transform>();
+        Player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -76,18 +70,7 @@ public class Pipe_top : MonoBehaviour
             {
                 lineRenderer.SetPosition(1, linkObjectPos);
             }
-
-            connectPipeVec = lineRenderer.GetPosition(1);
-            oriPipeVec = lineRenderer.GetPosition(0);
-
-            pipeOriDir = this.gameObject.GetComponent<Pipe_top>().dirInfo;
-
-            //Debug.Log(oriPipeVec);
-            //Debug.Log(connectPipeVec);
-            //Debug.Log(pipeConDir);
-            //Debug.Log(pipeOriDir);
         }
-
 
         //동작 OnOff, 라인렌더러 OffOn
         if (!isActive)
@@ -100,214 +83,64 @@ public class Pipe_top : MonoBehaviour
             lineRenderer.enabled = false;
         }
 
-        //파이프 동작 코드
-        {
+        //Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    connectPipeVec = mouseposition;
+        //}
+
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    oriPipeVec = mouseposition;
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject == Player[playerNum])
+        if (collision.gameObject.CompareTag("Player"))
         {
-            switch (dirInfo)
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                //입구 위
-                case 0:
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
-                    {
-                        pipeDir("Down");
-                    }
-                    break;
-
-                //입구 오른쪽
-                case 1:
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        pipeDir("Left");
-                    }
-                    break;
-
-                //입구 왼쪽
-                case 3:
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
-                    {
-                        pipeDir("Right");
-                    }
-                    break;
-
-                //입구 아래
-                case 2:
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
-                    {
-                        pipeDir("Up");
-                    }
-                    break;
-
-                default: break;
-
+                pipeDir();
             }
         }
     }
 
-    private void pipeDir(string Dir)
-    {
-        StartCoroutine($"slow{Dir}");
-    }
-
-    #region slowDir_pipeIn
-
-    IEnumerator slowDown()
+    private void pipeDir()
     {
         rb.gravityScale = 0;
         cc.enabled = false;
-        sr.sortingOrder = -1;
+        sr.sortingOrder = 2;
 
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, -0.4f));
-        }
+        rb.velocity = Vector2.zero;
+        Player.transform.position = Vector3.MoveTowards(Player.transform.position, oriPipeVec, 0.1f);
 
         pipeMovement();
-    }
-
-    IEnumerator slowUp()
-    {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, 0.4f));
-        }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
-        pipeMovement();
-    }
-
-    IEnumerator slowLeft()
-    {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(-0.4f, 0));
-        }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
-        pipeMovement();
-    }
-
-    IEnumerator slowRight()
-    {
-        rb.gravityScale = 0;
-        cc.enabled = false;
-        sr.sortingOrder = -1;
-
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0.4f, 0));
-        }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
-        pipeMovement();
-    }
-    #endregion
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject == Player[playerNum])
-        {
-            pipeConDir = pipeOriDir;
-        }
     }
 
     private void pipeMovement()
     {
-        if (Player[playerNum].transform.position.x - oriPipeVec.x < 1.2f
-            && Player[playerNum].transform.position.x - oriPipeVec.x > -1.2f)
+        if (Player.transform.position.x - myTransform.position.x < 1.2f
+            && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
-            Player[playerNum].transform.position = connectPipeVec;
-            StartCoroutine(pipeOutMovement(pipeConDir));
+            new WaitForSeconds(0.3f);
+            Player.transform.position = linkObjectPos;
+
+            rb.gravityScale = 3;
+            cc.enabled = true;
+            sr.sortingOrder = 1;
         }
 
-        else if (Player[playerNum].transform.position.x - connectPipeVec.x < 1.2f
-            && Player[playerNum].transform.position.x - connectPipeVec.x > -1.2f)
+        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
+            && Player.transform.position.x - linkObjectPos.x > -1.2f)
         {
-            Player[playerNum].transform.position = oriPipeVec;
-            StartCoroutine(pipeOutMovement(pipeOriDir));
+            new WaitForSeconds(0.3f);
+            Player.transform.position = myTransform.position;
+
+            rb.gravityScale = 3;
+            sr.sortingOrder = 1;
+            cc.enabled = true;
         }
-    }
-
-    IEnumerator pipeOutMovement(int InOut)
-    {
-        switch (InOut)
-        {
-            //입구 위
-            case 0:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(0, +0.4f));
-                }
-                break;
-
-            //입구 오른쪽
-            case 1:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(+0.4f, 0));
-                }
-                break;
-
-            //입구 왼쪽
-            case 3:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(-0.4f, 0));
-                }
-                break;
-
-            //입구 아래
-            case 2:
-                for (int i = 0; i < 4; i++)
-                {
-                    rb.velocity = Vector2.zero;
-                    Player[playerNum].transform.Translate(new Vector2(0, -0.4f));
-                }
-                break;
-
-            default: break;
-        }
-
-        rb.gravityScale = 3;
-        cc.enabled = true;
-        sr.sortingOrder = 1;
-
-        yield return new WaitForSeconds(0.5f);
     }
 }
-
-

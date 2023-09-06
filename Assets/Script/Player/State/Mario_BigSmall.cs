@@ -13,6 +13,7 @@ public class Mario_BigSmall : Mario_state
 
     public override void Enter()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_DOWN, false, 2);
         Debug.Log("big small");
         base.Enter();
         stateTimer = 60 * Time.deltaTime;
@@ -21,11 +22,15 @@ public class Mario_BigSmall : Mario_state
         pos = mario.gameObject.transform.position ;
         mario.collider.enabled = false;
         mario.collider_big.enabled = false;
+        mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 0);
+        mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
+
     }
 
     public override void Exit()
     {
         base.Exit();
+        mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 0);
         mario.collider.enabled = true;
     }
