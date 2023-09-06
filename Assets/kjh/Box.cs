@@ -95,10 +95,15 @@ public class Box : MonoBehaviour
             {
                 if (stateNum == 0)
                 {
-                    //ºÎ¼ÅÁö±â
+                    if (collision.gameObject.GetComponent<Mario>().marioMode != 0)
+                    {
+                        //ºÎ¼ÅÁö±â
+                        Destroy(PhotonNetwork.Instantiate("Prefabs/BrokenBrick", transform.position, Quaternion.identity), 0.5f);
+                        Destroy(gameObject);
+                    }
+                        
+
                     
-                    Destroy(PhotonNetwork.Instantiate("Prefabs/BrokenBrick", transform.position, Quaternion.identity), 0.5f);
-                    Destroy(gameObject);
                 }
                 else
                 {
