@@ -20,7 +20,6 @@ public class Pipe_top : MonoBehaviour
 
     public int dirInfo = 0;     //(위 : 0, 오른 : 1, 아래 : 2, 왼 : 3)
 
-    Rigidbody2D rb;
     BoxCollider2D bc;
     SpriteRenderer sr;
 
@@ -36,12 +35,9 @@ public class Pipe_top : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
 
-        rb = Player.GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
 
-        Player.GetComponent<Transform>();
-        Player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -112,8 +108,6 @@ public class Pipe_top : MonoBehaviour
     {
         bc.isTrigger = true;
         sr.sortingOrder = 2;
-
-        rb.velocity = Vector2.zero;
 
         for (int i = 0; i < 4; i++)
         {
