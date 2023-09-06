@@ -200,7 +200,13 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < myList.Count; i++)
         {
-            var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
+            Debug.Log("현재 방의 갯수" + myList.Count);
+			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 방의 (bool)myList[i].CustomProperties[\"editor\"]" + (bool)myList[i].CustomProperties["editor"]);
+			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 해당 룸의 myList[i].CustomProperties.ContainsKey(\"editor\"): " + myList[i].CustomProperties.ContainsKey("editor"));
+			if ((bool)myList[i].CustomProperties["editor"]) continue;
+
+
+			var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
             a.transform.parent = Room_List_Content;
             a.transform.localScale = new Vector3(1, 1, 1);
             
@@ -287,20 +293,20 @@ public class Lobby : MonoBehaviourPunCallbacks
         string _title = make_room_title.text;
         int _max_player = current_max_player;
         bool _isRoomStart = false;
-        bool _isMapMakingRoom = false;
+        //bool _isMapMakingRoom = false;
         Debug.Log(_title + " " + _max_player);
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
 
-        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
-        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}, { "room_state", _isRoomStart }, { "mapMakingRoom", _isMapMakingRoom} };
+		//options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
+		options.CustomRoomProperties = new Hashtable() { { "master_name", PhotonNetwork.NickName }, { "room_name", _title }, { "room_state", _isRoomStart }, { "editor", false } };
 
-        //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name", "room_state", "mapMakingRoom" };
-        
+		//options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
+		options.CustomRoomPropertiesForLobby = new string[] { "master_name", "room_name", "room_state", "editor" };
 
-        bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
+
+		bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
         if (make_success)
         {
             Debug.Log("방 생성 성공");
@@ -350,7 +356,6 @@ public class Lobby : MonoBehaviourPunCallbacks
         yield break;;
     }
     
-
 
 	public override void OnFriendListUpdate(List<FriendInfo> friendList)
     {

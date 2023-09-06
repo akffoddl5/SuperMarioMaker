@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.VisualScripting;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class Box : MonoBehaviour
 {
