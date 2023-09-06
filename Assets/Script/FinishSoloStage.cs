@@ -51,7 +51,7 @@ public class FinishSoloStage : MonoBehaviour
 		a.GetComponentInChildren<Text>().text = WIndowManager.instance.winnerNickName + " WIN ";
 
 
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(4f);
 
 		// 게임중 상태 해제
 		PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "room_state", false } });
