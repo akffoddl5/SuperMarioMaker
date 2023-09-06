@@ -30,7 +30,7 @@ public class Stone : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
 
-    public CinemachineVirtualCamera cam;
+    public GameObject cam;
 
 
     GameObject groundObject;
@@ -44,7 +44,10 @@ public class Stone : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         speedV = new Vector2(0, 10000);
         spr= GetComponent<Sprite>();
+        cam = GameObject.Find("Virtual Camera");
         
+
+
     }
     // Update is called once per frame
     void Update()

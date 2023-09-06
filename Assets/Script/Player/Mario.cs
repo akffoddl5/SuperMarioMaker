@@ -256,7 +256,7 @@ public class Mario : MonoBehaviour
         {
             return;
         }
-        else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+        else if (collision.gameObject.GetComponent<Enemy_shell>() != null && PV.IsMine)
         {
             //Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
             // ¸ØÃçÀÖ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é »î

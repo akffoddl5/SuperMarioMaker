@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Unity.VisualScripting;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class Box : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class Box : MonoBehaviour
         item_list.Add(_coin);
 
 
-        collision_cool_max = 10 * Time.deltaTime;
+        collision_cool_max = 15 * Time.deltaTime;
     }
 
     // Update is called once per frame
@@ -70,7 +71,7 @@ public class Box : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && collision_cool < 0)
+        if (collision.gameObject.tag == "Player" && collision_cool < 0 && collision.gameObject.GetComponent<PhotonView>().IsMine)
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
@@ -96,7 +97,8 @@ public class Box : MonoBehaviour
                 if (stateNum == 0)
                 {
                     //ºÎ¼ÅÁö±â
-                    Destroy(Instantiate(brokenBrick, transform.position, Quaternion.identity), 0.5f);
+                    
+                    Destroy(PhotonNetwork.Instantiate("Prefabs/BrokenBrick", transform.position, Quaternion.identity), 0.5f);
                     Destroy(gameObject);
                 }
                 else
