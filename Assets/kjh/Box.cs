@@ -95,9 +95,13 @@ public class Box : MonoBehaviour
             {
                 if (stateNum == 0)
                 {
-                    //ºÎ¼ÅÁö±â
-                    Destroy(Instantiate(brokenBrick, transform.position, Quaternion.identity), 0.5f);
-                    Destroy(gameObject);
+                    if(collision.gameObject.GetComponent<Mario>().marioMode != 0)
+                    {
+                        //ºÎ¼ÅÁö±â
+                        Destroy(Instantiate(brokenBrick, transform.position, Quaternion.identity), 0.5f);
+                        Destroy(gameObject);
+                    }
+                    
                 }
                 else
                 {
