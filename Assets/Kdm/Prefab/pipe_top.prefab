@@ -117,7 +117,7 @@ Transform:
   m_Children:
   - {fileID: 5298325984203746955}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7161856650714483256
 MonoBehaviour:
@@ -133,6 +133,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   MyTransform: {fileID: 5298325984203746955}
+  linkObject: {fileID: 0}
+  lineWidth: 0.15
+  dirInfo: 0
+  oriPipeVec: {x: 0, y: 0}
+  connectPipeVec: {x: 0, y: 0}
+  connectPipe: {fileID: 0}
 --- !u!120 &8132535447404083926
 LineRenderer:
   serializedVersion: 2

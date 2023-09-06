@@ -450,7 +450,7 @@ public class BuildSystem : MonoBehaviour
                         createObj.SetActive(false);
                     }
 
-                    if (currentTileName == "Pipe")
+                    if (currentTileName == "Pipe" && createObj.GetComponent<Pipe_top>() != null)
                         createObj.GetComponent<Pipe_top>().dirInfo = dirInfo;
 
                     //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
@@ -596,12 +596,12 @@ public class BuildSystem : MonoBehaviour
         {
             if (_pipeLinkObject_0 == (GameObject)objectList[listIndex][7])
             {
-                objectList[listIndex][2] = _pipeLinkObject_1.transform.position;
+                objectList[listIndex][2] = _pipeLinkObject_1.GetComponent<Pipe_top>().myTransform.position;
             }
 
             if (_pipeLinkObject_1 == (GameObject)objectList[listIndex][7])
             {
-                objectList[listIndex][2] = _pipeLinkObject_0.transform.position;
+                objectList[listIndex][2] = _pipeLinkObject_0.GetComponent<Pipe_top>().myTransform.position;
             }
         }
     }
