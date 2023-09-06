@@ -48,7 +48,7 @@ public class FinishSoloStage : MonoBehaviour
 		var a = Instantiate(obj_winTextCanvas, transform.position, Quaternion.identity);
 
 		// 이거 RPC 해야 함
-		a.GetComponentInChildren<Text>().text = WIndowManager.instance.nickName + " WIN ";
+		a.GetComponentInChildren<Text>().text = WIndowManager.instance.winnerNickName + " WIN ";
 
 
 		yield return new WaitForSeconds(2f);
