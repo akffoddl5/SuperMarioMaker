@@ -256,7 +256,7 @@ public class Mario : MonoBehaviour
         {
             return;
         }
-        else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+        else if (collision.gameObject.GetComponent<Enemy_shell>() != null && PV.IsMine)
         {
             //Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
             // ¸ØÃçÀÖ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é »î
@@ -268,7 +268,10 @@ public class Mario : MonoBehaviour
                     //Debug.Log("C ´©¸£°í ÀÖÀ½");
                     pickedShell = collision.gameObject;
                     pickedShell.GetComponent<Enemy_shell>().pickedState = true;
+                    pickedShell.GetComponent<Enemy_shell>().pickedPlayer = gameObject;
                     pickedShell.GetComponent<Collider2D>().isTrigger = true;
+                    pickedShell.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    pickedShell.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                     stateMachine.ChangeState(mario_Shell_Idle);
                 }
                 else
@@ -354,6 +357,7 @@ public class Mario : MonoBehaviour
 
 		else if (collision.CompareTag("DeadZone"))
 		{
+            Debug.Log("Á×¾î");
 			stateMachine.ChangeState(dieState);
         }
 

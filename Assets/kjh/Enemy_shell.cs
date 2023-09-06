@@ -37,6 +37,8 @@ public class Enemy_shell : MonoBehaviour
 
     public PhotonView PV;
 
+    public GameObject pickedPlayer = null;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -68,7 +70,7 @@ public class Enemy_shell : MonoBehaviour
                 pastPickedState = false;
             }
         }
-        //Debug.Log("???");
+        
 
         if (timer > 0) return;
         if (fsecMove == true) Move(fsecMove);
@@ -105,11 +107,13 @@ public class Enemy_shell : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         //플레이어에게 잡혀있다가 던져지면 콜라이더의 isTrigger를 false로 바꾼다
-        if (collision.CompareTag("Player"))
+        if (collision.gameObject == pickedPlayer)
         {
-            //Debug.Log("플레이어에게서 떨어짐");
             GetComponent<Collider2D>().isTrigger = false;
+            rb.gravityScale = 1;
+            pickedPlayer = null;
         }
+
     }
 
     void Move(bool move)

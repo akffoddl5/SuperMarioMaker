@@ -82,10 +82,10 @@ public class Pipe_top : MonoBehaviour
 
             pipeOriDir = this.gameObject.GetComponent<Pipe_top>().dirInfo;
 
-            Debug.Log(oriPipeVec);
-            Debug.Log(connectPipeVec);
-            Debug.Log(pipeConDir);
-            Debug.Log(pipeOriDir);
+            //Debug.Log(oriPipeVec);
+            //Debug.Log(connectPipeVec);
+            //Debug.Log(pipeConDir);
+            //Debug.Log(pipeOriDir);
         }
 
 

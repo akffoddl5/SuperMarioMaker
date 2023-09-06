@@ -28,6 +28,8 @@ public class Box : MonoBehaviour
     public SpriteRenderer SR;
     public Sprite empty_SR;
 
+    public GameObject brokenBrick;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,7 @@ public class Box : MonoBehaviour
         for (int i = 0; i < init_item_num_list.Count; i++)
         {
             items.Enqueue(init_item_num_list[i]);
+
         }
 
         item_list.Add(_mushroom);
@@ -44,13 +47,14 @@ public class Box : MonoBehaviour
         item_list.Add(_coin);
 
 
-        collision_cool_max = 10 * Time.deltaTime;
+        collision_cool_max = 15 * Time.deltaTime;
     }
 
     // Update is called once per frame
     void Update()
     {
         collision_cool -= Time.deltaTime;
+        //Debug.Log(items.Count);
     }
 
     public void Add_Item(int obj)
@@ -66,7 +70,7 @@ public class Box : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && collision_cool < 0)
+        if (collision.gameObject.tag == "Player" && collision_cool < 0 && collision.gameObject.GetComponent<PhotonView>().IsMine)
         {
             collision_cool = collision_cool_max;
             if (collision.otherCollider.gameObject.name == "boxmove") return;
@@ -85,21 +89,29 @@ public class Box : MonoBehaviour
                 var a = PhotonNetwork.Instantiate(tmp.GetComponent<Item>().Get_Prefab_Path(), transform.position, Quaternion.identity);
                 a.GetComponent<Item>().Spawn();
 
-                if (items.Count <= 0)
+                
+            }
+            else if (items.Count <= 0)
+            {
+                if (stateNum == 0)
                 {
-                    if (stateNum == 0)
+                    if (collision.gameObject.GetComponent<Mario>().marioMode != 0)
                     {
                         //부셔지기
+                        Destroy(PhotonNetwork.Instantiate("Prefabs/BrokenBrick", transform.position, Quaternion.identity), 0.5f);
+                        Destroy(gameObject);
                     }
-                    else
-                    {
-                        //나무로 바뀌기
-                        anim.Play("");
-                        SR.sprite = empty_SR;
-                    }
+                        
+
+                    
+                }
+                else
+                {
+                    //나무로 바뀌기
+                    anim.Play("");
+                    SR.sprite = empty_SR;
                 }
             }
-
 
             //  Invoke("defort",0.3f);
         }
