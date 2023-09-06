@@ -17,6 +17,7 @@ public class Stone : MonoBehaviour
     Vector2 pos;
     float timer = 2f;
     bool move = false;
+    bool movecam = false;
     Animator anim;
     Rigidbody2D rbody;
     [Header("Collision Info")]
@@ -69,11 +70,10 @@ public class Stone : MonoBehaviour
               
                 dropCoroutine = StartCoroutine(Drop());
 
-                
+             
             }
         }
 
-          
 
         //if (cols.Length == 0)
         //{
@@ -141,8 +141,53 @@ public class Stone : MonoBehaviour
 
     }
 
+    IEnumerator cameraMoving()
+    {
+
+        while (movecam ==true)
+        {
+           
+
+
+
+          
+            
+            
+
+
+            cam.transform.position = new Vector3(cam.transform.position.x +0.2f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x -0.2f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x + 0.2f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x - 0.2f, cam.transform.position.y, cam.transform.position.z);
+            cam.transform.position = new Vector3(cam.transform.position.x +0.1f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x -0.1f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x + 0.02f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x - 0.02f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x - 0.1f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x + 0.02f, cam.transform.position.y, cam.transform.position.z);
+            yield return new WaitForSeconds(0.05f);
+            cam.transform.position = new Vector3(cam.transform.position.x - 0.02f, cam.transform.position.y, cam.transform.position.z);
+
+        }
+
+
+        cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, cam.transform.position.z);
+
+        
+
+    }
+
         IEnumerator Drop()
     {
+      
         // 타이머[2초] 기다림
         yield return new WaitForSeconds(2.5f);
         move = false;
@@ -162,9 +207,11 @@ public class Stone : MonoBehaviour
         }
         AudioManager.instance.PlayerOneShot(MARIO_SOUND.STONE , false, 2);
 
-         // 땅에닿고난 이후에 1초 기다림
-        yield return new WaitForSeconds(1f);
-
+        movecam = true;
+        StartCoroutine(cameraMoving());
+        // 땅에닿고난 이후에 1초 기다림
+        yield return new WaitForSeconds(0.7f);
+        movecam = false;
         // distance 거리 
         float dist = 100f;
         while( dist >= 0.1f)
@@ -257,18 +304,7 @@ public class Stone : MonoBehaviour
             var mario = collision.gameObject.GetComponent<Mario>();
             // star Mode라면 죽지 않도록
             if (mario.isStarMario) return;
-
-
-            //mario.stateMachine.ChangeState(mario.dieState);
-
-            if (mario.marioMode > 0)
-            {
-                mario.stateMachine.ChangeState(mario.bigSmall); // 움직이는 거북이 등딱지에 맞으면 죽음
-            }
-            else
-            {
-                mario.stateMachine.ChangeState(mario.dieState); // 움직이는 거북이 등딱지에 맞으면 죽음
-            }
+            mario.stateMachine.ChangeState(mario.dieState);
         }
     }
 

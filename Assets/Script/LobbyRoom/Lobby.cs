@@ -33,7 +33,6 @@ public class Lobby : MonoBehaviourPunCallbacks
 	public string mapMakeSceneName;
     
 
-
 	string characterPrefab;
     float instMarioX = -6;
 	// Room에 있는 함수를 실행하기 위한 이벤트 함수
@@ -208,11 +207,12 @@ public class Lobby : MonoBehaviourPunCallbacks
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
-
-			// At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
-			// +interactive(roomState)
-            //a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
-			//a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
+            Debug.Log(myList[i].CustomProperties.ContainsKey("mapMakingRoom"));
+            
+            // At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
+            // +interactive(roomState)
+            a.GetComponent<Button>().interactable = !((bool)myList[i].CustomProperties["room_state"]);
+			a.GetComponent<Lobby_Room_Btn>().room_start_state.gameObject.SetActive((bool)myList[i].CustomProperties["room_state"]);
             // false면 interactable true여야 함
             
             a.GetComponent<Lobby_Room_Btn>().room_master_name = myList[i].CustomProperties["master_name"].ToString();
@@ -287,16 +287,17 @@ public class Lobby : MonoBehaviourPunCallbacks
         string _title = make_room_title.text;
         int _max_player = current_max_player;
         bool _isRoomStart = false;
+        bool _isMapMakingRoom = false;
         Debug.Log(_title + " " + _max_player);
 
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = _max_player;
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}};
-        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}, { "room_state", _isRoomStart } };
+        options.CustomRoomProperties = new Hashtable(){{"master_name", PhotonNetwork.NickName},{"room_name", _title}, { "room_state", _isRoomStart }, { "mapMakingRoom", _isMapMakingRoom} };
 
         //options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {  };
-        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name", "room_state"};
+        options.CustomRoomPropertiesForLobby = new string[]{"master_name", "room_name", "room_state", "mapMakingRoom" };
         
 
         bool make_success = PhotonNetwork.JoinOrCreateRoom(_title, options, null);
