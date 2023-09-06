@@ -21,7 +21,7 @@ public class Pipe_top : MonoBehaviour
     public int dirInfo = 0;     //(위 : 0, 오른 : 1, 아래 : 2, 왼 : 3)
 
     Rigidbody2D rb;
-    CapsuleCollider2D cc;
+    BoxCollider2D bc;
     SpriteRenderer sr;
 
     GameObject Player;
@@ -35,8 +35,9 @@ public class Pipe_top : MonoBehaviour
     private void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+
         rb = Player.GetComponent<Rigidbody2D>();
-        cc = Player.GetComponent<CapsuleCollider2D>();
+        bc = GetComponent<BoxCollider2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
 
         Player.GetComponent<Transform>();
@@ -96,25 +97,29 @@ public class Pipe_top : MonoBehaviour
         //}
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                pipeDir();
+                StartCoroutine("moveDown");
             }
         }
     }
 
-    private void pipeDir()
+    IEnumerator moveDown()
     {
-        rb.gravityScale = 0;
-        cc.enabled = false;
+        bc.isTrigger = true;
         sr.sortingOrder = 2;
 
         rb.velocity = Vector2.zero;
-        Player.transform.position = Vector3.MoveTowards(Player.transform.position, oriPipeVec, 0.1f);
+
+        for (int i = 0; i < 4; i++)
+        {
+            Player.transform.Translate(Vector3.down * 0.2f);
+        }
+        yield return new WaitForSeconds(0.6f);
 
         pipeMovement();
     }
@@ -124,23 +129,38 @@ public class Pipe_top : MonoBehaviour
         if (Player.transform.position.x - myTransform.position.x < 1.2f
             && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
-            new WaitForSeconds(0.3f);
-            Player.transform.position = linkObjectPos;
-
-            rb.gravityScale = 3;
-            cc.enabled = true;
-            sr.sortingOrder = 1;
+            StartCoroutine("moveUp");
         }
 
         else if (Player.transform.position.x - linkObjectPos.x < 1.2f
             && Player.transform.position.x - linkObjectPos.x > -1.2f)
         {
-            new WaitForSeconds(0.3f);
-            Player.transform.position = myTransform.position;
-
-            rb.gravityScale = 3;
-            sr.sortingOrder = 1;
-            cc.enabled = true;
+            StartCoroutine("moveUp");
         }
+    }
+
+    IEnumerator moveUp()
+    {
+        if (Player.transform.position.x - myTransform.position.x < 1.2f
+    && Player.transform.position.x - myTransform.position.x > -1.2f)
+        {
+            Player.transform.position = linkObjectPos;
+        }
+
+        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
+    && Player.transform.position.x - linkObjectPos.x > -1.2f)
+        {
+            Player.transform.position = myTransform.position;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            Player.transform.Translate(Vector3.up * 0.2f);
+        }
+
+        yield return new WaitForSeconds(0.6f);
+
+        bc.isTrigger = false;
+        sr.sortingOrder = 1;
     }
 }
