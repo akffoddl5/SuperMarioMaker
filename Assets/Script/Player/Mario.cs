@@ -251,7 +251,10 @@ public class Mario : MonoBehaviour
                     //Debug.Log("C 누르고 있음");
                     pickedShell = collision.gameObject;
                     pickedShell.GetComponent<Enemy_shell>().pickedState = true;
+                    pickedShell.GetComponent<Enemy_shell>().pickedPlayer = gameObject;
                     pickedShell.GetComponent<Collider2D>().isTrigger = true;
+                    pickedShell.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    pickedShell.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                     stateMachine.ChangeState(mario_Shell_Idle);
                 }
                 else
@@ -332,6 +335,7 @@ public class Mario : MonoBehaviour
 		}
 		else if (collision.CompareTag("DeadZone"))
 		{
+            Debug.Log("죽어");
 			stateMachine.ChangeState(dieState);
         }
 

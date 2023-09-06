@@ -324,10 +324,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upForce: -1
   resetTimer: 0.05
-  init_item_list:
-  - {fileID: 6374375659716200658, guid: 261ba68c8bfe86e4283923fc0cdaf747, type: 3}
-  - {fileID: 5888581124587718431, guid: ac98b255044c133438c378e372369639, type: 3}
-  stateNum: 0
+  stateNum: 1
+  collision_cool_max: 0
+  collision_cool: 0
+  _mushroom: {fileID: 0}
+  _star: {fileID: 0}
+  _flower: {fileID: 0}
+  _coin: {fileID: 0}
+  init_item_num_list: 
+  SR: {fileID: 0}
+  empty_SR: {fileID: 0}
+  brokenBrick: {fileID: 0}
 --- !u!61 &918574725049206832
 BoxCollider2D:
   m_ObjectHideFlags: 0

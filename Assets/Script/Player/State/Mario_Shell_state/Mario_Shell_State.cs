@@ -12,7 +12,7 @@ public class Mario_Shell_State : Mario_state
     {
         base.Enter();
 
-        
+
     }
 
     public override void Exit()
@@ -24,13 +24,28 @@ public class Mario_Shell_State : Mario_state
     {
         base.Update();
 
-        mario.pickedShell.transform.position = new Vector2(mario.check_body.position.x + 0.5f,
-            mario.check_body.position.y + 0.45f);
+        //플레이어 방향에 따라 등딱지 위치 변경
+        float shellX = 0.4f;
+        float shellY = 0.45f;
+        if (mario.marioMode != 0)
+        {
+            shellY = 0.3f;
+        }
+        if (mario.spriteRenderer.flipX)
+            mario.pickedShell.transform.position = new Vector2(mario.check_body.position.x - shellX,
+                        mario.check_body.position.y + shellY);
+        else
+            mario.pickedShell.transform.position = new Vector2(mario.check_body.position.x + shellX,
+                mario.check_body.position.y + shellY);
 
         //던져버리기
         if (Input.GetKeyUp(KeyCode.C))
         {
-            mario.pickedShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(2, 0), ForceMode2D.Impulse);
+            if (mario.spriteRenderer.flipX)
+                mario.pickedShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(-2, 0), ForceMode2D.Impulse);
+            else
+                mario.pickedShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(2, 0), ForceMode2D.Impulse);
+
             mario.pickedShell.GetComponent<Enemy_shell>().pickedState = false;
 
             mario.pickedShell = null;
