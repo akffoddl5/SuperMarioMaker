@@ -115,7 +115,7 @@ public class Pipe_top : MonoBehaviour
 
         rb.velocity = Vector2.zero;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             Player.transform.Translate(Vector3.down * 0.2f);
         }
@@ -129,17 +129,38 @@ public class Pipe_top : MonoBehaviour
         if (Player.transform.position.x - myTransform.position.x < 1.2f
             && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
-            bc.isTrigger = false;
-            sr.sortingOrder = 1;
-            Player.transform.position = linkObjectPos;
+            StartCoroutine("moveUp");
         }
 
         else if (Player.transform.position.x - linkObjectPos.x < 1.2f
             && Player.transform.position.x - linkObjectPos.x > -1.2f)
         {
-            bc.isTrigger = false;
-            sr.sortingOrder = 1;
+            StartCoroutine("moveUp");
+        }
+    }
+
+    IEnumerator moveUp()
+    {
+        if (Player.transform.position.x - myTransform.position.x < 1.2f
+    && Player.transform.position.x - myTransform.position.x > -1.2f)
+        {
+            Player.transform.position = linkObjectPos;
+        }
+
+        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
+    && Player.transform.position.x - linkObjectPos.x > -1.2f)
+        {
             Player.transform.position = myTransform.position;
         }
+
+        for (int i = 0; i < 4; i++)
+        {
+            Player.transform.Translate(Vector3.up * 0.2f);
+        }
+
+        yield return new WaitForSeconds(0.6f);
+
+        bc.isTrigger = false;
+        sr.sortingOrder = 1;
     }
 }
