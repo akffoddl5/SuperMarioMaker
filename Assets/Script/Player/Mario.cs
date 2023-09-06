@@ -351,7 +351,8 @@ public class Mario : MonoBehaviour
 				}
 			}
 
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Item>().Destroy_item();
+            //Destroy(collision.gameObject);
 
 		}
 

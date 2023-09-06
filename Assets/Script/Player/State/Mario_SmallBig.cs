@@ -18,6 +18,7 @@ public class Mario_SmallBig : Mario_state
         mario.collider.enabled = false;
         mario.transform.position += new Vector3(0, 0.5f, 0);
         mario.check_body.localScale = new Vector3(1.4f, 2.1f, 1);
+        mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
         pos = mario.transform.position;
     }
 
@@ -25,6 +26,7 @@ public class Mario_SmallBig : Mario_state
     {
         base.Exit();
         mario.collider_big.enabled = true;
+        mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 1);
     }
 

@@ -42,12 +42,13 @@ public class PhotonTest : MonoBehaviourPunCallbacks
 
 		// inputField에 입력한 플레이어의 닉네임을 저장
 		PhotonNetwork.LocalPlayer.NickName = m_InputField.text;
+		WIndowManager.instance.nickName = m_InputField.text;
 
-			//PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
-			//Debug.Log("룸생성");
-			//PhotonNetwork.JoinLobby();
+            //PhotonNetwork.JoinOrCreateRoom("Room1", options, null);
+            //Debug.Log("룸생성");
+            //PhotonNetwork.JoinLobby();
 
-	}
+    }
 	// 자신이 들어왔을 때 콜백
 	public override void OnJoinedRoom()
 	{

@@ -22,11 +22,14 @@ public class Mario_BigSmall : Mario_state
         mario.collider.enabled = false;
         mario.collider_big.enabled = false;
         mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 0);
+        mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
+
     }
 
     public override void Exit()
     {
         base.Exit();
+        mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 0);
         mario.collider.enabled = true;
     }
