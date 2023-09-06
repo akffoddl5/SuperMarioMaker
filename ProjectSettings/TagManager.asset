@@ -11,6 +11,7 @@ TagManager:
   - Ground
   - Item
   - DeadZone
+  - Virtual Camera
   layers:
   - Default
   - TransparentFX
