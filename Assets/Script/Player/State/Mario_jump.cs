@@ -14,16 +14,14 @@ public class Mario_jump : Mario_state
 
 
 
-    public override void Enter()
-    {
-        if (AudioManager.instance != null)
-            AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
-        if (!PV.IsMine)
-        {
-            return;
-        }
-        if (AudioManager.instance != null)
-            AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
+	public override void Enter()
+	{
+        
+		if (!PV.IsMine)
+		{
+			return;
+		}
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
         base.Enter();
         last_velocity_y = 0;
         stateTimer = 103 * Time.deltaTime;

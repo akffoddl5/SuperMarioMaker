@@ -11,6 +11,7 @@ public class WIndowManager : MonoBehaviour
 
     public int mapNum = 0;
     public string nickName;
+    public string winnerNickName;
 
 
     private void Awake()

@@ -409,11 +409,11 @@ public class Mario : MonoBehaviour
 
         for (int i = 0; i < allMario.Length; i++)
         {
-            Debug.Log("allMario[i]: " + allMario[i]);
+            //Debug.Log("allMario[i]: " + allMario[i]);
 
             allMario[i].GetComponent<PhotonRigidbody2DView>().enabled = false;
 
-            Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
+            // Debug.Log(allMario[i] + ": " + allMario[i].GetComponent<PhotonView>().ViewID);
             if (_winnerId == allMario[i].GetComponent<PhotonView>().ViewID)
             {
                 Vector2 marioPos = allMario[i].gameObject.transform.position;

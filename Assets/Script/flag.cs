@@ -12,14 +12,12 @@ public class Flag : MonoBehaviour
     Vector2 pos2;
     public bool isCoroutineStart = false;
     public GameObject finishEffect;
-    GameObject inGame;
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         pos = transform.position;
         pos2 = new Vector2(pos.x, pos.y - 8.66f);
-        inGame = GameObject.Find("InGame");
 	}
     
     public void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +25,15 @@ public class Flag : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !isCoroutineStart)
         {
             isCoroutineStart = true;
+
+            // Winner NickName RPC
+            if (collision.GetComponent<PhotonView>().IsMine)
+            {
+                GetComponent<PhotonView>().RPC("RPC_winnerName", RpcTarget.All, WIndowManager.instance.nickName);
+            }
+
+            Debug.Log("After RPC nickName" + WIndowManager.instance.nickName);
+            Debug.Log("After RPC winnerName" + WIndowManager.instance.winnerNickName);
 
 			StartCoroutine(Drop());
 		}
@@ -45,5 +52,11 @@ public class Flag : MonoBehaviour
 		// When the while() statement is exited, execute.
 		//finishEffect.GetComponent<FinishSoloStage>().isFinishGame = true;
 		yield return null;
+    }
+
+    [PunRPC]
+    void RPC_winnerName(string _name)
+    {
+        WIndowManager.instance.winnerNickName = _name;
     }
 }

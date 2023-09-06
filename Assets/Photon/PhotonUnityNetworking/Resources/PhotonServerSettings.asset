@@ -64,6 +64,9 @@ MonoBehaviour:
   - Photon_RigidBody_Off
   - Photon_RigidBody_On
   - RPC_Destroy
+  - RPC_WinnerName
+  - RPC_winnerNAme
+  - RPC_winnerName
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

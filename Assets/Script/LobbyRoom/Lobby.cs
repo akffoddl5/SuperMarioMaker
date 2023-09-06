@@ -116,8 +116,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsConnected)
         {
-            GetComponent<CanvasGroup>().alpha = 0;
-            GetComponent<CanvasGroup>().interactable = false;
+            //GetComponent<CanvasGroup>().alpha = 0;
+            //GetComponent<CanvasGroup>().interactable = false;
             SceneManager.LoadScene(0);
         }
 	}
