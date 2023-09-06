@@ -13,6 +13,7 @@ public class Mario_SmallBig : Mario_state
 
     public override void Enter()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_UP, false, 2);
         base.Enter();
         stateTimer = 50 * Time.deltaTime;
         mario.collider.enabled = false;

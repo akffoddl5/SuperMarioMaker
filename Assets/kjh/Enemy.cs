@@ -144,7 +144,8 @@ public class Enemy : MonoBehaviour
 		gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 4f), ForceMode2D.Impulse);
 		gameObject.transform.Rotate(180, 0, 0);
 
-		Destroy(gameObject, 1f);
+        
+        Destroy(gameObject, 1f);
 	}
 
     private void OnDrawGizmos()

@@ -157,7 +157,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
-  cam: {fileID: 0}
 --- !u!50 &8648679494891500970
 Rigidbody2D:
   serializedVersion: 4

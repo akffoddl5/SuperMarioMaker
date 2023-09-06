@@ -11,7 +11,8 @@ public class Mario_die : Mario_state
 
 	public override void Enter()
 	{
-		base.Enter();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.MARIO_DIE, false, 2);
+        base.Enter();
 		mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
 
 		// collider 끄기 => 리스폰 돼야 하니까 리스폰 되면 다시 켜줘야 함

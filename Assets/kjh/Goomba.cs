@@ -51,6 +51,7 @@ public class Goomba : Enemy
         // not moving enemyshell
         if (collision.gameObject.GetComponent<Enemy_shell>() != null && collision.gameObject.GetComponent<Enemy_shell>().fsecMove == false)//&& collision.collider.GetComponent<Rigidbody2D>().velocity == new Vector2(0, 0))
         {
+           
             transform.Rotate(0, 180, 0);
             moveflip = moveflip * -1;
         }
@@ -61,6 +62,7 @@ public class Goomba : Enemy
             //var a = Instantiate(stop, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
             //a.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.transform.position.x, 0);
             FilpOverDie();
+
 		}
         // enemy
 		else if (collision.collider.gameObject.CompareTag("Enemy"))
