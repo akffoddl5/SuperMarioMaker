@@ -1,8 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class FinishSoloStage : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class FinishSoloStage : MonoBehaviour
 	public GameObject obj_winTextCanvas; // 프리팹
 	[HideInInspector] public string winnerName;
 	//Text winTxt;
-	
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -50,6 +52,9 @@ public class FinishSoloStage : MonoBehaviour
 
 
 		yield return new WaitForSeconds(2f);
+
+		// 게임중 상태 해제
+		PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() { { "room_state", false } });
 		SceneManager.LoadScene("LobbyScene");
 	}
 }
