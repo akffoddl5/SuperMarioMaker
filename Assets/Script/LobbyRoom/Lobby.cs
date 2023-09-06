@@ -71,7 +71,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             //PhotonNetwork.LeaveRoom();
             // 이미 룸에 있는 상태에서 Lobby 씬 불러왔다면 Room으로 전환하기
             Room_Init();
-
+			PV.RPC("RoomUISync", RpcTarget.AllBuffered);
+            // 마리오 생성되게 해야하는데 어캐 함
 
 			return;
         }
@@ -217,7 +218,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             a.GetComponent<Lobby_Room_Btn>().my_room_info = myList[i];
             a.GetComponent<Lobby_Room_Btn>().room_num = i + 1;
             a.GetComponent<Lobby_Room_Btn>().master_client_id = myList[i].masterClientId;
-            Debug.Log(myList[i].CustomProperties.ContainsKey("mapMakingRoom"));
+            //Debug.Log(myList[i].CustomProperties.ContainsKey("mapMakingRoom"));
             
             // At Room_List_Init(), Turned on/off Playing Text according to "roomstate"
             // +interactive(roomState)
