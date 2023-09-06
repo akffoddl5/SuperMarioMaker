@@ -39,7 +39,7 @@ public class Coin : Item
 		if (collision.CompareTag("Player"))
      {
             Destroy(gameObject);
-      AudioManager.instance.PlayerOneShot(MARIO_SOUND.COIN, false, 2); AudioManager.instance.PlayerOneShot(MARIO_SOUND.KILL_ENEMY, false, 2);
+      AudioManager.instance.PlayerOneShot(MARIO_SOUND.COIN, false, 2);
 
 
         }

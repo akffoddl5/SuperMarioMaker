@@ -12,7 +12,8 @@ public class Mario_bigFire : Mario_state
 
     public override void Enter()
     {
-        base.Enter();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_UP, false, 2);
+        base.Enter(); 
         stateTimer = 50 * Time.deltaTime;
         mario.collider_big.enabled = false;
         pos = mario.transform.position;
@@ -20,6 +21,7 @@ public class Mario_bigFire : Mario_state
 
     public override void Exit()
     {
+        
         base.Exit();
         mario.collider_big.enabled = true;
     }

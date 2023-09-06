@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum MARIO_SOUND
 {
-    INGAME_BGM,//
-    LOBBY_BGM,//
-    COIN,//
+    INGAME_BGM,
+    LOBBY_BGM,
+    COIN,
     SELECT,
     JUMP,
     KILL_ENEMY,
