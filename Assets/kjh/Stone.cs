@@ -30,7 +30,7 @@ public class Stone : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private LayerMask whatIsPlayer;
 
-    public CinemachineVirtualCamera cam;
+  CinemachineVirtualCamera cam;
 
 
     GameObject groundObject;
@@ -44,7 +44,7 @@ public class Stone : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         speedV = new Vector2(0, 10000);
         spr= GetComponent<Sprite>();
-        
+        cam= GameObject.FindGameObjectWithTag("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
     }
     // Update is called once per frame
     void Update()
@@ -210,7 +210,7 @@ public class Stone : MonoBehaviour
         movecam = true;
         StartCoroutine(cameraMoving());
         // 땅에닿고난 이후에 1초 기다림
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.4f);
         movecam = false;
         // distance 거리 
         float dist = 100f;

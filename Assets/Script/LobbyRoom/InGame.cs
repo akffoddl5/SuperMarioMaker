@@ -17,10 +17,11 @@ public class InGame : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("characterName", out object myFrefab);
         PhotonNetwork.Instantiate((string)myFrefab, Vector3.zero, Quaternion.identity);
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.INGAME_BGM, true, 0);
+
     }
 
-    
 
 
-
+ 
 }

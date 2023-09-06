@@ -59,6 +59,7 @@ public class Enemy_Koopa : Enemy
 	public override void FilpOverDie()
 	{
 		base.FilpOverDie();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.KILL_ENEMY, false, 2);
         isDie = true;
 	}
 

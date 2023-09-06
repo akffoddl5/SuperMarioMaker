@@ -21,6 +21,7 @@ public class Mario_BigSmall : Mario_state
         pos = mario.gameObject.transform.position ;
         mario.collider.enabled = false;
         mario.collider_big.enabled = false;
+        mario.PV.RPC("SetCollider", RpcTarget.AllBuffered, 0);
     }
 
     public override void Exit()

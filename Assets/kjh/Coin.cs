@@ -36,9 +36,14 @@ public class Coin : Item
 
     private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Player")) Destroy(gameObject);
+		if (collision.CompareTag("Player"))
+     {
+            Destroy(gameObject);
+      AudioManager.instance.PlayerOneShot(MARIO_SOUND.COIN, false, 2); AudioManager.instance.PlayerOneShot(MARIO_SOUND.KILL_ENEMY, false, 2);
 
-        AudioManager.instance.PlayerOneShot(MARIO_SOUND.COIN, false, 2);
+
+        }
+
     }
 
     public override string Get_Prefab_Path()

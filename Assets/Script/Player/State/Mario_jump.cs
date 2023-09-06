@@ -74,8 +74,9 @@ public class Mario_jump : Mario_state
         //Debug.Log("jump.." + mario.rb.velocity.y);
         base.Update();
 		if (Input.GetKeyUp(KeyCode.Space) && stateTimer > 0  )
-		{
-			mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
+        {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.JUMP, false, 0);
+            mario.rb.AddForce(new Vector2(0, -5f), ForceMode2D.Impulse);
 			stateTimer = -1;
 		}
 

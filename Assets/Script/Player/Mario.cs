@@ -256,7 +256,7 @@ public class Mario : MonoBehaviour
         {
             return;
         }
-        else if (collision.gameObject.GetComponent<Enemy_shell>() != null)
+        else if (collision.gameObject.GetComponent<Enemy_shell>() != null && PV.IsMine)
         {
             //Debug.Log(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x);
             // ¸ØÃçÀÖ´Â °ÅºÏÀÌ µîµüÁö¿¡ ¸ÂÀ¸¸é »î
@@ -372,6 +372,18 @@ public class Mario : MonoBehaviour
                                             // Debug.Log("winnerPlayerId" + winnerPlayerId);
             PV.RPC("GameEnd", RpcTarget.All, winnerPlayerId);
         }
+    }
+
+    [PunRPC]
+    public void Photon_RigidBody_Off()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = false;
+    }
+
+    [PunRPC]
+    public void Photon_RigidBody_On()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = true;
     }
 
     [PunRPC]

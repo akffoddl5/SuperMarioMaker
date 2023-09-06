@@ -61,6 +61,8 @@ MonoBehaviour:
   - Btn_MapSelect_RightArrow
   - DestroySelf_RPC
   - SetCollider
+  - Photon_RigidBody_Off
+  - Photon_RigidBody_On
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
