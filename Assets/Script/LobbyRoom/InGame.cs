@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGame : MonoBehaviourPunCallbacks 
 {
+    
     object myFrefab;
     private void Awake()
     {
@@ -21,7 +23,4 @@ public class InGame : MonoBehaviourPunCallbacks
 
     }
 
-
-
- 
 }

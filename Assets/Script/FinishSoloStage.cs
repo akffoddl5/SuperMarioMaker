@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FinishSoloStage : MonoBehaviour
 {
@@ -9,8 +11,12 @@ public class FinishSoloStage : MonoBehaviour
 
 	Vector2 minusVector = new Vector2(0.5f, 0.5f);
 	Vector2 finishScale = new Vector2(3, 3);
-	Vector2 finishPosition; // 1등의 position
+	//Vector2 finishPosition; // 1등의 position
 
+	public GameObject obj_winTextCanvas; // 프리팹
+	[HideInInspector] public string winnerName;
+	//Text winTxt;
+	
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -35,7 +41,15 @@ public class FinishSoloStage : MonoBehaviour
 			transform.localScale = tmp;
 			//Debug.Log("IEnumerator FinishGame_EF() 들어옴!!!" + transform.localScale);
 			yield return new WaitForSeconds(0.01f);
-
 		}
+		// PlayerName win
+		var a = Instantiate(obj_winTextCanvas, transform.position, Quaternion.identity);
+
+		// 이거 RPC 해야 함
+		a.GetComponentInChildren<Text>().text = WIndowManager.instance.nickName + " WIN ";
+
+
+		yield return new WaitForSeconds(2f);
+		SceneManager.LoadScene("LobbyScene");
 	}
 }

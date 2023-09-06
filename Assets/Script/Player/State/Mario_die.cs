@@ -4,30 +4,39 @@ using UnityEngine;
 
 public class Mario_die : Mario_state
 {
-	private float dieJumpPower = 10;
-	public Mario_die(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) : base(_mario, _stateMachine, _animBoolName)
-	{
-	}
+    private float dieJumpPower = 10;
+    public Mario_die(Mario _mario, Mario_stateMachine _stateMachine, string _animBoolName) : base(_mario, _stateMachine, _animBoolName)
+    {
+    }
 
-	public override void Enter()
-	{
-        AudioManager.instance.PlayerOneShot(MARIO_SOUND.MARIO_DIE, false, 2);
+    public override void Enter()
+    {
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayerOneShot(MARIO_SOUND.MARIO_DIE, false, 2);
         base.Enter();
-		mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
+        mario.rb.AddForce(new Vector2(0, dieJumpPower), ForceMode2D.Impulse);
+        Debug.Log(PV.name + " DieState AddForce ï¿½ï¿½");
 
-		// collider ²ô±â => ¸®½ºÆù µÅ¾ß ÇÏ´Ï±î ¸®½ºÆù µÇ¸é ´Ù½Ã ÄÑÁà¾ß ÇÔ
-		mario.GetComponent<CapsuleCollider2D>().enabled = false;
-	}
+        // collider ï¿½ï¿½ï¿½ï¿½ => ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¾ï¿½ ï¿½Ï´Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        mario.GetComponent<CapsuleCollider2D>().enabled = false;
+        Debug.Log(PV.name + " DieState Collider2D ï¿½ï¿½");
+    }
 
-	public override void Exit()
-	{
-		base.Exit();
-	}
+    public override void Exit()
+    {
+        base.Exit();
+        Debug.Log(PV.name + " DieState ï¿½ï¿½ï¿½ï¿½");
+    }
 
-	public override void Update()
-	{
-		base.Update();
+    public override void Update()
+    {
+        base.Update();
 
-	}
+    }
+
+    //void MarioJumpDie()
+    //{
+
+    //}
 
 }

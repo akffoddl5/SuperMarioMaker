@@ -14,13 +14,58 @@
         {
             "objectName": "Pipe",
             "createPos": {
-                "x": -2.5,
+                "x": -8.5,
                 "y": -1.5,
                 "z": 0.0
             },
             "dirInfo": 0,
             "pipeLinkPos": {
-                "x": 2.940000057220459,
+                "x": 1.5,
+                "y": -2.059999942779541,
+                "z": 0.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -8.5,
+                "y": -2.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -8.5,
+                "y": -3.5,
+                "z": 0.0
+            },
+            "dirInfo": 0,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": 1.5,
+                "y": -2.5,
+                "z": 0.0
+            },
+            "dirInfo": 3,
+            "pipeLinkPos": {
+                "x": -8.0600004196167,
                 "y": -1.5,
                 "z": 0.0
             },
@@ -30,14 +75,119 @@
             "objectName": "Pipe",
             "createPos": {
                 "x": 2.5,
-                "y": -1.5,
+                "y": -2.5,
                 "z": 0.0
             },
-            "dirInfo": 0,
+            "dirInfo": 3,
             "pipeLinkPos": {
-                "x": -2.059999942779541,
-                "y": -1.5,
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": 3.5,
+                "y": -2.5,
                 "z": 0.0
+            },
+            "dirInfo": 3,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -3.5,
+                "y": -0.5,
+                "z": 0.0
+            },
+            "dirInfo": 2,
+            "pipeLinkPos": {
+                "x": -9.5,
+                "y": 0.059999942779541019,
+                "z": 0.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -3.5,
+                "y": 0.5,
+                "z": 0.0
+            },
+            "dirInfo": 2,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -3.5,
+                "y": 1.5,
+                "z": 0.0
+            },
+            "dirInfo": 2,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -9.5,
+                "y": 0.5,
+                "z": 0.0
+            },
+            "dirInfo": 1,
+            "pipeLinkPos": {
+                "x": -3.940000057220459,
+                "y": -0.4999999701976776,
+                "z": 0.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -10.5,
+                "y": 0.5,
+                "z": 0.0
+            },
+            "dirInfo": 1,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
+            },
+            "brickListInfo": []
+        },
+        {
+            "objectName": "Pipe",
+            "createPos": {
+                "x": -11.5,
+                "y": 0.5,
+                "z": 0.0
+            },
+            "dirInfo": 1,
+            "pipeLinkPos": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -100.0
             },
             "brickListInfo": []
         }
