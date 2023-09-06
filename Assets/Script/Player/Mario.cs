@@ -375,6 +375,18 @@ public class Mario : MonoBehaviour
     }
 
     [PunRPC]
+    public void Photon_RigidBody_Off()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = false;
+    }
+
+    [PunRPC]
+    public void Photon_RigidBody_On()
+    {
+        GetComponent<PhotonRigidbody2DView>().enabled = true;
+    }
+
+    [PunRPC]
     public void GameEnd(int _winnerId)
     {
         // 이렇게만 쓰면 모든 컴퓨터에 있는 1등 마리오만 sleep됨
