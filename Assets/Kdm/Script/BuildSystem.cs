@@ -60,7 +60,7 @@ public class BuildSystem : MonoBehaviour
     float timerCount = 0;
     //int playerLifePoint;
     Vector3 playerStartPos;
-    int mapScaleNum = 1;
+    int mapScaleNum = 0;
 
     [SerializeField] GameObject PlayerPrefab;
     [SerializeField] Tile marioTile;
@@ -131,6 +131,7 @@ public class BuildSystem : MonoBehaviour
 
     public RenderTexture DrawTexture;
 
+    [SerializeField] GameObject[] mapBoundary;
 
 
     private void Awake()
@@ -182,6 +183,8 @@ public class BuildSystem : MonoBehaviour
 
     private void CameraMove()
     {
+
+
         //ºäÆ÷Æ® ÁÂÇ¥
         Vector2 mousePositionInCamera = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         //ÁÂÇ¥ (0 ~ 1) => (-1 ~ 1) º¯È¯
@@ -706,7 +709,7 @@ public class BuildSystem : MonoBehaviour
         mapInfo.timerCount = 500;
         mapInfo.playerLifePoint = 1;
         mapInfo.playerStartPos = playerStartPos;
-        mapInfo.mapScaleNum = 1;
+        mapInfo.mapScaleNum = 0;
         for (int i = 0; i < objectList.Count; i++)
         {
             if ((string)objectList[i][0] != "Mario")
