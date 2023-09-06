@@ -1,5 +1,7 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -10,6 +12,7 @@ public class Pipe_top : MonoBehaviour
     public Transform MyTransform;
     public Transform myTransform { get { return MyTransform; } }
     public Vector3 linkObjectPos { get; set; } = new Vector3(0, 0, -100);
+
     public GameObject linkObject;
     public bool lineActive { get; set; } = false;
 
@@ -21,27 +24,23 @@ public class Pipe_top : MonoBehaviour
     CapsuleCollider2D cc;
     SpriteRenderer sr;
 
-    //전체 플레이어 배열로
-    GameObject[] Player;
+    GameObject Player;
     //플레이어 숫자 변수
     int playerNum;
     //기존 파이프 vector2값
-    public Vector2 oriPipeVec;
+    public Vector3 oriPipeVec;
     //이어진 파이프 vector2값
-    public Vector2 connectPipeVec;
+    public Vector3 connectPipeVec;
 
     private void Awake()
     {
-            Player = GameObject.FindGameObjectsWithTag("Player");
-            rb = Player[playerNum].GetComponent<Rigidbody2D>();
-            cc = Player[playerNum].GetComponent<CapsuleCollider2D>();
-            sr = GetComponentInChildren<SpriteRenderer>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        rb = Player.GetComponent<Rigidbody2D>();
+        cc = Player.GetComponent<CapsuleCollider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
-            Player[playerNum].GetComponent<Transform>();
-            Player[playerNum].GetComponent<Animator>();
-
-        connectPipeVec = lineRenderer.GetPosition(1);
-        oriPipeVec = lineRenderer.GetPosition(0);
+        Player.GetComponent<Transform>();
+        Player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -66,18 +65,12 @@ public class Pipe_top : MonoBehaviour
             if (linkObjectPos == new Vector3(0, 0, -100))
             {
                 lineRenderer.SetPosition(1, mousePos);
-
-                connectPipeVec = lineRenderer.GetPosition(1);
-                oriPipeVec = lineRenderer.GetPosition(0);
             }
             else
             {
                 lineRenderer.SetPosition(1, linkObjectPos);
             }
         }
-
-        connectPipeVec = lineRenderer.GetPosition(1);
-        oriPipeVec = lineRenderer.GetPosition(0);
 
         //동작 OnOff, 라인렌더러 OffOn
         if (!isActive)
@@ -105,121 +98,45 @@ public class Pipe_top : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject == Player[playerNum])
+        if (collision.gameObject.CompareTag("Player"))
         {
-            switch (dirInfo)
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                //입구 위
-                case 0:
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
-                    {
-                        pipeDir("Down");
-                    }
-                    break;
-
-                //입구 오른쪽
-                case 1:
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        pipeDir("Left");
-                    }
-                    break;
-
-                //입구 왼쪽
-                case 3:
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
-                    {
-                        pipeDir("Right");
-                    }
-                    break;
-
-                //입구 아래
-                case 2:
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
-                    {
-                        pipeDir("Up");
-                    }
-                    break;
-
-                default: break;
+                pipeDir();
             }
         }
     }
 
-    private void pipeDir(string Dir)
+    private void pipeDir()
     {
-        StartCoroutine($"slow{Dir}");
-
         rb.gravityScale = 0;
         cc.enabled = false;
         sr.sortingOrder = 2;
-    }
 
-    IEnumerator slowDown()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, -0.01f));
-        }
-
-        pipeMovement();
-    }
-
-    IEnumerator slowUp()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0, 0.01f));
-        }
-        pipeMovement();
-    }
-
-    IEnumerator slowLeft()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(-0.01f, 0));
-        }
-        pipeMovement();
-    }
-
-    IEnumerator slowRight()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            rb.velocity = Vector2.zero;
-            yield return new WaitForSeconds(0.2f);
-            Player[playerNum].transform.Translate(new Vector2(0.01f, 0));
-        }
+        rb.velocity = Vector2.zero;
+        Player.transform.position = Vector3.MoveTowards(Player.transform.position, oriPipeVec, 0.1f);
 
         pipeMovement();
     }
 
     private void pipeMovement()
     {
-        if (Player[playerNum].transform.position.x - oriPipeVec.x < 1.2f
-            && Player[playerNum].transform.position.x - oriPipeVec.x > -1.2f)
+        if (Player.transform.position.x - myTransform.position.x < 1.2f
+            && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
             new WaitForSeconds(0.3f);
-            Player[playerNum].transform.position = connectPipeVec;
+            Player.transform.position = linkObjectPos;
 
             rb.gravityScale = 3;
             cc.enabled = true;
             sr.sortingOrder = 1;
-
         }
 
-        else if (Player[playerNum].transform.position.x - connectPipeVec.x < 1.2f
-            && Player[playerNum].transform.position.x - connectPipeVec.x > -1.2f)
+        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
+            && Player.transform.position.x - linkObjectPos.x > -1.2f)
         {
             new WaitForSeconds(0.3f);
-            Player[playerNum].transform.position = oriPipeVec;
+            Player.transform.position = myTransform.position;
 
             rb.gravityScale = 3;
             sr.sortingOrder = 1;
