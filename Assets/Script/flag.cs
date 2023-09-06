@@ -1,5 +1,8 @@
- using System.Collections;
+using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Flag : MonoBehaviour
@@ -9,13 +12,14 @@ public class Flag : MonoBehaviour
     Vector2 pos2;
     public bool isCoroutineStart = false;
     public GameObject finishEffect;
+    GameObject inGame;
 
 	// Start is called before the first frame update
 	void Start()
     {
         pos = transform.position;
         pos2 = new Vector2(pos.x, pos.y - 8.66f);
-
+        inGame = GameObject.Find("InGame");
 	}
     
     public void OnTriggerEnter2D(Collider2D collision)
@@ -23,6 +27,7 @@ public class Flag : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !isCoroutineStart)
         {
             isCoroutineStart = true;
+
 			StartCoroutine(Drop());
 		}
     }
@@ -35,8 +40,7 @@ public class Flag : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 
-
-			Instantiate(finishEffect, transform.position, Quaternion.identity);
+		Instantiate(finishEffect, transform.position, Quaternion.identity);
 
 		// When the while() statement is exited, execute.
 		//finishEffect.GetComponent<FinishSoloStage>().isFinishGame = true;

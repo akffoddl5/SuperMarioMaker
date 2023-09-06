@@ -72,7 +72,7 @@ Transform:
   - {fileID: 7059223127777278582}
   - {fileID: 7150069502721769743}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3526568313839278176
 SpriteRenderer:
@@ -162,6 +162,7 @@ MonoBehaviour:
   fsecMove: 0
   pickedState: 0
   PV: {fileID: 0}
+  pickedPlayer: {fileID: 0}
 --- !u!50 &6703873939076255258
 Rigidbody2D:
   serializedVersion: 4
