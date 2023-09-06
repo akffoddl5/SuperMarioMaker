@@ -13,6 +13,7 @@ public class Mario_smallFire : Mario_state
 
     public override void Enter()
     {
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_UP, false, 2);
         base.Enter();
         stateTimer = 50 * Time.deltaTime;
         mario.collider.enabled = false;
@@ -26,6 +27,7 @@ public class Mario_smallFire : Mario_state
 
     public override void Exit()
     {
+      
         base.Exit();
         Debug.Log(PhotonNetwork.NickName + "small fire exit");
         mario.collider_big.enabled = true;

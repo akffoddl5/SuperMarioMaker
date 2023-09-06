@@ -96,8 +96,9 @@ GameObject:
   - component: {fileID: 7161856650714483256}
   - component: {fileID: 8132535447404083926}
   - component: {fileID: 7832622499023067555}
+  - component: {fileID: -594127311168610073}
   m_Layer: 0
-  m_Name: Pipe_top
+  m_Name: pipe_top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +118,7 @@ Transform:
   m_Children:
   - {fileID: 5298325984203746955}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7161856650714483256
 MonoBehaviour:
@@ -133,6 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   MyTransform: {fileID: 5298325984203746955}
+  linkObject: {fileID: 0}
+  lineWidth: 0.15
+  dirInfo: 0
+  oriPipeVec: {x: 0, y: 0}
+  connectPipeVec: {x: 0, y: 0}
 --- !u!120 &8132535447404083926
 LineRenderer:
   serializedVersion: 2
@@ -282,3 +288,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!70 &-594127311168610073
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447975604655085847}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5, y: 0.06398857}
+  m_Size: {x: 1.25, y: 2.0732138}
+  m_Direction: 0

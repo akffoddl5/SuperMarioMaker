@@ -60,7 +60,7 @@ public class BuildSystem : MonoBehaviour
     float timerCount = 0;
     //int playerLifePoint;
     Vector3 playerStartPos;
-    int mapScaleNum = 1;
+    int mapScaleNum = 0;
 
     [SerializeField] GameObject PlayerPrefab;
     [SerializeField] Tile marioTile;
@@ -131,6 +131,7 @@ public class BuildSystem : MonoBehaviour
 
     public RenderTexture DrawTexture;
 
+    [SerializeField] GameObject[] mapBoundary;
 
 
     private void Awake()
@@ -182,6 +183,8 @@ public class BuildSystem : MonoBehaviour
 
     private void CameraMove()
     {
+
+
         //뷰포트 좌표
         Vector2 mousePositionInCamera = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         //좌표 (0 ~ 1) => (-1 ~ 1) 변환
@@ -450,7 +453,7 @@ public class BuildSystem : MonoBehaviour
                         createObj.SetActive(false);
                     }
 
-                    if (currentTileName == "Pipe")
+                    if (currentTileName == "Pipe" && createObj.GetComponent<Pipe_top>() != null)
                         createObj.GetComponent<Pipe_top>().dirInfo = dirInfo;
 
                     //리스트에 생성 정보 저장(이름, 월드 생성위치, 그리드 생성위치 시작, 그리드 생성위치 끝, 생성한 게임 오브젝트)
@@ -596,12 +599,12 @@ public class BuildSystem : MonoBehaviour
         {
             if (_pipeLinkObject_0 == (GameObject)objectList[listIndex][7])
             {
-                objectList[listIndex][2] = _pipeLinkObject_1.transform.position;
+                objectList[listIndex][2] = _pipeLinkObject_1.GetComponent<Pipe_top>().myTransform.position;
             }
 
             if (_pipeLinkObject_1 == (GameObject)objectList[listIndex][7])
             {
-                objectList[listIndex][2] = _pipeLinkObject_0.transform.position;
+                objectList[listIndex][2] = _pipeLinkObject_0.GetComponent<Pipe_top>().myTransform.position;
             }
         }
     }
@@ -706,7 +709,7 @@ public class BuildSystem : MonoBehaviour
         mapInfo.timerCount = 500;
         mapInfo.playerLifePoint = 1;
         mapInfo.playerStartPos = playerStartPos;
-        mapInfo.mapScaleNum = 1;
+        mapInfo.mapScaleNum = 0;
         for (int i = 0; i < objectList.Count; i++)
         {
             if ((string)objectList[i][0] != "Mario")

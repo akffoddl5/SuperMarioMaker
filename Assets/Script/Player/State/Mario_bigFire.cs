@@ -13,7 +13,8 @@ public class Mario_bigFire : Mario_state
 
     public override void Enter()
     {
-        base.Enter();
+        AudioManager.instance.PlayerOneShot(MARIO_SOUND.POWER_UP, false, 2);
+        base.Enter(); 
         stateTimer = 50 * Time.deltaTime;
         mario.collider_big.enabled = false;
         mario.PV.RPC("Photon_RigidBody_Off", RpcTarget.AllBuffered, 0);
@@ -22,6 +23,7 @@ public class Mario_bigFire : Mario_state
 
     public override void Exit()
     {
+        
         base.Exit();
         mario.PV.RPC("Photon_RigidBody_On", RpcTarget.AllBuffered, 0);
         mario.collider_big.enabled = true;
