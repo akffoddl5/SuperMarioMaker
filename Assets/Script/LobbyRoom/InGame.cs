@@ -21,7 +21,7 @@ public class InGame : MonoBehaviourPunCallbacks
         winTxt = GameObject.Find("Win_text").GetComponent<Text>();
         if(winTxt != null )
         {
-            winTxt.text = WIndowManager.instance.nickName + " win";
+            winTxt.text = WIndowManager.instance.nickName + " WIN ";
         }
 
         PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("characterName", out object myFrefab);
@@ -30,7 +30,4 @@ public class InGame : MonoBehaviourPunCallbacks
 
     }
 
-
-
- 
 }

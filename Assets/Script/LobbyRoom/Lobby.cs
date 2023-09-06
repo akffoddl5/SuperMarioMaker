@@ -42,7 +42,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
 	private void Awake()
     {
-        Debug.Log("flag1");
+        //Debug.Log("flag1");
         lobby_info = GameObject.Find("Lobby_info_count").GetComponent<Text>();
         Lobby_Player_Count();
 
@@ -54,7 +54,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         Room_List_Content.localPosition = new Vector3(300, Room_List_Content.localPosition.y, Room_List_Content.localPosition.z);
         GameObject.Find("Room_Maker_Player_Scroll").GetComponent<Scrollbar>().value = 0;
 
-        Debug.Log("flag2");
+        // Debug.Log("flag2");
 
         if (cor_refresh == null)
         {
@@ -68,8 +68,12 @@ public class Lobby : MonoBehaviourPunCallbacks
         }
         else if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.LeaveRoom();
-            return;
+            //PhotonNetwork.LeaveRoom();
+            // 이미 룸에 있는 상태에서 Lobby 씬 불러왔다면 Room으로 전환하기
+            Room_Init();
+
+
+			return;
         }
         PhotonNetwork.JoinLobby();
 
@@ -200,9 +204,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < myList.Count; i++)
         {
-            Debug.Log("현재 방의 갯수" + myList.Count);
-			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 방의 (bool)myList[i].CustomProperties[\"editor\"]" + (bool)myList[i].CustomProperties["editor"]);
-			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 해당 룸의 myList[i].CustomProperties.ContainsKey(\"editor\"): " + myList[i].CustomProperties.ContainsKey("editor"));
+            //Debug.Log("현재 방의 갯수" + myList.Count);
+			//Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 방의 (bool)myList[i].CustomProperties[\"editor\"]" + (bool)myList[i].CustomProperties["editor"]);
+			//Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 해당 룸의 myList[i].CustomProperties.ContainsKey(\"editor\"): " + myList[i].CustomProperties.ContainsKey("editor"));
 			if ((bool)myList[i].CustomProperties["editor"]) continue;
 
 

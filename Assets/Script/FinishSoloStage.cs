@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishSoloStage : MonoBehaviour
 {
@@ -39,5 +40,8 @@ public class FinishSoloStage : MonoBehaviour
 		}
 		// PlayerName win
 		Instantiate(obj_winTextCanvas, transform.position, Quaternion.identity);
+
+		yield return new WaitForSeconds(2f);
+		SceneManager.LoadScene("LobbyScene");
 	}
 }
