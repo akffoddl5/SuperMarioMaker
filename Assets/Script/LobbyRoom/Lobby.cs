@@ -203,7 +203,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             Debug.Log("현재 방의 갯수" + myList.Count);
 			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 방의 (bool)myList[i].CustomProperties[\"editor\"]" + (bool)myList[i].CustomProperties["editor"]);
 			Debug.Log(myList[i].CustomProperties["room_name"].ToString() + " 해당 룸의 myList[i].CustomProperties.ContainsKey(\"editor\"): " + myList[i].CustomProperties.ContainsKey("editor"));
-			if ((bool)myList[i].CustomProperties["editor"]) break;
+			if ((bool)myList[i].CustomProperties["editor"]) continue;
 
 
 			var a = Instantiate(room_btn, Vector3.zero, Quaternion.identity);
