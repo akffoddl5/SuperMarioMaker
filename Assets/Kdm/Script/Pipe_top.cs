@@ -20,6 +20,7 @@ public class Pipe_top : MonoBehaviour
 
     public int dirInfo = 0;     //(위 : 0, 오른 : 1, 아래 : 2, 왼 : 3)
 
+    Rigidbody2D rb;
     BoxCollider2D bc;
     SpriteRenderer sr;
 
@@ -31,13 +32,20 @@ public class Pipe_top : MonoBehaviour
     //이어진 파이프 vector2값
     public Vector3 connectPipeVec;
 
+    int num;
+
+    int marionum;
+
     private void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
 
+        rb = Player.GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
 
+        Player.GetComponent<Transform>();
+        Player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -93,25 +101,42 @@ public class Pipe_top : MonoBehaviour
         //}
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            marionum = collision.gameObject.GetComponent<Mario>().marioMode;
+
+            Debug.Log(marionum);
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) && num == 0)
             {
                 StartCoroutine("moveDown");
+                num++;
             }
         }
     }
 
     IEnumerator moveDown()
     {
-        bc.isTrigger = true;
+        if (bc.isTrigger == false)
+        {
+            bc.isTrigger = true;
+        }
         sr.sortingOrder = 2;
 
-        for (int i = 0; i < 4; i++)
+
+        for (int i = 0; i < 8; i++)
         {
-            Player.transform.Translate(Vector3.down * 0.2f);
+            if (marionum == 0)
+            {
+                Player.transform.Translate(Vector3.down * 0.1f);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.Translate(Vector3.down * 0.2f);
+            }
         }
         yield return new WaitForSeconds(0.6f);
 
@@ -120,17 +145,8 @@ public class Pipe_top : MonoBehaviour
 
     private void pipeMovement()
     {
-        if (Player.transform.position.x - myTransform.position.x < 1.2f
-            && Player.transform.position.x - myTransform.position.x > -1.2f)
-        {
-            StartCoroutine("moveUp");
-        }
+        StartCoroutine("moveUp");
 
-        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
-            && Player.transform.position.x - linkObjectPos.x > -1.2f)
-        {
-            StartCoroutine("moveUp");
-        }
     }
 
     IEnumerator moveUp()
@@ -138,23 +154,56 @@ public class Pipe_top : MonoBehaviour
         if (Player.transform.position.x - myTransform.position.x < 1.2f
     && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
-            Player.transform.position = linkObjectPos;
+            if (marionum == 0)
+            {
+                Player.transform.position
+                    = new Vector3(linkObjectPos.x, linkObjectPos.y);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.position
+                    = new Vector3(linkObjectPos.x, linkObjectPos.y - 0.4f);
+            }
         }
 
         else if (Player.transform.position.x - linkObjectPos.x < 1.2f
     && Player.transform.position.x - linkObjectPos.x > -1.2f)
         {
-            Player.transform.position = myTransform.position;
-        }
+            if (marionum == 0)
+            {
+                Player.transform.position
+                    = new Vector3(myTransform.position.x, myTransform.position.y);
+            }
 
-        for (int i = 0; i < 4; i++)
-        {
-            Player.transform.Translate(Vector3.up * 0.2f);
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.position
+                    = new Vector3(myTransform.position.x, myTransform.position.y - 0.4f);
+            }
         }
 
         yield return new WaitForSeconds(0.6f);
 
-        bc.isTrigger = false;
-        sr.sortingOrder = 1;
+        for (int i = 0; i < 8; i++)
+        {
+            if (marionum == 0)
+            {
+                Player.transform.Translate(Vector3.up * 0.1f);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.Translate(Vector3.up * 0.2f);
+            }
+        }
+
+        if (bc.isTrigger == true)
+        {
+            bc.isTrigger = false;
+        }
+
+        sr.sortingOrder = 2;
+        num--;
     }
 }
