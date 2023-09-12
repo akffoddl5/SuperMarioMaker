@@ -89,6 +89,10 @@ public class BuildSystem : MonoBehaviour
 
     List<List<object>> objectList = new List<List<object>>();
     List<List<object>> undoList = new List<List<object>>();
+    List<List<object>> redoList = new List<List<object>>();
+
+    int undoMaxCount = 10;
+    int redoMaxCount = 10;
 
     //[Serializable]
     //public class MyTiles
@@ -215,8 +219,8 @@ public class BuildSystem : MonoBehaviour
         //카메라 리미트 지정
         float posX = virtualCamera.transform.position.x;
         float posY = virtualCamera.transform.position.y;
-        if (virtualCamera.transform.position.x <= cameraLimitPos_start.position.x+ 11.61f)
-            posX = cameraLimitPos_start.position.x+ 11.61f;
+        if (virtualCamera.transform.position.x <= cameraLimitPos_start.position.x + 11.61f)
+            posX = cameraLimitPos_start.position.x + 11.61f;
         else if (virtualCamera.transform.position.x >= cameraLimitPos_end[mapScaleNum].position.x - 11.61f)
             posX = cameraLimitPos_end[mapScaleNum].position.x - 11.61f;
 
@@ -479,9 +483,12 @@ public class BuildSystem : MonoBehaviour
                     //    tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
                     objectList.Add(new List<object> { currentTileName, createPos, pipeLinkPos, dirInfo, new List<int>(),
                     tilemapMousePosition, tilemapMousePosition + new Vector3Int(tileX - 1, -(tileY - 1)), createObj });
+
+                    UndoListInput(objectList[objectList.Count - 1], true);
                 }
 
-
+                //생성 또는 삭제 시 redoList 클리어
+                RedoListClear();
             }
 
         }
@@ -515,10 +522,15 @@ public class BuildSystem : MonoBehaviour
                         }
                         //((GameObject)objectList[listIndex][4]).SetActive(false);
 
+                        UndoListInput(objectList[listIndex], false);
+
                         //생성된 오브젝트 삭제
                         Destroy((GameObject)objectList[listIndex][7]);
                         //리스트 요소에서 제거
                         objectList.RemoveAt(listIndex);
+
+                        //생성 또는 삭제 시 redoList 클리어
+                        RedoListClear();
                     }
                 }
             }
@@ -599,14 +611,248 @@ public class BuildSystem : MonoBehaviour
         return true;
     }
 
-    public void UndoListInput()
+    public void UndoListInput(List<object> _objList, bool _create_true_delete_false)
     {
+        undoList.Add(_objList);
+        if (undoList[undoList.Count - 1].Count == 8)
+            undoList[undoList.Count - 1].Add(_create_true_delete_false);
+        else
+            undoList[undoList.Count - 1][8] = _create_true_delete_false;
+
+        if (undoList.Count > undoMaxCount)
+        {
+            undoList.RemoveAt(0);
+        }
+
 
     }
 
     public void Undo()
     {
+        if (undoList.Count > 0)
+        {
+            Debug.Log("bool : " + (bool)undoList[undoList.Count - 1][8]);
+            Debug.Log("count : " + undoList.Count);
+            //undo로 생성한 것을 지울 때
+            if ((bool)undoList[undoList.Count - 1][8])
+            {
+                Vector3Int startSearchPoint = ((Vector3Int)undoList[undoList.Count - 1][5]);
+                Vector3Int endSearchPoint = ((Vector3Int)undoList[undoList.Count - 1][6]);
+                //배치된 타일 삭제
+                for (int i = 0; i <= endSearchPoint.x - startSearchPoint.x; i++)
+                {
+                    for (int j = 0; j <= -(endSearchPoint.y - startSearchPoint.y); j++)
+                    {
+                        SetTilemap.SetTile(startSearchPoint + new Vector3Int(i, -j), null);
+                    }
+                }
 
+                RedoListInput(undoList[undoList.Count - 1]);
+                undoList.RemoveAt(undoList.Count - 1);
+
+
+                //오브젝트 비활성화
+                ((GameObject)objectList[objectList.Count - 1][7]).SetActive(false);
+                //리스트 요소에서 제거
+                objectList.RemoveAt(objectList.Count - 1);
+
+            }
+            else //undo로 지운 것을 다시 되돌릴 때
+            {
+                Debug.Log("되돌려줘");
+                int tileX = 1;
+                int tileY = 1;
+                //현재 타일에 맞게 x,y값 설정
+                if ((string)undoList[undoList.Count - 1][0] == "Pipe")
+                {
+                    if ((int)undoList[undoList.Count - 1][3] == 0 || (int)undoList[undoList.Count - 1][3] == 2)
+                    {
+                        tileX = 2;
+                        tileY = 1;
+                    }
+                    else if ((int)undoList[undoList.Count - 1][3] == 1 || (int)undoList[undoList.Count - 1][3] == 3)
+                    {
+                        tileX = 1;
+                        tileY = 2;
+                    }
+                }
+                else if ((string)undoList[undoList.Count - 1][0] == "StoneMonster")
+                {
+                    tileX = 2;
+                    tileY = 2;
+                }
+                else if ((string)undoList[undoList.Count - 1][0] == "castle")
+                {
+                    tileX = 5;
+                    tileY = 5;
+                }
+                else
+                {
+                    tileX = 1;
+                    tileY = 1;
+                }
+
+                //타일맵에 타일 생성
+                for (int i = 0; i < tileX; i++)
+                {
+                    for (int j = 0; j < tileY; j++)
+                    {
+                        SetTilemap.SetTile((Vector3Int)undoList[undoList.Count - 1][5] + new Vector3Int(i, -j),
+                            tiles[tilesDictionary[(string)undoList[undoList.Count - 1][0]]].tile[i + j * tileX]);
+                    }
+                }
+
+                if ((string)undoList[undoList.Count - 1][0] == "Pipe")
+                {
+                    //파이트 머리 일 때
+                    if ((Vector3)undoList[undoList.Count - 1][2] != defaultPipeTopPosition)
+                    {
+                        undoList[undoList.Count - 1][7] =
+                            Instantiate(tiles[tilesDictionary[(string)undoList[undoList.Count - 1][0]]].objectPrefab[0],
+                            (Vector3)undoList[undoList.Count - 1][1],
+                            Quaternion.Euler(0, 0, (int)undoList[undoList.Count - 1][3] * (-90)));
+
+                        ((GameObject)undoList[undoList.Count - 1][7]).GetComponent<Pipe_top>().linkObjectPos =
+                            (Vector3)undoList[undoList.Count - 1][2];
+                    }
+                    else
+                    {
+                        undoList[undoList.Count - 1][7] =
+                            Instantiate(tiles[tilesDictionary[(string)undoList[undoList.Count - 1][0]]].objectPrefab[1],
+                            (Vector3)undoList[undoList.Count - 1][1],
+                            Quaternion.Euler(0, 0, (int)undoList[undoList.Count - 1][3] * (-90)));
+                    }
+
+                    ((GameObject)undoList[undoList.Count - 1][7]).SetActive(true);
+                }
+                else if (currentTileName == "Brick" || currentTileName == "QuestionBrick0" || currentTileName == "IceBrick")
+                {
+                    undoList[undoList.Count - 1][7] =
+                            Instantiate(tiles[tilesDictionary[(string)undoList[undoList.Count - 1][0]]].objectPrefab[0],
+                            (Vector3)undoList[undoList.Count - 1][1],
+                            Quaternion.Euler(0, 0, (int)undoList[undoList.Count - 1][3] * (-90)));
+
+                    ((GameObject)undoList[undoList.Count - 1][7]).GetComponent<Box>().
+                        Add_Item_Num((List<int>)undoList[undoList.Count - 1][4]);
+
+                    ((GameObject)undoList[undoList.Count - 1][7]).SetActive(true);
+                }
+                else
+                {
+                    undoList[undoList.Count - 1][7] =
+                            Instantiate(tiles[tilesDictionary[(string)undoList[undoList.Count - 1][0]]].objectPrefab[0],
+                            (Vector3)undoList[undoList.Count - 1][1],
+                            Quaternion.Euler(0, 0, (int)undoList[undoList.Count - 1][3] * (-90)));
+
+                    ((GameObject)undoList[undoList.Count - 1][7]).SetActive(false);
+                }
+
+                objectList.Add(undoList[undoList.Count - 1]);
+
+                RedoListInput(undoList[undoList.Count - 1]);
+                undoList.RemoveAt(undoList.Count - 1);
+            }
+        }
+    }
+
+    public void RedoListInput(List<object> _undoList)
+    {
+        redoList.Add(_undoList);
+
+        if (redoList.Count > redoMaxCount)
+        {
+            if ((bool)redoList[0][8])
+            {
+                Destroy((GameObject)redoList[0][7]);
+            }
+            redoList.RemoveAt(0);
+        }
+    }
+
+    public void RedoListClear()
+    {
+        for (int i = 0; i < redoList.Count; i++)
+        {
+            if ((bool)redoList[i][8])
+            {
+                Destroy((GameObject)redoList[i][7]);
+            }
+        }
+        redoList.Clear();
+    }
+
+    public void Redo()
+    {
+        if (redoList.Count > 0)
+        {
+            //redo로 지운 것을 생성할 때
+            if ((bool)redoList[redoList.Count - 1][8])
+            {
+                int tileX = 1;
+                int tileY = 1;
+                //현재 타일에 맞게 x,y값 설정
+                if ((string)redoList[redoList.Count - 1][0] == "Pipe")
+                {
+                    if ((int)redoList[redoList.Count - 1][3] == 0 || (int)redoList[redoList.Count - 1][3] == 2)
+                    {
+                        tileX = 2;
+                        tileY = 1;
+                    }
+                    else if ((int)redoList[redoList.Count - 1][3] == 1 || (int)redoList[redoList.Count - 1][3] == 3)
+                    {
+                        tileX = 1;
+                        tileY = 2;
+                    }
+                }
+                else if ((string)redoList[redoList.Count - 1][0] == "StoneMonster")
+                {
+                    tileX = 2;
+                    tileY = 2;
+                }
+                else if ((string)redoList[redoList.Count - 1][0] == "castle")
+                {
+                    tileX = 5;
+                    tileY = 5;
+                }
+                else
+                {
+                    tileX = 1;
+                    tileY = 1;
+                }
+
+                //타일맵에 타일 생성
+                for (int i = 0; i < tileX; i++)
+                {
+                    for (int j = 0; j < tileY; j++)
+                    {
+                        SetTilemap.SetTile((Vector3Int)redoList[redoList.Count - 1][5] + new Vector3Int(i, -j),
+                            tiles[tilesDictionary[(string)redoList[redoList.Count - 1][0]]].tile[i + j * tileX]);
+                    }
+                }
+
+                if ((string)redoList[redoList.Count - 1][0] == "Pipe")
+                {
+                    //파이프 머리 일 때
+                    if ((Vector3)redoList[redoList.Count - 1][2] != defaultPipeTopPosition)
+                    {
+                        ((GameObject)redoList[redoList.Count - 1][7]).SetActive(true);
+                    }
+                }
+                else if (currentTileName == "Brick" || currentTileName == "QuestionBrick0" || currentTileName == "IceBrick")
+                    ((GameObject)redoList[redoList.Count - 1][7]).SetActive(true);
+
+                redoList[redoList.Count - 1].RemoveAt(redoList[redoList.Count - 1].Count - 1);
+                objectList.Add(redoList[redoList.Count - 1]);
+
+                redoList.RemoveAt(redoList.Count - 1);
+
+                UndoListInput(objectList[objectList.Count - 1], true);
+            }
+            else //redo로 생성한 것을 지울 때
+            {
+
+            }
+        }
     }
 
     //파이프 연결 설정

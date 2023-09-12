@@ -543,5 +543,15 @@ public class UI_Editor : MonoBehaviour
         buildSystem.MakeMap(_name, 0);
     }
 
+    public void UndoButtonClick()
+    {
+        buildSystem.Undo();
+    }
+
+    public void RedoButtonClick()
+    {
+        buildSystem.Redo();
+    }
+
     #endregion
 }
