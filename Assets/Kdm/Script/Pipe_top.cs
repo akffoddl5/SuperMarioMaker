@@ -2,7 +2,6 @@ using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -13,17 +12,17 @@ public class Pipe_top : MonoBehaviour
     public Transform MyTransform;
     public Transform myTransform { get { return MyTransform; } }
     public Vector3 linkObjectPos { get; set; } = new Vector3(0, 0, -100);
-    public Vector3 LinkObjectPos;
 
     public GameObject linkObject;
-    Collider2D linkObjectCol;
     public bool lineActive { get; set; } = false;
 
     [SerializeField] float lineWidth = 0.15f;
 
     public int dirInfo = 0;     //(위 : 0, 오른 : 1, 아래 : 2, 왼 : 3)
 
+    Rigidbody2D rb;
     BoxCollider2D bc;
+    SpriteRenderer sr;
 
     GameObject Player;
     //플레이어 숫자 변수
@@ -33,21 +32,20 @@ public class Pipe_top : MonoBehaviour
     //이어진 파이프 vector2값
     public Vector3 connectPipeVec;
 
-    Vector2 pipeDir;
-    Vector2 moveDir;
-    [SerializeField] Transform rayBox;
-    public float rayBoxX = 1;
-    public float rayBoxY = 1;
-    [SerializeField] LayerMask layerMask;
+    int num;
+
+    int marionum;
 
     private void Awake()
     {
-        //Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player");
 
+        rb = Player.GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
-
-
+        Player.GetComponent<Transform>();
+        Player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -58,8 +56,6 @@ public class Pipe_top : MonoBehaviour
         lineRenderer.endWidth = lineWidth;
         lineRenderer.SetPosition(0, myTransform.position);
         lineRenderer.SetPosition(1, myTransform.position);
-
-        
     }
 
     // Update is called once per frame
@@ -90,10 +86,8 @@ public class Pipe_top : MonoBehaviour
         else if (lineRenderer.enabled)
         {
             lineRenderer.enabled = false;
-
-            
         }
-        LinkObjectPos = linkObjectPos;
+
         //Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         //if (Input.GetMouseButtonDown(0))
@@ -105,82 +99,44 @@ public class Pipe_top : MonoBehaviour
         //{
         //    oriPipeVec = mouseposition;
         //}
-        linkObjectCol = Physics2D.OverlapArea(linkObjectPos, Vector2.one * 0.01f);
-        linkObject = linkObjectCol.gameObject;
+    }
 
-
-        switch (dirInfo)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            case 0:
-                pipeDir = Vector2.up;
-                moveDir = Vector2.down;
-                break;
-            case 1:
-                pipeDir = Vector2.right;
-                moveDir = Vector2.left;
-                break;
-            case 2:
-                pipeDir = Vector2.down;
-                moveDir = Vector2.up;
-                break;
-            case 3:
-                pipeDir = Vector2.left;
-                moveDir = Vector2.right;
-                break;
-        }
+            marionum = collision.gameObject.GetComponent<Mario>().marioMode;
 
-        if (IsPlayerDetected(out Player))
-        {
-            //Debug.Log("인식");
-            switch (dirInfo)
+            Debug.Log(marionum);
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) && num == 0)
             {
-                case 0:
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
-                    {
-                        StartCoroutine("moveDown");
-                    }
-                    break;
-                case 1:
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        StartCoroutine("moveDown");
-                    }
-                    break;
-                case 2:
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
-                    {
-                        StartCoroutine("moveDown");
-                    }
-                    break;
-                case 3:
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
-                    {
-                        StartCoroutine("moveDown");
-                    }
-                    break;
+                StartCoroutine("moveDown");
+                num++;
             }
-
         }
     }
 
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.DownArrow))
-    //        {
-    //            StartCoroutine("moveDown");
-    //        }
-    //    }
-    //}
-
     IEnumerator moveDown()
     {
-        bc.isTrigger = true;
-
-        for (int i = 0; i < 4; i++)
+        if (bc.isTrigger == false)
         {
-            Player.transform.Translate(moveDir * 0.2f);
+            bc.isTrigger = true;
+        }
+        sr.sortingOrder = 2;
+
+
+        for (int i = 0; i < 8; i++)
+        {
+            if (marionum == 0)
+            {
+                Player.transform.Translate(Vector3.down * 0.1f);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.Translate(Vector3.down * 0.2f);
+            }
         }
         yield return new WaitForSeconds(0.6f);
 
@@ -190,35 +146,64 @@ public class Pipe_top : MonoBehaviour
     private void pipeMovement()
     {
         StartCoroutine("moveUp");
+
     }
 
     IEnumerator moveUp()
     {
-
-        Player.transform.position = linkObjectPos;
-
-
-        for (int i = 0; i < 4; i++)
+        if (Player.transform.position.x - myTransform.position.x < 1.2f
+    && Player.transform.position.x - myTransform.position.x > -1.2f)
         {
-            Player.transform.Translate(linkObject.GetComponent<Pipe_top>().pipeDir * 0.2f);
+            if (marionum == 0)
+            {
+                Player.transform.position
+                    = new Vector3(linkObjectPos.x, linkObjectPos.y);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.position
+                    = new Vector3(linkObjectPos.x, linkObjectPos.y - 0.4f);
+            }
+        }
+
+        else if (Player.transform.position.x - linkObjectPos.x < 1.2f
+    && Player.transform.position.x - linkObjectPos.x > -1.2f)
+        {
+            if (marionum == 0)
+            {
+                Player.transform.position
+                    = new Vector3(myTransform.position.x, myTransform.position.y);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.position
+                    = new Vector3(myTransform.position.x, myTransform.position.y - 0.4f);
+            }
         }
 
         yield return new WaitForSeconds(0.6f);
 
-        bc.isTrigger = false;
+        for (int i = 0; i < 8; i++)
+        {
+            if (marionum == 0)
+            {
+                Player.transform.Translate(Vector3.up * 0.1f);
+            }
+
+            else if (marionum == 1 || marionum == 2)
+            {
+                Player.transform.Translate(Vector3.up * 0.2f);
+            }
+        }
+
+        if (bc.isTrigger == true)
+        {
+            bc.isTrigger = false;
+        }
+
+        sr.sortingOrder = 2;
+        num--;
     }
-
-    public bool IsPlayerDetected(out GameObject player)
-    {
-        RaycastHit2D hit = Physics2D.BoxCast(rayBox.position, new Vector2(rayBoxX, rayBoxY), 0f, pipeDir, layerMask);
-        player = hit.collider.gameObject;
-
-        return hit;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(rayBox.position, new Vector3(rayBoxX, rayBoxY));
-    }
-
 }
